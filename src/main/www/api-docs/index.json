@@ -1,0 +1,19 @@
+{
+  "apiVersion":"0.8",
+  "swaggerVersion":"1.2",
+  "apis":[
+    {
+      "path":"/images",
+      "description":"API for accessing images from ndla.no."
+    }
+  ],
+  "authorizations":{},
+  "info":{
+    "title":"APIs from NDLA",
+    "description":"Documentation for the APIs of NDLA.no",
+    "termsOfServiceUrl":"http://ndla.no",
+    "contact":"christergundersen@ndla.no",
+    "license":"GPL v3.0",
+    "licenseUrl":"http://www.gnu.org/licenses/gpl-3.0.en.html"
+  }
+}
