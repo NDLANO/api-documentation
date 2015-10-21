@@ -2,6 +2,16 @@
 Shows documentation for apis from NDLA.
 Also contains testclients for the apis.
 
+# Prerequisites - Installing NPM and Bower 
+## Install NPM
+    # osx 
+    brew install npm
+     
+    # Windows - find out for yourself
+    # Linux - find out for yourself
+## Install bower
+    npm install -g bower
+
 # Building and distribution
 
 ## Create Docker Image
