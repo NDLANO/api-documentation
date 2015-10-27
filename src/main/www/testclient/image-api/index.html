@@ -2,25 +2,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Testklient for NDLA Bilde-api</title>
-    <link href='css/testclient.css' media='screen' rel='stylesheet' type='text/css'/>
-    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="js/superagent.js"></script>
+    <link href='../css/w3.css' media='screen' rel='stylesheet' type='text/css'/>
+    <link href='../css/testclient.css' media='screen' rel='stylesheet' type='text/css'/>
+    <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../js/superagent.js"></script>
     <script type="text/javascript" src="js/testclient.js"></script>
 </head>
 <body>
-    <div id="header">
-        <div id="title">NDLA - Søk i bilder</div>
-    </div>
-    <div id="searchcontainer">
-        <div id="searchbox">
+    <div class="w3-container w3-center header">NDLA - Søk i bilder</div>
+    <div class="w3-row" id="outercontainer">
+        <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
+        <div class="w3-col m10 l8">
             <form onsubmit="search(); return false;" action="#">
                 <input type="text" name="tags" id="tags" placeholder="Nøkkelord..."/>
-                <div>
-                    <a href="#" id="advancedtip" onclick="showAdvancedSearch();">Avansert...</a>
-                    <div id="advancedsearchbox">
+                <a href="#" id="advancedtip" onclick="showAdvancedSearch();">Avansert...</a>
+                <div class="w3-row" id="advancedsearch">
+                    <div class="w3-col">
                         <span class="metaheading">Minimum størrelse:</span>
                         <input type="text" name="minSize" id="minSize" placeholder="bytes"/>
-
+                    </div>
+                    <div class="w3-col">
                         <span class="metaheading">Lisens:</span>
                         <select id="withLicense">
                             <option value="">Valgfri</option>
@@ -36,7 +37,8 @@
                             <option value="nlod">Norsk lisens for offentlige data</option>
                             <option value="noc">Public Domain Mark</option>
                         </select>
-
+                    </div>
+                    <div class="w3-col">
                         <span class="metaheading">Språk: </span>
                         <select id="inLanguage">
                             <option value="">Valgfri</option>
@@ -48,46 +50,54 @@
                             <option value="zh">Kinesisk</option>
                             <option value="se">Nordsamisk</option>
                         </select>
-
                     </div>
                 </div>
-                <div>
-                    <input type="submit" value="Søk" id="searchbutton"/>
+                <div class="w3-row" id="searchbutton">
+                    <input type="submit" value="Søk" id="searchbutton" />
                 </div>
             </form>
-        </div>
+            <div class="w3-row" id="resultsection"></div>
 
-        <div id="searchresults"></div>
-        <div id="imagedetail">
-            <div class="imagetitle" id="imagetitle"></div>
-            <div id="imageview"></div>
-            <div id="metaview">
-                <div class="metasection">
-                    <span class="metaheading">Størrelse:</span>
-                    <span class="metafield" id="imagesize"></span><span class="metafield"> bytes</span>
+            <div class="w3-row" id="detailrow">
+                <div class="w3-row">
+                    <h3 id="imagetitle"></h3>
                 </div>
-                <div class="metasection">
-                    <span class="metaheading">Lisens:</span>
-                    <span class="metafield" id="license"></span>
+                <div class="w3-row">
+                    <div class="w3-col l6">
+                        <div class="w3-row" id="metaview">
+                            <div class="metasection">
+                                <span class="metaheading">Størrelse:</span>
+                                <span class="metafield" id="imagesize"></span><span class="metafield"> bytes</span>
+                            </div>
+                            <div class="metasection">
+                                <span class="metaheading">Lisens:</span>
+                                <span class="metafield" id="license"></span>
+                            </div>
+                            <div class="metasection">
+                                <span class="metaheading">Opphav:</span>
+                                <span class="metafield" id="authors"></span>
+                            </div>
+                            <div class="metasection">
+                                <span class="metaheading">Kilde:</span>
+                                <span class="metafield" id="origin"></span>
+                            </div>
+                            <div class="metasection">
+                                <span class="metaheading">Alt-tekst:</span>
+                                <span class="metafield" id="alttext"></span>
+                            </div>
+                            <div class="metasection">
+                                <span class="metaheading">Tags:</span>
+                                <div class="tagsfield" id="imagetags"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-col l6">
+                        <div class="w3-row w3-image w3-center" id="imageview"></div>
+                    </div>
                 </div>
-                <div class="metasection">
-                    <span class="metaheading">Opphav:</span>
-                    <span class="metafield" id="authors"></span>
-                </div>
-                <div class="metasection">
-                    <span class="metaheading">Kilde:</span>
-                    <span class="metafield" id="origin"></span>
-                </div>
-                <div class="metasection">
-                    <div class="metaheading">Alt-tekst:</div>
-                    <div class="metafield" id="alttext"></div>
-                </div>
-                <div class="metasection">
-                    <div class="metaheading">Tags:</div>
-                    <div class="tagsfield" id="imagetags"></div>
-                </div>
+
             </div>
         </div>
-    </div>
+        <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
 </body>
 </html>

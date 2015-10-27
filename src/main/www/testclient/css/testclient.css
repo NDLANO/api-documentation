@@ -1,0 +1,97 @@
+body {
+    font-family: 'Open Sans',Arial,sans-serif;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    font-style: italic;
+}
+
+a:hover {
+    text-decoration: underline;
+    font-style: italic;
+}
+
+.header {
+    margin-top: 60px;
+    background-color: #20588F;
+    height: 50px;
+    color: white;
+    font-size: large;
+    padding: 11px;
+    margin-bottom: 20px;
+}
+
+#tags{
+    width: 100%;
+    font-size: x-small;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#advancedtip {
+    color: #20588F;
+    font-size: small;
+}
+
+#advancedsearch {
+    display: none;
+    margin-top: 10px;
+}
+
+.metaheading {
+    color: #20588F;
+    font-size: small;
+}
+
+#searchbutton {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.result {
+    margin-bottom: 25px;
+}
+
+.previewsection {
+    margin-top: 64px;
+}
+
+.ndla-blue {
+    color: #20588F;
+}
+
+h3 {
+    font-style: italic;
+    font-size: large;
+    font-weight: bold;
+    word-wrap: break-word;
+    border-bottom: 1px solid #20588F;
+    margin-bottom: 10px;
+}
+
+.tag {
+    margin-right: 5px;
+    margin-bottom: 5px;
+    padding: 2px;
+    font-size: small;
+    background-color: #dfdfdf;
+    border-radius: 2px;
+    float: left;
+}
+
+
+.tagsfield {
+    clear: right;
+}
+
+#detailrow{
+    margin-top: 25px;
+    display: none;
+}
+
+.imgpreview{
+    padding-right: 25px;
+    padding-bottom: 25px;
+}

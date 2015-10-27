@@ -1,24 +1,15 @@
 function showAdvancedSearch() {
     $('#advancedsearch').toggle("fast");
-    $('#minSize').val('');
     $('#withLicense').val('');
     $('#inLanguage').val('');
 }
 
-function showImage(jsonData) {
-    $('#detailrow').show();
+function showContent(jsonData) {
 
-    $('#imagetitle').empty();
+    $('#contenttitle').empty();
     $.each(jsonData["titles"], function(index, element) {
-        $('#imagetitle').append(element["title"] + ' (' + element["language"] + ')', "<br/>");
+        $('#contenttitle').append(element["title"] + ' (' + element["language"] + ')', "<br/>");
     });
-
-    $('#alttext').empty();
-    $.each(jsonData["alttexts"], function(index, element) {
-        $('#alttext').append(element["alttext"], "<br/>");
-    });
-
-    $('#imagesize').empty().append(jsonData["images"]["full"]["size"]);
 
     var license = '<a href="' + jsonData["copyright"]["license"]["url"] + '" target="_blank">' + jsonData["copyright"]["license"]["description"] + '</a>';
     $('#license').empty().append(license);
@@ -36,14 +27,14 @@ function showImage(jsonData) {
         }
     });
 
-    $('#imagetags').empty();
+    $('#contenttags').empty();
     $.each(jsonData["tags"], function(index, element){
-        $('#imagetags').append('<a href="#" class="tag" onclick=\'searchFor("' + element["tag"] + '");\'>' + element["tag"] + '</a>');
+        $('#contenttags').append('<a href="#" class="tag" onclick=\'searchFor("' + element["tag"] + '");\'>' + element["tag"] + '</a>');
     });
 
-    var fullsizeUrl = jsonData["images"]["full"]["url"];
-
-    $('#imageview').empty().append('<a href="' + fullsizeUrl + '" target="_blank"><img src="' + fullsizeUrl + '"/></a>');
+    $('#detailrow').show();
+    $('#preview').empty().append(jsonData["content"]);
+    $('#preview').show();
 }
 
 function searchFor(keyword) {
@@ -51,12 +42,12 @@ function searchFor(keyword) {
     search();
 }
 
-function loadImage(url){
+function loadContent(url){
     var request = window.superagent;
     request.get(url).end(
         function(err, res) {
             if(res.ok){
-                showImage(res.body);
+                showContent(res.body);
             } else {
                 console.log("Dette gikk ikke bra...");
             }
@@ -67,28 +58,25 @@ function loadImage(url){
 function searchOk(jsonData){
     $('#resultsection').empty();
     $.each(jsonData, function(index, element) {
-        var previewImg = '<a href="#" onclick=\'loadImage("' + element["metaUrl"] + '");\' class="imgpreview"><img src="' + element["previewUrl"] + '"/></a>';
-        $('#resultsection').append(previewImg);
+        console.log(element)
+        var resultElem = '<div class="w3-row result"><div class="w3-col"><a href="#" onclick=\'loadContent("' + element["metaUrl"] + '");\' class="ndla-blue">' + element["title"] + '</a></div>' + '<a href="'+ element["metaUrl"] +'" class="w3-small">' + element["metaUrl"] + '</a>' + '<span class="w3-small"> - (' + element["license"] + ')</span></div>'
+        $('#resultsection').append(resultElem);
     });
 }
 
 
 function search() {
     var tagString = $('#tags').val();
-    var minSize = $('#minSize').val();
     var license = $('#withLicense').val();
     var language = $('#inLanguage').val();
-    var searchUrl = "/images/"
-    //var searchUrl = "http://api.test.ndla.no/images/"
+    var searchUrl = "/content/"
+    //var searchUrl = "http://api.test.ndla.no/content/"
 
     var request = window.superagent;
     var getRequest = request.get(searchUrl)
 
     if(tagString) {
         getRequest = getRequest.query("tags=" + tagString)
-    }
-    if(minSize) {
-        getRequest = getRequest.query("minimum-size=" + minSize)
     }
     if(license) {
         getRequest = getRequest.query("license=" + license)
@@ -98,6 +86,7 @@ function search() {
     }
 
     $('#detailrow').hide();
+    $('#preview').hide();
 
     getRequest.end(
         function(err, res) {
