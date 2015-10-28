@@ -7,6 +7,11 @@
         <link href='../css/testclient.css' media='screen' rel='stylesheet' type='text/css'/>
         <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
         <script type="text/javascript" src="../js/superagent.js"></script>
+        <style type="text/css">
+            iframe {
+                border: none;
+            }
+        </style>
         <script type="text/javascript">
             var config = {
                 youtube: {
@@ -78,7 +83,7 @@
                             return;
                         }
                         var cfg = config[$("#content-selector").val()];
-                        var frame = $("<iframe>").attr("width", "640px").attr("height", "300px").css("border", "none");
+                        var frame = $("<iframe>").attr("width", "640px").attr("height", "300px");
                         $("#content-container").empty().append(frame);
                         var form = buildLTIForm(frame.contents().find("html"), cfg.launch_url, cfg.extra_args);
                         form.submit();
@@ -87,10 +92,10 @@
                 }
                 else {
                     $("#main-content").remove();
-                    var embedframe = $("<iframe>").css("border", "none");
+                    var params = window.location.search.substr(1).split("&").map(function(param){return param.split("=");}).reduce(function(obj, cur){obj[cur[0]] = cur[1];return obj;}, {});
+                    var embedframe = $("<iframe>");
                     $("#embed-content").append(embedframe);
                     // Create an indexable object from URL parameters
-                    params = window.location.search.substr(1).split("&").map(function(param){return param.split("=");}).reduce(function(obj, cur){obj[cur[0]] = cur[1];return obj;}, {});
                     params.url = decodeURIComponent(params.url);
                     embedframe.attr("width", params.width).attr("height", params.height).attr("src", params.url);
                 }
@@ -103,14 +108,15 @@
             <div class="w3-row" id="outercontainer">
                 <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
                 <div class="w3-col m10 l8">
+                    <label>LTI provider:</label>
                     <select id="content-selector">
                         <option value="youtube">YouTube</option>
                         <option value="khan">Khan Academy</option>
                         <option value="ted">TED</option>
                         <option value="quizlet">Quizlet</option>
                     </select>
-                    return URL:
-                    <input type="text" size="50" value="http://api.test.ndla.no/dennetrefferikke" id="return-url"/>
+                    <label>return URL:</label>
+                    <input type="text" size="70" value="http://api.test.ndla.no/dennetrefferikke" id="return-url"/>
                     <input type="button" value="vis" id="show-button"/>
                 </div>
                 <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
