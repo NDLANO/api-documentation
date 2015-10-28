@@ -9,18 +9,166 @@
             iframe {
                 border: none;
             }
+            #slideshow {
+                //position: relative;
+            }
+            #slideshow .slide {
+                position: relative;
+            }
+            .slideshow-progressbar {
+                width: 100%;
+                height: 20mm;
+            }
+            .previous-next-container {
+                width: 100%;
+                height: 20mm;
+                position: relative;
+            }
+            .previous-next-container a {
+                position: absolute;
+                bottom: 1mm;
+                top: 1mm;
+                width: 30%;
+                background-color: #20588F;
+                border-radius: 5mm;
+                cursor: pointer;
+                text-align: center;
+                color: white;
+                font-size: 2em;
+            }
+            .previous-next-container .prev {
+                left: 0mm;
+            }
+            .previous-next-container .next {
+                right: 0mm;
+            }
         </style>
         <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
         <script type="text/javascript" src="../js/superagent.js"></script>
         <script type="text/javascript">
-            $(document).ready(function(){
+            function range(num){
+                return Array.apply(null, Array(num)).map(function(_, i){return i;});
+            }
+            function drawProgressBar(){
+                var progressBar = $("#slideshow-container > .slideshow-progressbar > svg");
+                var progressBarWidth = $("#slideshow-container > .slideshow-progressbar").width();
+                var progressBarHeight = $("#slideshow-container > .slideshow-progressbar").height();
+                progressBar
+                        .attr("width", progressBarWidth)
+                        .attr("height", progressBarHeight);
+                var backgroundLinePadding = progressBarHeight / 2;
+                var backgroundLine = $(document.createElementNS("http://www.w3.org/2000/svg", "line"));
+                backgroundLine
+                        .attr("x1", backgroundLinePadding)
+                        .attr("y1", backgroundLinePadding)
+                        .attr("x2", progressBarWidth - backgroundLinePadding)
+                        .attr("y2", backgroundLinePadding)
+                        .attr("stroke", "rgb(96,96,96)")
+                        .attr("stroke-width", "2");
+                progressBar.append(backgroundLine);
+                var numSlides = $("#slideshow > .slide").size();
+                var slideSpacing = (progressBarWidth - 2*backgroundLinePadding) / (numSlides-1);
+                console.log("slideSpacing: " + slideSpacing);
+                // For some reason, the code below does not work :(
+                // var slideXPositions = range(numSlides).map(function(i){return backgroundLinePadding + (i * slideSpacing);});
+                for(var i = 0; i < numSlides; i++){
+                    var xPos = backgroundLinePadding + (i * slideSpacing);
+                    console.log("xPos: " + xPos);
+                    var circle = $(document.createElementNS("http://www.w3.org/2000/svg", "circle"));
+                    circle
+                        .attr("id", "slide" + i)
+                        .attr("class", "progressBarSlide")
+                        .attr("cx", xPos)
+                        .attr("cy", backgroundLinePadding)
+                        .attr("r", 0.95*backgroundLinePadding)
+                        .attr("fill", "url(#inactiveSlideGradient)")
+                        .attr("stroke", "rgb(96,96,96)")
+                        .attr("stroke-width", "1");
+                    progressBar.append(circle);
+                }
 
+                $("#slide1").attr("fill", "url(#activeSlideGradient)");
+                $("#slideshow-container > .slideshow-progressbar > svg > .progressBarSlide").attr("fill", "url(#inactiveSlideGradient");
+            }
+
+            function nextSlide(){
+                $("#slideshow > div:first")
+                        .hide()
+                        .next()
+                        .show()
+                        .end()
+                        .appendTo("#slideshow");
+                $("#slideshow-container > .slideshow-progressbar > svg > .progressBarSlide:first")
+                        .attr("fill", "url(#inactiveSlideGradient")
+                        .next()
+                        .attr("fill", "url(#activeSlideGradient")
+                        .end()
+                        .appendTo("#slideshow-container > .slideshow-progressbar > svg");
+            }
+            function prevSlide(){
+                $("#slideshow > div:first")
+                        .hide()
+                        .last()
+                        .show()
+                        .end();
+                        //.appendTo("#slideshow");
+            }
+
+            $(document).ready(function(){
+                drawProgressBar();
+                $("#slideshow > div:gt(0)").hide();
+                $("#slideshow-container > .slideshow-progressbar > svg > .progressBarSlide:first").attr("fill", "url(#activeSlideGradient");
+                /*
+                        .next()
+                        .fadeIn(1000)
+                        .end()
+                        .appendTo("#slideshow");
+                */
             });
         </script>
     </head>
     <body>
         <div id="main-content">
             <div class="w3-container w3-center header">NDLA - Eksempel på innholdspakke</div>
+            <div class="w3-row">
+                <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
+                <div id="slideshow-container" class="w3-col m10 l8">
+                    <div id="slideshow">
+                        <div class="slide">
+                            <iframe src="https://www.youtube.com/embed/sGbxmsDFVnE?feature=oembed" width="640" height="480" title="Star Wars: The Force Awakens Trailer (Official)"></iframe>
+                        </div>
+                        <div class="slide">
+                            <iframe src="https://www.youtube.com/embed/IFKnq9QM6_A?feature=oembed" width="640" height="480" title="Elements and atoms"></iframe>
+                        </div>
+                        <div class="slide">
+                            <iframe src="https://www.youtube.com/embed/I2apGYUX7Q0?feature=oembed" width="640" height="480" title="Why Can't We See Evidence of Alien Life?"></iframe>
+                        </div>
+                        <div class="slide">
+                            <iframe src="https://quizlet.com/59019558/flashcards/embedv2" width="640" height="480" title="Animals"></iframe>
+                        </div>
+                    </div>
+                    <div class="slideshow-progressbar">
+                        <svg>
+                            <defs>
+                                <linearGradient id="inactiveSlideGradient" x1="50%" y1="0%" x2="50%" y2="100%">
+                                    <stop offset="0%" style="stop-color:rgb(96,96,96);stop-opacity: 1"></stop>
+                                    <stop offset="100%" style="stop-color:rgb(160,160,160);stop-opacity: 1"></stop>
+                                </linearGradient>
+                                <linearGradient id="activeSlideGradient" x1="50%" y1="0%" x2="50%" y2="100%">
+                                    <stop offset="0%" style="stop-color:rgb(192,192,192);stop-opacity: 1"></stop>
+                                    <stop offset="100%" style="stop-color:rgb(255,255,255);stop-opacity: 1"></stop>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="previous-next-container">
+                        <a class="prev" onclick="prevSlide()">Forrige</a>
+                        <a class="next" onclick="nextSlide()">Neste</a>
+                    </div>
+                </div>
+                <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
+            </div>
+            <!--
             <div class="w3-row">
                 <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
                 <div class="w3-col m10 l8">
@@ -49,6 +197,7 @@
                 </div>
                 <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
             </div>
+            -->
         </div>
     </body>
 </html>
