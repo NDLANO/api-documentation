@@ -1,0 +1,37 @@
+iframe {
+    border: none;
+}
+#slideshow {
+
+}
+#slideshow .slide {
+    position: relative;
+}
+.slideshow-progressbar {
+    width: 100%;
+    height: 4mm;
+}
+.previous-next-container {
+    width: 100%;
+    height: 7mm;
+    position: relative;
+}
+.previous-next-container a {
+    position: absolute;
+    bottom: 1mm;
+    top: 1mm;
+    width: 20%;
+    background-color: #20588F;
+    border-radius: 1mm;
+    cursor: pointer;
+    text-align: center;
+    color: white;
+    font-size: small
+;
+}
+.previous-next-container .prev {
+    left: 0mm;
+}
+.previous-next-container .next {
+    right: 0mm;
+}
