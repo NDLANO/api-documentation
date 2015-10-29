@@ -110,6 +110,25 @@
                 $(".slideshow-progressbar > svg .progressbar-slide").attr("fill", "url(#inactiveSlideGradient)");
             }
 
+            function updateSlideshowState(){
+                var numSlides = $("#slideshow > .slide").size();
+
+                // If on last slide, hide 'next' button
+                if($(".progressbar-slide:first").attr("index") == numSlides-1) {
+                    $(".previous-next-container .next").hide();
+                } else {
+                    $(".previous-next-container .next").show();
+                }
+
+                // If on first slide, hide 'previous' button
+                if($(".progressbar-slide:first").attr("index") == 0) {
+                    $(".previous-next-container .prev").hide();
+                } else {
+                    $(".previous-next-container .prev").show();
+                }
+
+            }
+
             function nextSlide(){
                 $("#slideshow > .slide:first")
                         .hide()
@@ -123,6 +142,7 @@
                         .attr("fill", "url(#activeSlideGradient)")
                         .end()
                         .appendTo(".slideshow-progressbar > svg > .progressbar-slides-group");
+                updateSlideshowState();
             }
             function prevSlide(){
                 $("#slideshow > .slide")
@@ -137,6 +157,7 @@
                         .last()
                         .attr("fill", "url(#activeSlideGradient)")
                         .prependTo(".slideshow-progressbar > svg > .progressbar-slides-group");
+                updateSlideshowState();
             }
 
             $(document).ready(function(){
@@ -144,6 +165,7 @@
                 $(window).resize(function(){updateProgressBar();});
                 $("#slideshow .slide:gt(0)").hide();
                 $(".slideshow-progressbar > svg .progressbar-slide:first").attr("fill", "url(#activeSlideGradient)");
+                updateSlideshowState();
                 /*
                         .next()
                         .fadeIn(1000)
