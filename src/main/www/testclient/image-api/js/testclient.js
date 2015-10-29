@@ -85,7 +85,7 @@ function search() {
     var getRequest = request.get(searchUrl)
 
     if(tagString) {
-        getRequest = getRequest.query("tags=" + tagString)
+        getRequest = getRequest.query("query=" + tagString)
     }
     if(minSize) {
         getRequest = getRequest.query("minimum-size=" + minSize)
