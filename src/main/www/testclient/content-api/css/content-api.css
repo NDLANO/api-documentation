@@ -1,0 +1,71 @@
+#preview {
+    padding-right: 2%;
+    padding-left: 2%;
+    font-family: 'Open Sans',Arial,sans-serif;
+}
+
+#preview .unit {
+    clear: both;
+}
+
+#preview .unit section {
+    display: block;
+    float: left;
+    width: 66%;
+    margin-right: 2%;
+}
+
+#preview .unit aside {
+    display: block;
+    float: left;
+    width: 28%;
+
+    margin-bottom: 2%;
+    padding: 1%;
+    border: 1px solid darkgray;
+    background: -webkit-linear-gradient(white, lightgray); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(white, lightgray); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(white, lightgray); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(white, lightgray); /* Standard syntax (must be last) */
+
+}
+
+#preview .unit section img {
+    width: 100%;
+}
+
+#preview .unit aside img {
+    width: 100%;
+}
+
+#preview .caption {
+    font-size: small;
+    color: grey;
+}
+
+#preview h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    font-family: 'Open Sans',Arial,sans-serif;
+}
+
+#preview h1 {
+    font-size: large;
+    margin-bottom: 0;
+}
+
+#preview h3 {
+    font-size: medium;
+    color: grey;
+    border: 0;
+}
+
+#preview h2 {
+    font-size: large;
+    color: grey;
+    border: 0;
+}
+
+#preview .author {
+    font-size: small;
+    color: grey;
+}

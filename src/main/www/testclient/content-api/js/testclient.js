@@ -70,7 +70,6 @@ function search() {
     var license = $('#withLicense').val();
     var language = $('#inLanguage').val();
     var searchUrl = "/content/"
-    //var searchUrl = "http://api.test.ndla.no/content/"
 
     var request = window.superagent;
     var getRequest = request.get(searchUrl)
