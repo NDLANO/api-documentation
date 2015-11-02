@@ -26,8 +26,7 @@ iframe {
     cursor: pointer;
     text-align: center;
     color: white;
-    font-size: small
-;
+    font-size: small;
 }
 .previous-next-container .prev {
     left: 0mm;
@@ -42,8 +41,12 @@ iframe {
 
 .frontpage-progressbar-container {
     position: absolute;
-    top: 10mm;
-    bottom:10mm;
+    top: 20mm;
+    bottom:20mm;
     left: 5mm;
     width:5mm;
+}
+
+.frontpage-slide {
+    margin-bottom: 5mm;
 }

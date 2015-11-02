@@ -13,12 +13,12 @@
             $(document).ready(function(){
                 drawFrontpageProgressBar();
                 drawSlideshowProgressBar();
+                indexSlides();
                 $(window).resize(function(){updateSlideshowProgressBar();});
                 $("#slideshow .slide:gt(0)").hide();
                 $("#slideshow-container .slideshow").hide();
                 $(".slideshow-progressbar > svg .progressbar-slide:first").attr("fill", "url(#activeSlideGradient)");
                 updateSlideshowState();
-
             });
         </script>
     </head>
@@ -28,8 +28,8 @@
             <div id="slideshow-container">
                 <div class="w3-center slideshow-frontpage">
                     <div class="w3-row">
-                        <div class="w3-col s2 m3 l4">&nbsp;</div>
-                        <div class="slideshow-frontpage-content w3-col s12 m8 l6">
+                        <div class="w3-col s0 m2 l4">&nbsp;</div>
+                        <div class="slideshow-frontpage-content w3-col s12 m8 l4">
                             <div class="frontpage-progressbar-container">
                                 <svg class="frontpage-progressbar">
                                     <defs>
@@ -42,17 +42,20 @@
                                     <g class="progressbar-slides-group"></g>
                                 </svg>
                             </div>
-                            <div class="slide">
-                                <iframe src="https://www.youtube.com/embed/sGbxmsDFVnE?feature=oembed" title="Star Wars: The Force Awakens Trailer (Official)"></iframe>
-                            </div>
-                            <div class="slide">
-                                <iframe src="https://www.youtube.com/embed/IFKnq9QM6_A?feature=oembed" title="Elements and atoms"></iframe>
-                            </div>
-                            <div class="slide">
-                                <iframe src="https://www.youtube.com/embed/I2apGYUX7Q0?feature=oembed" title="Why Can't We See Evidence of Alien Life?"></iframe>
-                            </div>
-                            <div class="slide">
-                                <iframe src="https://quizlet.com/59019558/flashcards/embedv2" title="Animals"></iframe>
+                            <div class="l1">&nbsp;</div>
+                            <div>
+                                <div class="frontpage-slide">
+                                    <iframe src="https://www.youtube.com/embed/sGbxmsDFVnE?feature=oembed" width="200" height="150" title="Star Wars: The Force Awakens Trailer (Official)"></iframe>
+                                </div>
+                                <div class="frontpage-slide">
+                                    <iframe src="https://www.youtube.com/embed/IFKnq9QM6_A?feature=oembed" width="200" height="150" title="Elements and atoms"></iframe>
+                                </div>
+                                <div class="frontpage-slide">
+                                    <iframe src="https://www.youtube.com/embed/I2apGYUX7Q0?feature=oembed" width="200" height="150" title="Why Can't We See Evidence of Alien Life?"></iframe>
+                                </div>
+                                <div class="frontpage-slide">
+                                    <iframe src="https://quizlet.com/59019558/flashcards/embedv2" width="200" height="150" title="Animals"></iframe>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -67,7 +70,7 @@
                     </div>
                 </div>
                 <div id="slideshow" class="slideshow">
-                    <div class="w3-row">
+                    <div class="w3-row slideshow-slides-group">
                         <div class="slide w3-center w3-image">
                             <iframe src="https://www.youtube.com/embed/sGbxmsDFVnE?feature=oembed" width="640" height="480" title="Star Wars: The Force Awakens Trailer (Official)" allowfullscreen></iframe>
                         </div>

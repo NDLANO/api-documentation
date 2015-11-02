@@ -37,7 +37,8 @@ function drawFrontpageProgressBar(){
         .attr("stroke", "rgb(96,96,96)")
         .attr("stroke-width", "2");
     progressBar.find(".progressbar-backgroundline-group").append(backgroundLine);
-    var numSlides = $(".slideshow-frontpage-content .slide").size();
+    var numSlides = $(".slideshow-frontpage-content .frontpage-slide").size();
+    console.log("number of slides: " + numSlides);
     var progressBarSlidesGroup = progressBar.find(".progressbar-slides-group");
     var slideSpacing = (progressBarHeight - 2 * padding) / (numSlides-1);
     var slideYPositions = range(numSlides).map(function(i){return padding + (i * slideSpacing);});
@@ -58,11 +59,11 @@ function drawFrontpageProgressBar(){
 }
 
 function drawSlideshowProgressBar(){
-    var progressBar = $(".slideshow-progressbar > svg");
-    progressBar.find(".progressbar-backgroundline-group").empty();
-    progressBar.find(".progressbar-slides-group").empty();
-    var progressBarWidth = $(".slideshow-progressbar").width();
-    var progressBarHeight = $(".slideshow-progressbar").height();
+    var progressBar = $(".slideshow .slideshow-progressbar svg");
+    progressBar.find(".slideshow .progressbar-backgroundline-group").empty();
+    progressBar.find(".slideshow .progressbar-slides-group").empty();
+    var progressBarWidth = $(".slideshow .slideshow-progressbar").width();
+    var progressBarHeight = $(".slideshow .slideshow-progressbar").height();
     progressBar
         .attr("width", progressBarWidth)
         .attr("height", progressBarHeight);
@@ -78,7 +79,7 @@ function drawSlideshowProgressBar(){
         .attr("stroke-width", "2");
     progressBar.find(".progressbar-backgroundline-group").append(backgroundLine);
     var progressBarSlidesGroup = progressBar.find(".progressbar-slides-group");
-    var numSlides = $("#slideshow .slide").size();
+    var numSlides = $("#slideshow-container .slideshow .slide").size();
     var slideSpacing = (progressBarWidth - 2*backgroundLinePadding) / (numSlides-1);
     var slideXPositions = range(numSlides).map(function(i){return backgroundLinePadding + (i * slideSpacing);});
     for(var key in slideXPositions){
@@ -97,7 +98,7 @@ function drawSlideshowProgressBar(){
     }
 
     $("#slide1").attr("fill", "url(#activeSlideGradient)");
-    $(".slideshow-progressbar > svg .progressbar-slide").attr("fill", "url(#inactiveSlideGradient)");
+    $(".slideshow .slideshow-progressbar svg .progressbar-slide").attr("fill", "url(#inactiveSlideGradient)");
 }
 
 function updateSlideshowState(){
@@ -116,7 +117,13 @@ function updateSlideshowState(){
     } else {
         $(".slideshow .previous-next-container .prev").show();
     }
+}
 
+function indexSlides(){
+    $(".slideshow .slide")
+        .each(function(slide){
+            $(this).attr("index", slide);
+        });
 }
 
 function nextSlide(){
@@ -125,8 +132,8 @@ function nextSlide(){
         .next()
         .show()
         .end()
-        .appendTo("#slideshow");
-    $(".slideshow-progressbar > svg .progressbar-slide:first")
+        .appendTo("#slideshow > .slideshow-slides-group");
+    $(".slideshow .slideshow-progressbar > svg .progressbar-slide:first")
         .attr("fill", "url(#inactiveSlideGradient)")
         .next()
         .attr("fill", "url(#activeSlideGradient)")
@@ -141,8 +148,8 @@ function prevSlide(){
         .end()
         .last()
         .show()
-        .prependTo("#slideshow");
-    $(".slideshow-progressbar > svg .progressbar-slide")
+        .prependTo("#slideshow > .slideshow-slides-group");
+    $(".slideshow .slideshow-progressbar svg .progressbar-slide")
         .attr("fill", "url(#inactiveSlideGradient)")
         .last()
         .attr("fill", "url(#activeSlideGradient)")
@@ -150,7 +157,47 @@ function prevSlide(){
     updateSlideshowState();
 }
 
-function startSlideshow(){
+function setStateToFrontpage(){
+    $("#slideshow-container .slideshow").hide();
+    $("#slideshow-container .slideshow-frontpage").show();
+}
+
+function setStateToSlideshow(){
+    location.hash = "1";
+    $("#slideshow-container .slideshow .slide")
+        .hide()
+        .first()
+        .show();
     $("#slideshow-container .slideshow-frontpage").hide();
     $("#slideshow-container .slideshow").show();
 }
+
+function startSlideshow(){
+    // Wind slideshow back to first slide
+    $("#slideshow-container .slideshow .slide").sort(function(a,b){
+        var aIndex = parseInt(a.getAttribute("index"));
+        var bIndex = parseInt(b.getAttribute("index"));
+        console.log("a: " + aIndex + ", b: " + bIndex + ", sum: " + (aIndex + bIndex));
+        return aIndex - bIndex;
+    }).appendTo("#slideshow > .slideshow-slides-group");
+    $("#slideshow-container .slideshow .slideshow-progressbar svg .progressbar-slide").sort(function(a,b){
+        var aIndex = parseInt(a.getAttribute("index"));
+        var bIndex = parseInt(b.getAttribute("index"));
+        console.log("a: " + aIndex + ", b: " + bIndex + ", sum: " + (aIndex + bIndex));
+        return aIndex - bIndex;
+    }).appendTo("#slideshow-container .slideshow .slideshow-progressbar svg .progressbar-slides-group");
+    $("#slideshow-container .slideshow .slideshow-progressbar svg .progressbar-slide")
+        .attr("fill", "url(#inactiveSlideGradient)")
+        .first()
+        .attr("fill", "url(#activeSlideGradient)");
+    setStateToSlideshow();
+}
+
+$(window).on("hashchange", function(){
+    if(location.hash == "#1"){
+        setStateToSlideshow();
+    }
+    else {
+        setStateToFrontpage();
+    }
+});
