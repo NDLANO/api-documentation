@@ -95,3 +95,7 @@ h3 {
     padding-right: 25px;
     padding-bottom: 25px;
 }
+
+#errorcontainer{
+    display: none;
+}
