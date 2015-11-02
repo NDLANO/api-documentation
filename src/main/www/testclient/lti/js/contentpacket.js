@@ -1,24 +1,63 @@
 function range(num){
     return Array.apply(null, Array(num)).map(function(_, i){return i;});
 }
-function updateProgressBar(){
-    var numSlides = $("#slideshow > .slide").size();
-    var progressBarWidth = $(".slideshow-progressbar").width();
-    var progressBarHeight = $(".slideshow-progressbar").height();
-    $(".slideshow-progressbar svg")
+
+function updateSlideshowProgressBar(){
+    var numSlides = $("#slideshow .slide").size();
+    var progressBarWidth = $(".slideshow .slideshow-progressbar").width();
+    var progressBarHeight = $(".slideshow .slideshow-progressbar").height();
+    $(".slideshow .slideshow-progressbar svg")
         .attr("width", progressBarWidth)
         .attr("height", progressBarHeight);
     var backgroundLinePadding = progressBarHeight / 2;
     var slideSpacing = (progressBarWidth - 2*backgroundLinePadding) / (numSlides-1);
     var slideXPositions = range(numSlides).map(function(i){return backgroundLinePadding + (i * slideSpacing);});
-    $(".progressbar-slide")
+    $(".slideshow .progressbar-slide")
         .attr("cx", function(index) {
             return slideXPositions[$(this).attr("index")];
         });
-    $(".progressbar-backgroundline")
+    $(".slideshow .progressbar-backgroundline")
         .attr("x2", progressBarWidth - backgroundLinePadding);
 }
-function drawProgressBar(){
+function drawFrontpageProgressBar(){
+    var progressBar = $(".frontpage-progressbar");
+    var progressBarWidth = $(".frontpage-progressbar-container").width();
+    var progressBarHeight = $(".frontpage-progressbar-container").height();
+    progressBar
+        .attr("width", progressBarWidth)
+        .attr("height", progressBarHeight);
+    var backgroundLine = $(document.createElementNS("http://www.w3.org/2000/svg", "line"));
+    var padding = progressBarWidth/2.0;
+    backgroundLine
+        .attr("class", "progressbar-backgroundline")
+        .attr("x1", padding)
+        .attr("y1", padding)
+        .attr("x2", padding)
+        .attr("y2", progressBarHeight - padding)
+        .attr("stroke", "rgb(96,96,96)")
+        .attr("stroke-width", "2");
+    progressBar.find(".progressbar-backgroundline-group").append(backgroundLine);
+    var numSlides = $(".slideshow-frontpage-content .slide").size();
+    var progressBarSlidesGroup = progressBar.find(".progressbar-slides-group");
+    var slideSpacing = (progressBarHeight - 2 * padding) / (numSlides-1);
+    var slideYPositions = range(numSlides).map(function(i){return padding + (i * slideSpacing);});
+    for(var key in slideYPositions){
+        var yPos = slideYPositions[key];
+        var circle = $(document.createElementNS("http://www.w3.org/2000/svg", "circle"));
+        circle
+            .attr("class", "progressbar-slide")
+            .attr("index", "key")
+            .attr("cx", padding)
+            .attr("cy", yPos)
+            .attr("r", 0.95*padding)
+            .attr("fill", "url(#frontpageSlideGradient)")
+            .attr("stroke", "rgb(96,96,96)")
+            .attr("stroke-width", "1");
+        progressBarSlidesGroup.append(circle);
+    }
+}
+
+function drawSlideshowProgressBar(){
     var progressBar = $(".slideshow-progressbar > svg");
     progressBar.find(".progressbar-backgroundline-group").empty();
     progressBar.find(".progressbar-slides-group").empty();
@@ -39,7 +78,7 @@ function drawProgressBar(){
         .attr("stroke-width", "2");
     progressBar.find(".progressbar-backgroundline-group").append(backgroundLine);
     var progressBarSlidesGroup = progressBar.find(".progressbar-slides-group");
-    var numSlides = $("#slideshow > .slide").size();
+    var numSlides = $("#slideshow .slide").size();
     var slideSpacing = (progressBarWidth - 2*backgroundLinePadding) / (numSlides-1);
     var slideXPositions = range(numSlides).map(function(i){return backgroundLinePadding + (i * slideSpacing);});
     for(var key in slideXPositions){
@@ -62,26 +101,26 @@ function drawProgressBar(){
 }
 
 function updateSlideshowState(){
-    var numSlides = $("#slideshow > .slide").size();
+    var numSlides = $("#slideshow .slide").size();
 
     // If on last slide, hide 'next' button
-    if($(".progressbar-slide:first").attr("index") == numSlides-1) {
-        $(".previous-next-container .next").hide();
+    if($(".slideshow .progressbar-slide:first").attr("index") == numSlides-1) {
+        $(".slideshow .previous-next-container .next").hide();
     } else {
-        $(".previous-next-container .next").show();
+        $(".slideshow .previous-next-container .next").show();
     }
 
     // If on first slide, hide 'previous' button
-    if($(".progressbar-slide:first").attr("index") == 0) {
-        $(".previous-next-container .prev").hide();
+    if($(".slideshow .progressbar-slide:first").attr("index") == 0) {
+        $(".slideshow .previous-next-container .prev").hide();
     } else {
-        $(".previous-next-container .prev").show();
+        $(".slideshow .previous-next-container .prev").show();
     }
 
 }
 
 function nextSlide(){
-    $("#slideshow > .slide:first")
+    $("#slideshow .slide:first")
         .hide()
         .next()
         .show()
@@ -96,7 +135,7 @@ function nextSlide(){
     updateSlideshowState();
 }
 function prevSlide(){
-    $("#slideshow > .slide")
+    $("#slideshow .slide")
         .first()
         .hide()
         .end()
@@ -111,3 +150,7 @@ function prevSlide(){
     updateSlideshowState();
 }
 
+function startSlideshow(){
+    $("#slideshow-container .slideshow-frontpage").hide();
+    $("#slideshow-container .slideshow").show();
+}

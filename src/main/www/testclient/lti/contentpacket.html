@@ -11,22 +11,65 @@
         <script type="text/javascript" src="js/contentpacket.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
-                drawProgressBar();
-                $(window).resize(function(){updateProgressBar();});
+                drawFrontpageProgressBar();
+                drawSlideshowProgressBar();
+                $(window).resize(function(){updateSlideshowProgressBar();});
                 $("#slideshow .slide:gt(0)").hide();
+                $("#slideshow-container .slideshow").hide();
                 $(".slideshow-progressbar > svg .progressbar-slide:first").attr("fill", "url(#activeSlideGradient)");
                 updateSlideshowState();
+
             });
         </script>
     </head>
     <body>
         <div id="main-content">
             <div class="w3-container w3-center header">NDLA - Eksempel på innholdspakke</div>
-            <div class="w3-row">
-                <div id="slideshow-container">
-                    <div id="slideshow">
+            <div id="slideshow-container">
+                <div class="w3-center slideshow-frontpage">
+                    <div class="w3-row">
+                        <div class="w3-col s2 m3 l4">&nbsp;</div>
+                        <div class="slideshow-frontpage-content w3-col s12 m8 l6">
+                            <div class="frontpage-progressbar-container">
+                                <svg class="frontpage-progressbar">
+                                    <defs>
+                                        <linearGradient id="frontpageSlideGradient" x1="50%" y1="0%" x2="50%" y2="100%">
+                                            <stop offset="0%" style="stop-color:rgb(96,96,96);stop-opacity: 1"></stop>
+                                            <stop offset="100%" style="stop-color:rgb(160,160,160);stop-opacity: 1"></stop>
+                                        </linearGradient>
+                                    </defs>
+                                    <g class="progressbar-backgroundline-group"></g>
+                                    <g class="progressbar-slides-group"></g>
+                                </svg>
+                            </div>
+                            <div class="slide">
+                                <iframe src="https://www.youtube.com/embed/sGbxmsDFVnE?feature=oembed" title="Star Wars: The Force Awakens Trailer (Official)"></iframe>
+                            </div>
+                            <div class="slide">
+                                <iframe src="https://www.youtube.com/embed/IFKnq9QM6_A?feature=oembed" title="Elements and atoms"></iframe>
+                            </div>
+                            <div class="slide">
+                                <iframe src="https://www.youtube.com/embed/I2apGYUX7Q0?feature=oembed" title="Why Can't We See Evidence of Alien Life?"></iframe>
+                            </div>
+                            <div class="slide">
+                                <iframe src="https://quizlet.com/59019558/flashcards/embedv2" title="Animals"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w3-row">
+                        <div class="w3-col s2 m3 l4">&nbsp;</div>
+                        <div class="w3-col s8 m6 l4">
+                            <div class="previous-next-container">
+                                <a class="next" onclick="startSlideshow()">Start</a>
+                            </div>
+                        </div>
+                        <div class="w3-col s2 m3 l4">&nbsp;</div>
+                    </div>
+                </div>
+                <div id="slideshow" class="slideshow">
+                    <div class="w3-row">
                         <div class="slide w3-center w3-image">
-                            <iframe class="w3-image" src="https://www.youtube.com/embed/sGbxmsDFVnE?feature=oembed" width="640" height="480" title="Star Wars: The Force Awakens Trailer (Official)" allowfullscreen></iframe>
+                            <iframe src="https://www.youtube.com/embed/sGbxmsDFVnE?feature=oembed" width="640" height="480" title="Star Wars: The Force Awakens Trailer (Official)" allowfullscreen></iframe>
                         </div>
                         <div class="slide w3-center">
                             <iframe src="https://www.youtube.com/embed/IFKnq9QM6_A?feature=oembed" width="640" height="480" title="Elements and atoms" allowfullscreen></iframe>
@@ -38,41 +81,41 @@
                             <iframe src="https://quizlet.com/59019558/flashcards/embedv2" width="640" height="480" title="Animals" allowfullscreen></iframe>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="w3-row" style="">&nbsp;</div>
-            <div class="w3-row">
-                <div class="w3-col s2 m3 l4">&nbsp;</div>
-                <div class="w3-col s8 m6 l4">
-                    <div class="slideshow-progressbar">
-                        <svg>
-                            <defs>
-                                <linearGradient id="inactiveSlideGradient" x1="50%" y1="0%" x2="50%" y2="100%">
-                                    <stop offset="0%" style="stop-color:rgb(96,96,96);stop-opacity: 1"></stop>
-                                    <stop offset="100%" style="stop-color:rgb(160,160,160);stop-opacity: 1"></stop>
-                                </linearGradient>
-                                <linearGradient id="activeSlideGradient" x1="50%" y1="0%" x2="50%" y2="100%">
-                                    <stop offset="0%" style="stop-color:rgb(192,192,192);stop-opacity: 1"></stop>
-                                    <stop offset="100%" style="stop-color:rgb(255,255,255);stop-opacity: 1"></stop>
-                                </linearGradient>
-                            </defs>
-                            <g class="progressbar-backgroundline-group"></g>
-                            <g class="progressbar-slides-group"></g>
-                        </svg>
+                    <div class="w3-row" style="">&nbsp;</div>
+                    <div class="w3-row">
+                        <div class="w3-col s2 m3 l4">&nbsp;</div>
+                        <div class="w3-col s8 m6 l4">
+                            <div class="slideshow-progressbar">
+                                <svg>
+                                    <defs>
+                                        <linearGradient id="inactiveSlideGradient" x1="50%" y1="0%" x2="50%" y2="100%">
+                                            <stop offset="0%" style="stop-color:rgb(96,96,96);stop-opacity: 1"></stop>
+                                            <stop offset="100%" style="stop-color:rgb(160,160,160);stop-opacity: 1"></stop>
+                                        </linearGradient>
+                                        <linearGradient id="activeSlideGradient" x1="50%" y1="0%" x2="50%" y2="100%">
+                                            <stop offset="0%" style="stop-color:rgb(192,192,192);stop-opacity: 1"></stop>
+                                            <stop offset="100%" style="stop-color:rgb(255,255,255);stop-opacity: 1"></stop>
+                                        </linearGradient>
+                                    </defs>
+                                    <g class="progressbar-backgroundline-group"></g>
+                                    <g class="progressbar-slides-group"></g>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="w3-col s2 m3 l4">&nbsp;</div>
+                    </div>
+                    <div class="w3-row" style="">&nbsp;</div>
+                    <div class="w3-row">
+                        <div class="w3-col s2 m3 l4">&nbsp;</div>
+                        <div class="w3-col s8 m6 l4">
+                            <div class="previous-next-container">
+                                <a class="prev" onclick="prevSlide()">Forrige</a>
+                                <a class="next" onclick="nextSlide()">Neste</a>
+                            </div>
+                        </div>
+                        <div class="w3-col s2 m3 l4">&nbsp;</div>
                     </div>
                 </div>
-                <div class="w3-col s2 m3 l4">&nbsp;</div>
-            </div>
-            <div class="w3-row" style="">&nbsp;</div>
-            <div class="w3-row">
-                <div class="w3-col s2 m3 l4">&nbsp;</div>
-                <div class="w3-col s8 m6 l4">
-                    <div class="previous-next-container">
-                        <a class="prev" onclick="prevSlide()">Forrige</a>
-                        <a class="next" onclick="nextSlide()">Neste</a>
-                    </div>
-                </div>
-                <div class="w3-col s2 m3 l4">&nbsp;</div>
             </div>
         </div>
     </body>

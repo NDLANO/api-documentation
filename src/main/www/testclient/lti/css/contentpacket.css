@@ -35,3 +35,15 @@ iframe {
 .previous-next-container .next {
     right: 0mm;
 }
+
+.slideshow-frontpage-content {
+    position: relative;
+}
+
+.frontpage-progressbar-container {
+    position: absolute;
+    top: 10mm;
+    bottom:10mm;
+    left: 5mm;
+    width:5mm;
+}
