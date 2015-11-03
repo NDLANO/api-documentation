@@ -11,6 +11,15 @@
             iframe {
                 border: none;
             }
+
+            html {
+                height: 100%;
+            }
+
+            #content-container {
+                padding-top: 5mm;
+                margin-top: 5mm;
+            }
         </style>
         <script type="text/javascript">
             var config = {
@@ -83,7 +92,7 @@
                             return;
                         }
                         var cfg = config[$("#content-selector").val()];
-                        var frame = $("<iframe>").attr("width", "640px").attr("height", "300px");
+                        var frame = $("<iframe>").attr("width", "100%").attr("height", "600px");
                         $("#content-container").empty().append(frame);
                         var form = buildLTIForm(frame.contents().find("html"), cfg.launch_url, cfg.extra_args);
                         form.submit();
@@ -108,22 +117,18 @@
             <div class="w3-row" id="outercontainer">
                 <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
                 <div class="w3-col m10 l8">
-                    <label>LTI provider:</label>
+                    <label>LTI-tilbyder:</label>
                     <select id="content-selector">
                         <option value="youtube">YouTube</option>
                         <option value="khan">Khan Academy</option>
                         <option value="ted">TED</option>
                         <option value="quizlet">Quizlet</option>
                     </select>
-                    <label>return URL:</label>
-                    <input type="text" size="70" value="http://api.test.ndla.no/dennetrefferikke" id="return-url"/>
+                    <br/><label>Returlenke:</label>
+                    <input type="text" size="45" value="http://api.test.ndla.no/dennetrefferikke" id="return-url"/>
                     <input type="button" value="vis" id="show-button"/>
+                    <div class="w3-border-top" id="content-container"></div>
                 </div>
-                <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
-            </div>
-            <div class="w3-row">
-                <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
-                <div id="content-container" class="w3-col l8"></div>
                 <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
             </div>
         </div>
