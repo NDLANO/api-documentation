@@ -96,7 +96,6 @@
                         $("#content-container").empty().append(frame);
                         var form = buildLTIForm(frame.contents().find("html"), cfg.launch_url, cfg.extra_args);
                         form.submit();
-                        //$("#content-frame").attr("src", "lti-" + $("#content-selector").val() + ".html?return_url=" + $("#return-url").val());
                     });
                 }
                 else {
@@ -125,7 +124,7 @@
                         <option value="quizlet">Quizlet</option>
                     </select>
                     <br/><label>Returlenke:</label>
-                    <input type="text" size="45" value="http://api.test.ndla.no/dennetrefferikke" id="return-url"/>
+                    <input type="text" size="45" value="#" id="return-url"/>
                     <input type="button" value="vis" id="show-button"/>
                     <div class="w3-border-top" id="content-container"></div>
                 </div>
