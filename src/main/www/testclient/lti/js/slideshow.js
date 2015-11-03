@@ -133,15 +133,16 @@ Slideshow.nextSlide = function(slideshowContainer){
         .next()
         .show()
         .end()
-        .appendTo(slideshowContainer.find(".slideshow > .slideshow-slides-group"));
-    slideshowContainer.find(".slideshow .slideshow-progressbar > svg .progressbar-slide:first")
+        .appendTo(slideshowContainer.find(".slideshow .slideshow-slides-group"));
+    slideshowContainer.find(".slideshow .slideshow-progressbar svg .progressbar-slide:first")
         .attr("fill", "url(#inactiveSlideGradient)")
         .next()
         .attr("fill", "url(#activeSlideGradient)")
         .end()
-        .appendTo(slideshowContainer.find(".slideshow-progressbar > svg > .progressbar-slides-group"));
+        .appendTo(slideshowContainer.find(".slideshow-progressbar svg .progressbar-slides-group"));
     Slideshow.updateSlideshowState(slideshowContainer);
 }
+
 Slideshow.prevSlide = function(slideshowContainer){
     slideshowContainer.find(".slideshow .slide")
         .first()
@@ -149,12 +150,12 @@ Slideshow.prevSlide = function(slideshowContainer){
         .end()
         .last()
         .show()
-        .prependTo(slideshowContainer.find(".slideshow > .slideshow-slides-group"));
+        .prependTo(slideshowContainer.find(".slideshow .slideshow-slides-group"));
     slideshowContainer.find(".slideshow .slideshow-progressbar svg .progressbar-slide")
         .attr("fill", "url(#inactiveSlideGradient)")
         .last()
         .attr("fill", "url(#activeSlideGradient)")
-        .prependTo(slideshowContainer.find(".slideshow-progressbar > svg > .progressbar-slides-group"));
+        .prependTo(slideshowContainer.find(".slideshow-progressbar svg .progressbar-slides-group"));
     Slideshow.updateSlideshowState(slideshowContainer);
 }
 
