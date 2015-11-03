@@ -9,9 +9,10 @@
         <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
         <script type="text/javascript" src="../js/superagent.js"></script>
         <script type="text/javascript" src="js/contentpacket.js"></script>
+        <script type="text/javascript" src="js/slideshow.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
-                prepareSlideshow($("#slideshow-container"));
+                Slideshow.prepareSlideshow($("#slideshow-container"));
             });
         </script>
     </head>
@@ -56,7 +57,7 @@
                         <div class="w3-col s2 m3 l4">&nbsp;</div>
                         <div class="w3-col s8 m6 l4">
                             <div class="previous-next-container">
-                                <a class="next" onclick="startSlideshow($('#slideshow-container'))">Start</a>
+                                <a class="next" onclick="Slideshow.startSlideshow($('#slideshow-container'))">Start</a>
                             </div>
                         </div>
                         <div class="w3-col s2 m3 l4">&nbsp;</div>
@@ -105,8 +106,8 @@
                         <div class="w3-col s2 m3 l4">&nbsp;</div>
                         <div class="w3-col s8 m6 l4">
                             <div class="previous-next-container">
-                                <a class="prev" onclick="prevSlide($('#slideshow-container'))">Forrige</a>
-                                <a class="next" onclick="nextSlide($('#slideshow-container'))">Neste</a>
+                                <a class="prev" onclick="Slideshow.prevSlide($('#slideshow-container'))">Forrige</a>
+                                <a class="next" onclick="Slideshow.nextSlide($('#slideshow-container'))">Neste</a>
                             </div>
                         </div>
                         <div class="w3-col s2 m3 l4">&nbsp;</div>
