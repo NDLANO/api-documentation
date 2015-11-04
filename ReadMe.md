@@ -8,9 +8,11 @@ Also contains testclients for the apis.
     brew install npm
      
     # Windows - find out for yourself
-    # Linux - find out for yourself
-## Install bower
-    npm install -g bower
+    # Linux
+        ## Debian/Ubuntu:
+        sudo apt-get install npm
+        ## Arch:
+        sudo pacman -S npm
 
 # Building and distribution
 

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Testklient for LTI</title>
+        <link href='../css/w3.css' media='screen' rel='stylesheet' type='text/css'/>
+        <link href='../css/testclient.css' media='screen' rel='stylesheet' type='text/css'/>
+        <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="../js/superagent.js"></script>
+        <style type="text/css">
+            iframe {
+                border: none;
+            }
+
+            html {
+                height: 100%;
+            }
+
+            #content-container {
+                padding-top: 5mm;
+                margin-top: 5mm;
+            }
+        </style>
+        <script type="text/javascript">
+            var config = {
+                youtube: {
+                    launch_url: "https://www.edu-apps.org/lti_public_resources/?tool_id=youtube",
+                    extra_args: {
+                        ext_content_return_url: function(){return $("#return-url").val();},
+                        ext_content_return_types: "oembed,lti_launch_url,url,image_url",
+                        ext_content_intended_use: "embed"
+                    }
+                },
+                khan: {
+                    launch_url: "https://www.edu-apps.org/lti_public_resources/?tool_id=khan_academy",
+                    extra_args: {
+                        ext_content_return_url: function(){return $("#return-url").val();},
+                        ext_content_return_types: "oembed,lti_launch_url,url,image_url",
+                        ext_content_intended_use: "embed"
+                    }
+                },
+                ted: {
+                    launch_url: "https://www.edu-apps.org/lti_public_resources/?tool_id=youtube_ted_ed",
+                    extra_args: {
+                        ext_content_return_url: function(){return $("#return-url").val();},
+                        ext_content_return_types: "oembed,lti_launch_url,url,image_url",
+                        ext_content_intended_use: "embed"
+                    }
+                },
+                quizlet: {
+                    launch_url: "https://www.edu-apps.org/lti_public_resources/?tool_id=quizlet",
+                    extra_args: {
+                        ext_content_return_url: function(){return $("#return-url").val();},
+                        ext_content_return_types: "oembed,lti_launch_url,url,image_url",
+                        ext_content_intended_use: "embed"
+                    }
+                }
+
+            };
+
+            function buildLTIForm(root, launch_url, args){
+                var form = $("<form>").attr("action", launch_url).attr("method", "post")
+                        .append($("<input>")
+                                .attr("type", "hidden")
+                                .attr("name", "lti_message_type")
+                                .attr("value", "basic-lti-launch-request"))
+                        .append($("<input>")
+                                .attr("type", "hidden")
+                                .attr("name", "lti_version")
+                                .attr("value", "LTI-1p1"))
+                        .append($("<input>")
+                                .attr("type", "hidden")
+                                .attr("name", "roles")
+                                .attr("value", "Instructor"));
+                for(var key in args){
+                    var value = (typeof(args[key]) == "function")? args[key]() : args[key];
+                    form.append($("<input>")
+                            .attr("type", "hidden")
+                            .attr("name", key)
+                            .attr("value", value));
+                }
+                root.append(form);
+                return form;
+            }
+
+            $(document).ready(function(){
+                if(window.location.search == ""){
+                    $("#return-url").val(window.location.href);
+                    $("#show-button").click(function(e){
+                        if($("#return-url").val() == "return url"){
+                            alert("Please specify the return url");
+                            return;
+                        }
+                        var cfg = config[$("#content-selector").val()];
+                        var frame = $("<iframe>").attr("width", "100%").attr("height", "600px");
+                        $("#content-container").empty().append(frame);
+                        var form = buildLTIForm(frame.contents().find("html"), cfg.launch_url, cfg.extra_args);
+                        form.submit();
+                    });
+                }
+                else {
+                    $("#main-content").remove();
+                    var params = window.location.search.substr(1).split("&").map(function(param){return param.split("=");}).reduce(function(obj, cur){obj[cur[0]] = cur[1];return obj;}, {});
+                    var embedframe = $("<iframe>");
+                    $("#embed-content").append(embedframe);
+                    // Create an indexable object from URL parameters
+                    params.url = decodeURIComponent(params.url);
+                    embedframe.attr("width", params.width).attr("height", params.height).attr("src", params.url);
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <div id="main-content">
+            <div class="w3-container w3-center header">NDLA - testklient for LTI</div>
+            <div class="w3-row" id="outercontainer">
+                <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
+                <div class="w3-col m10 l8">
+                    <label>LTI-tilbyder:</label>
+                    <select id="content-selector">
+                        <option value="youtube">YouTube</option>
+                        <option value="khan">Khan Academy</option>
+                        <option value="ted">TED</option>
+                        <option value="quizlet">Quizlet</option>
+                    </select>
+                    <br/><label>Returlenke:</label>
+                    <input type="text" size="45" value="#" id="return-url"/>
+                    <input type="button" value="vis" id="show-button"/>
+                    <div class="w3-border-top" id="content-container"></div>
+                </div>
+                <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
+            </div>
+        </div>
+        <div id="embed-content"></div>
+    </body>
+</html>
