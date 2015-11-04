@@ -1,0 +1,9 @@
+{
+  "name": "api-documentation",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "swagger-ui": "2.0.24"
+  }
+}
+

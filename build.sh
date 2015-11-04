@@ -8,5 +8,6 @@ GIT_HASH=`git log --pretty=format:%h -n 1`
 
 VERSION=${VER}_${GIT_HASH}
 
-bower install
+echo "installing dependencies..."
+npm install
 docker build -t $PROJECT:$VERSION .

@@ -5,3 +5,5 @@
 **/.DS_Store
 **/*.iml
 **/bower_components
+**/node_modules
+
