@@ -9,10 +9,10 @@ Also contains testclients for the apis.
      
     # Windows - find out for yourself
     # Linux
-        ## Ubuntu:
-        apt-get install npm
+        ## Debian/Ubuntu:
+        sudo apt-get install npm
         ## Arch:
-        pacman -S npm
+        sudo pacman -S npm
 
 # Building and distribution
 
