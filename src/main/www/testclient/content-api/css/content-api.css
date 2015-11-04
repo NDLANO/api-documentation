@@ -4,20 +4,20 @@
     font-family: 'Open Sans',Arial,sans-serif;
 }
 
-#preview .unit {
+#preview section {
     clear: both;
 }
 
-#preview .unit section {
+#preview section .main {
     display: block;
     float: left;
     width: 66%;
     margin-right: 2%;
 }
 
-#preview .unit aside {
+#preview section aside {
     display: block;
-    float: left;
+    float: right;
     width: 28%;
 
     margin-bottom: 2%;
@@ -27,14 +27,22 @@
     background: -o-linear-gradient(white, lightgray); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(white, lightgray); /* For Firefox 3.6 to 15 */
     background: linear-gradient(white, lightgray); /* Standard syntax (must be last) */
-
 }
 
-#preview .unit section img {
+.frame {
+    padding: 1%;
+    border: 1px solid darkgray;
+    background: -webkit-linear-gradient(white, lightgray); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(white, lightgray); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(white, lightgray); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(white, lightgray); /* Standard syntax (must be last) */
+}
+
+#preview section img {
     width: 100%;
 }
 
-#preview .unit aside img {
+#preview aside img {
     width: 100%;
 }
 
