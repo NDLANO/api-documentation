@@ -33,6 +33,17 @@ function showContent(jsonData) {
     });
 
     $('#detailrow').show();
+
+    $.each(jsonData["requiredLibraries"], function(index, element){
+        if(element["mediaType"] == "text/javascript") {
+            var scriptAppend = '<script type="' + element["mediaType"] + '" src="' + element["url"] + '"></script>';
+            $('head').append(scriptAppend);
+        } else if(element["mediaType"] == "text/css"){
+            var styleAppend = '<link href="' + element["url"] + '" rel="stylesheet" type="' + element["mediaType"] + '"/>';
+            $('head').append(styleAppend);
+        }
+    });
+
     $('#preview').empty().append(jsonData["content"]);
     $('#preview').show();
 }
