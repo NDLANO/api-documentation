@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Testklient for NDLA Bilde-api</title>
+    <title>Testklient for NDLA Innholdsapi</title>
     <link href='../css/w3.css' media='screen' rel='stylesheet' type='text/css'/>
     <link href='../css/testclient.css' media='screen' rel='stylesheet' type='text/css'/>
     <link href='css/content-api.css' media='screen' rel='stylesheet' type='text/css'/>
     <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="../js/superagent.js"></script>
-    <script type="text/javascript" src="js/testclient.js"></script>
+    <script type="text/javascript" src="js/contentsearch.js"></script>
 </head>
 <body>
     <div class="w3-container w3-center header">NDLA - Søk i innhold</div>
@@ -55,37 +55,8 @@
             </div>
             </form>
             <div class="w3-row" id="resultsection"></div>
-            <div class="w3-row" id="detailrow">
-                <h3 id="contenttitle"></h3>
-                <div class="w3-col">
-                    <div id="metaview">
-                        <div class="metasection">
-                            <span class="metaheading">Lisens:</span>
-                            <span class="metafield" id="license"></span>
-                        </div>
-                        <div class="metasection">
-                            <span class="metaheading">Opphav:</span>
-                            <span class="metafield" id="authors"></span>
-                        </div>
-                        <div class="metasection">
-                            <span class="metaheading">Kilde:</span>
-                            <span class="metafield" id="origin"></span>
-                        </div>
-                        <div class="metasection">
-                            <span class="metaheading">Tags:</span>
-                            <div id="contenttags"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="w3-row previewsection">
-                <div class="w3-card-8 w3-col l7" id="preview"></div>
-            </div>
         </div>
         <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
     </div>
-
-
-
 </body>
 </html>
