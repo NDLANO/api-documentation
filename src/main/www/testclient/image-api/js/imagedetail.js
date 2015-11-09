@@ -7,7 +7,7 @@ function loadImage(id){
             if(res.ok){
                 showImage(res.body);
             } else {
-                console.log("Dette gikk ikke bra...");
+                showError('Klarte ikke å laste bilde med id ' + id + '.');
             }
         }
     )
@@ -52,4 +52,11 @@ function showImage(jsonData) {
     var fullsizeUrl = jsonData["images"]["full"]["url"];
 
     $('#imageview').empty().append('<a href="' + fullsizeUrl + '" target="_blank"><img src="' + fullsizeUrl + '"/></a>');
+}
+
+function showError(message) {
+    $('#errormessage').empty();
+    $('#errormessage').append(message);
+    $('#errorcontainer').show();
+    $("#detailview").hide();
 }

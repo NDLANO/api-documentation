@@ -10,11 +10,10 @@
     <script type="text/javascript">
         $(document).ready(function(){
             var params = window.location.search.substr(1).split("&").map(function(param){return param.split("=");}).reduce(function(obj, cur){obj[cur[0]] = cur[1];return obj;}, {});
-            if('id' in params) {
+            if('id' in params && params.id !== undefined && params.id != '') {
                 loadImage(params.id);
             } else {
-                $("#errorcontainer").show();
-                $("#detailview").hide();
+                showError('Parameteret \'id\' må angis. Dette er et tall som angir id-nummeret på bildet du vil se.');
             }
         });
     </script>
@@ -25,9 +24,7 @@
     <div class="w3-col m10 l8">
         <div class="w3-row" id="errorcontainer">
             <h3>Dette var ikke helt som forventet</h3>
-            <p class="w3-text-red">
-                Parameteret 'id' må angis. Dette er et tall som angir id-nummeret på bildet du vil se.
-            </p>
+            <p class="w3-text-red" id="errormessage"></p>
         </div>
         <div id="detailview">
             <div class="w3-row">

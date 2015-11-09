@@ -1,4 +1,4 @@
-var searchUrl = "http://localhost:8080/content/";
+var searchUrl = "/content/";
 
 function showContent(jsonData) {
 
@@ -51,8 +51,15 @@ function loadContent(id){
             if(res.ok){
                 showContent(res.body);
             } else {
-                console.log("Dette gikk ikke bra...");
+                showError('Klarte ikke å laste innhold med id ' + id + '.');
             }
         }
     )
+}
+
+function showError(message) {
+    $('#errormessage').empty();
+    $('#errormessage').append(message);
+    $('#errorcontainer').show();
+    $("#detailview").hide();
 }

@@ -1,4 +1,4 @@
-var searchUrl = "http://localhost:8080/content/";
+var searchUrl = "/content/";
 
 function showAdvancedSearch() {
     $('#advancedsearch').toggle("fast");
