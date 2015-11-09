@@ -46,6 +46,10 @@
     max-width: 100%;
 }
 
+#preview section embed {
+    max-width: 100%;
+}
+
 #preview .caption {
     font-size: small;
     color: grey;
