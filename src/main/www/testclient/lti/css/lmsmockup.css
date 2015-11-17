@@ -1,0 +1,26 @@
+
+.lti-window {
+    position: absolute;
+    width: 60%;
+    height: 80%;
+    top: 10%;
+    left: 20%;
+    background-color: white;
+    border: solid 1px black;
+}
+
+.lti-window-container {
+    position: static;
+}
+
+.add-slide-button {
+    opacity: 0.5;
+}
+
+.add-slide-button:hover {
+    opacity: 1.0;
+}
+
+#lti-content-selector {
+    visibility: hidden;
+}

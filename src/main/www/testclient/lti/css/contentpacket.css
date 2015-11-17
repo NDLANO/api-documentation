@@ -41,8 +41,8 @@ iframe {
 
 .frontpage-progressbar-container {
     position: absolute;
-    top: 20mm;
-    bottom:20mm;
+    top: 0mm;
+    bottom:0mm;
     left: 5mm;
     width:5mm;
 }

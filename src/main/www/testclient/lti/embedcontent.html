@@ -1,0 +1,9 @@
+
+<script type="text/javascript">
+    var params = window.location.search.substr(1).split("&").map(function(param){return param.split("=");}).reduce(function(obj, cur){obj[cur[0]] = cur[1];return obj;}, {});
+    var message = {
+        source: "embedcontent.html",
+        payload: params
+    };
+    parent.postMessage(message, "*");
+</script>

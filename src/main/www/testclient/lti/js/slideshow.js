@@ -29,21 +29,28 @@ Slideshow.drawFrontpageProgressBar = function(slideshowContainer){
     progressBar
         .attr("width", progressBarWidth)
         .attr("height", progressBarHeight);
-    var backgroundLine = $(document.createElementNS("http://www.w3.org/2000/svg", "line"));
-    var padding = progressBarWidth/2.0;
-    backgroundLine
-        .attr("class", "progressbar-backgroundline")
-        .attr("x1", padding)
-        .attr("y1", padding)
-        .attr("x2", padding)
-        .attr("y2", progressBarHeight - padding)
-        .attr("stroke", "rgb(96,96,96)")
-        .attr("stroke-width", "2");
-    progressBar.find(".progressbar-backgroundline-group").append(backgroundLine);
+    var slideYPositions = slideshowContainer.find(".frontpage-slide")
+        .map(function(idx, el){
+            return $(el).position().top + $(el).height()/2.0;
+        }).get();
     var numSlides = slideshowContainer.find(".slideshow-frontpage-content .frontpage-slide").size();
+    var padding = progressBarWidth/2.0;
+    var progressBarBackgroundLineGroup = progressBar.find(".progressbar-backgroundline-group");
+    progressBarBackgroundLineGroup.empty();
+    if(numSlides > 1) {
+        var backgroundLine = $(document.createElementNS("http://www.w3.org/2000/svg", "line"));
+        backgroundLine
+            .attr("class", "progressbar-backgroundline")
+            .attr("x1", padding)
+            .attr("y1", $(slideYPositions).first().get())
+            .attr("x2", padding)
+            .attr("y2", $(slideYPositions).last().get())
+            .attr("stroke", "rgb(96,96,96)")
+            .attr("stroke-width", "2");
+        progressBarBackgroundLineGroup.append(backgroundLine);
+    }
     var progressBarSlidesGroup = progressBar.find(".progressbar-slides-group");
-    var slideSpacing = (progressBarHeight - 2 * padding) / (numSlides-1);
-    var slideYPositions = range(numSlides).map(function(i){return padding + (i * slideSpacing);});
+    progressBarSlidesGroup.empty();
     for(var key in slideYPositions){
         var yPos = slideYPositions[key];
         var circle = $(document.createElementNS("http://www.w3.org/2000/svg", "circle"));
