@@ -12,6 +12,7 @@ LMS.getLtiProviders = function(callback){
         url: "http://api.test.ndla.no/packages/lti-providers",
         dataType: "json",
         success: function(data) {
+            ltiProviders = data;
             callback(data);
         }
     });
@@ -75,11 +76,12 @@ LMS.launchLtiProvider = function(provider){
 };
 
 LMS.init = function(){
+    LMS.updateLtiProvidersSelector($("#lti-provider-selector"));
     Slideshow.prepareSlideshow($("#slideshow-container"));
     $("#lti-provider-selector").get().pop().selectedIndex = -1;
-    var messageDispatcher = {};
-    messageDispatcher["add-lti-provider.html"] = LMS.addLtiProvider;
-    messageDispatcher["embedcontent.html"] = LMS.addContent;
+    LMS.messageDispatcher = {};
+    LMS.messageDispatcher["add-lti-provider.html"] = LMS.addLtiProvider;
+    LMS.messageDispatcher["embedcontent.html"] = LMS.addContent;
     window.addEventListener("message", function(event){
         message = event;
         var source = event.data.source;
@@ -126,18 +128,21 @@ LMS.addSlide = function(root, contentData){
 LMS.updateLtiProvidersSelector = function(selector){
     LMS.getLtiProviders(function(ltiProviders){
         selector.empty();
-        ltiProviders.forEach(function(ltiProvider){
-            $("#lti-provider-selector").append(
-                $("<option>")
-                    .attr("value", ltiProvider)
-                    .append(ltiProvider));
-        });
+        LMS.ltiProviders = {};
+        for(ltiProvider in ltiProviders){
+            LTI.loadLtiApp(ltiProviders[ltiProvider], function(config){
+                LMS.ltiProviders[ltiProvider] = config;
+                $("#lti-provider-selector").append(
+                    $("<option>")
+                        .attr("value", config.title)
+                        .append(ltiProvider));
+            });
+        }
         selector.get().pop().selectedIndex = -1;
     });
 };
 
 LMS.addSlideButtonClicked = function(element){
-    LMS.updateLtiProvidersSelector($("#lti-provider-selector"));
     $("#lti-content-selector").css("visibility", "visible");
 };
 
