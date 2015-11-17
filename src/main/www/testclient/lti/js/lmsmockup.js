@@ -9,7 +9,7 @@ LMS.setupLocalStorage = function(){
 
 LMS.getLtiProviders = function(callback){
     $.ajax({
-        url: "api.test.ndla.no/packages/lti-providers",
+        url: "http://api.test.ndla.no/packages/lti-providers",
         dataType: "json",
         success: function(data) {
             callback(data);
@@ -77,7 +77,6 @@ LMS.launchLtiProvider = function(provider){
 LMS.init = function(){
     Slideshow.prepareSlideshow($("#slideshow-container"));
     $("#lti-provider-selector").get().pop().selectedIndex = -1;
-    LMS.setupLocalStorage();
     var messageDispatcher = {};
     messageDispatcher["add-lti-provider.html"] = LMS.addLtiProvider;
     messageDispatcher["embedcontent.html"] = LMS.addContent;
