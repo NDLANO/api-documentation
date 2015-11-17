@@ -7,8 +7,14 @@ LMS.setupLocalStorage = function(){
     localStorage.setItem("add-lti-provider/launchUrl", "add-lti-provider.html");
 };
 
-LMS.getLtiProviders = function(){
-    return localStorage.getItem("lti-providers").split(";");
+LMS.getLtiProviders = function(callback){
+    $.ajax({
+        url: "api.test.ndla.no/packages/lti-providers",
+        dataType: "json",
+        success: function(data) {
+            callback(data);
+        }
+    });
 };
 
 LMS.addLtiProvider = function(config){
@@ -119,15 +125,16 @@ LMS.addSlide = function(root, contentData){
 };
 
 LMS.updateLtiProvidersSelector = function(selector){
-    var ltiProviders = LMS.getLtiProviders();
-    selector.empty();
-    ltiProviders.forEach(function(ltiProvider){
-        $("#lti-provider-selector").append(
-            $("<option>")
-                .attr("value", ltiProvider)
-                .append(ltiProvider));
+    LMS.getLtiProviders(function(ltiProviders){
+        selector.empty();
+        ltiProviders.forEach(function(ltiProvider){
+            $("#lti-provider-selector").append(
+                $("<option>")
+                    .attr("value", ltiProvider)
+                    .append(ltiProvider));
+        });
+        selector.get().pop().selectedIndex = -1;
     });
-    selector.get().pop().selectedIndex = -1;
 };
 
 LMS.addSlideButtonClicked = function(element){

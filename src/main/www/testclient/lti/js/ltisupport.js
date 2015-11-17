@@ -3,7 +3,7 @@ LTI = {};
 
 LTI.installLTIApp = function(configUrl, callback) {
     $.ajax({
-        url: "http://api.test.ndla.no/packages/configurl?lti-config-url=" + configUrl,
+        url: configUrl,
         dataType: "xml",
         success: function(data) {
             var data = {
