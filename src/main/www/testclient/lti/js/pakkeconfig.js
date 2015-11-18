@@ -25,6 +25,7 @@ LMS.addLtiProvider = function(config){
 };
 
 LMS.addContent = function(content){
+    console.log("content to add: " + content.url);
     $("#lti-content-selector").css("visibility", "hidden");
     content.url = decodeURIComponent(content.url);
     LMS.addSlide($("#slideshow-container"), content);
@@ -37,14 +38,11 @@ LMS.launchLtiProvider = function(provider){
         .attr("id", "lti-provider-window");
 
     $("#lti-provider-window").replaceWith(ltiWindow);
-    ltiWindow.load(function(){
-        console.log("loaded!");
-    });
-    var launchUrl = localStorage.getItem(provider + "/launchUrl");
-    if(launchUrl == null){
-        console.log("launch url " + provider + " was not found :(");
+    if(LMS.ltiProviders[provider] == null){
+        console.log("LTI provider " + provider + " was not found :(");
         return false;
     }
+    var launchUrl = LMS.ltiProviders[provider].launch_url;
     var form = $("<form>").attr("action", launchUrl).attr("method", "post")
         .append($("<input>")
             .attr("type", "hidden")
@@ -79,9 +77,8 @@ LMS.init = function(){
     LMS.updateLtiProvidersSelector($("#lti-provider-selector"));
     Slideshow.prepareSlideshow($("#slideshow-container"));
     $("#lti-provider-selector").get().pop().selectedIndex = -1;
-    LMS.messageDispatcher = {};
-    LMS.messageDispatcher["add-lti-provider.html"] = LMS.addLtiProvider;
-    LMS.messageDispatcher["embedcontent.html"] = LMS.addContent;
+    var messageDispatcher = {};
+    messageDispatcher["embedcontent.html"] = LMS.addContent;
     window.addEventListener("message", function(event){
         message = event;
         var source = event.data.source;
@@ -113,7 +110,16 @@ LMS.addSlide = function(root, contentData){
             .attr("height", "480px")
             .attr("allowfullscreen", "true");
     } else {
-
+        frontpageContent = $("<iframe>")
+            .attr("src", contentData.url)
+            .attr("width", "200px")
+            .attr("height", "150px")
+            .attr("allowfullscreen", "true");
+        mainContent = $("<iframe>")
+            .attr("src", contentData.url)
+            .attr("width", "100%")
+            .attr("height", "480px")
+            .attr("allowfullscreen", "true");
     }
 
     var frontpageSlide = $("<div>").attr("class", "frontpage-slide").append(frontpageContent);
@@ -129,13 +135,13 @@ LMS.updateLtiProvidersSelector = function(selector){
     LMS.getLtiProviders(function(ltiProviders){
         selector.empty();
         LMS.ltiProviders = {};
-        for(ltiProvider in ltiProviders){
+        for(var ltiProvider in ltiProviders){
             LTI.loadLtiApp(ltiProviders[ltiProvider], function(config){
-                LMS.ltiProviders[ltiProvider] = config;
+                LMS.ltiProviders[config.title] = config;
                 $("#lti-provider-selector").append(
                     $("<option>")
                         .attr("value", config.title)
-                        .append(ltiProvider));
+                        .append(config.title));
             });
         }
         selector.get().pop().selectedIndex = -1;
