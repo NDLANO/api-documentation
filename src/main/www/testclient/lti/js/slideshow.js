@@ -132,6 +132,7 @@ Slideshow.addSlide = function(root, contentData){
     var host = contentData.url.match(/^https?:\/\/[\w.]+/);
     var frontpageContent = undefined;
     var mainContent = undefined;
+    cont = contentData;
     if(host == null) {
         console.log("pattern does not match: " + contentData.url);
         return;
@@ -272,6 +273,10 @@ Slideshow.prepareSlideshow = function(slideshowContainer, packageId){
                 Slideshow.setStateToFrontpage(slideshowContainer);
             }
         });
+    } else {
+        Slideshow.drawFrontpageProgressBar(slideshowContainer);
+        Slideshow.drawSlideshowProgressBar(slideshowContainer);
+        Slideshow.setStateToFrontpage(slideshowContainer);
     }
 };
 

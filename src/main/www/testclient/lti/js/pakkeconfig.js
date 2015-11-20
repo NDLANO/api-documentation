@@ -25,10 +25,22 @@ LMS.addLtiProvider = function(config){
 };
 
 LMS.addContent = function(content){
-    console.log("content to add: " + content.url);
     $("#lti-content-selector").css("visibility", "hidden");
     content.url = decodeURIComponent(content.url);
-    LMS.addSlide($("#slideshow-container"), content);
+
+    if(content.return_type == "iframe") {
+        Slideshow.addSlide($("#slideshow-container"), content);
+    } else if(content.return_type == "url") {
+        alert("Ingen støtte for embedding av URL-er i denne klienten.");
+    } else if(content.return_type == "oembed") {
+        alert("Ingen støtte for embedding av oembed i denne klienten.");
+    } else if(content.return_type == "lti_launch_url") {
+        alert("Ingen støtte for embedding av LTI-tilbydere i denne klienten.");
+    } else if(content.return_type == "image_url") {
+        alert("Ingen støtte for embedding av bilder i denne klienten.");
+    } else if(content.return_type == "file") {
+        alert("Ingen støtte for embedding av filer i denne klienten.");
+    }
 };
 
 LMS.launchLtiProvider = function(provider){
@@ -80,7 +92,6 @@ LMS.init = function(){
     var messageDispatcher = {};
     messageDispatcher["embedcontent.html"] = LMS.addContent;
     window.addEventListener("message", function(event){
-        message = event;
         var source = event.data.source;
         source = source.substr(source.lastIndexOf("/") + 1);
         if(messageDispatcher[source] != null){
