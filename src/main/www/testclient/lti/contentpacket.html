@@ -11,7 +11,8 @@
         <script type="text/javascript" src="js/slideshow.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
-                Slideshow.prepareSlideshow($("#slideshow-container"));
+                var params = window.location.search.substr(1).split("&").map(function(param){return param.split("=");}).reduce(function(obj, cur){obj[cur[0]] = cur[1];return obj;}, {});
+                Slideshow.prepareSlideshow($("#slideshow-container"), params.package);
             });
         </script>
     </head>
@@ -36,23 +37,7 @@
                                 </svg>
                             </div>
                             <div class="l1">&nbsp;</div>
-                            <div>
-                                <div class="frontpage-slide">
-                                    <!--<iframe src="https://www.youtube.com/embed/sGbxmsDFVnE?feature=oembed" width="200" height="150" title="Star Wars: The Force Awakens Trailer (Official)"></iframe>-->
-                                    <img src="http://img.youtube.com/vi/sGbxmsDFVnE/0.jpg" height="150" width="200"/>
-                                </div>
-                                <div class="frontpage-slide">
-                                    <!--<iframe src="https://www.youtube.com/embed/IFKnq9QM6_A?feature=oembed" width="200" height="150" title="Elements and atoms"></iframe>-->
-                                    <img src="http://img.youtube.com/vi/IFKnq9QM6_A/0.jpg" height="150" width="200"/>
-                                </div>
-                                <div class="frontpage-slide">
-                                    <!--<iframe src="https://www.youtube.com/embed/I2apGYUX7Q0?feature=oembed" width="200" height="150" title="Why Can't We See Evidence of Alien Life?"></iframe>-->
-                                    <img src="http://img.youtube.com/vi/I2apGYUX7Q0/0.jpg" height="150" width="200"/>
-                                </div>
-                                <div class="frontpage-slide">
-                                    <iframe src="https://quizlet.com/59019558/flashcards/embedv2" width="200" height="150" title="Animals"></iframe>
-                                    <!--<img src="http://img.youtube.com/vi/IFKnq9QM6_A/0.jpg" height="150" width="200"/>-->
-                                </div>
+                            <div class="frontpage-slides">
                             </div>
                         </div>
                     </div>
@@ -70,18 +55,6 @@
                     <div class="w3-row">
                         <div class="w3-col s0 m2 l3">&nbsp;</div>
                         <div class="w3-col s12 m8 l6 slideshow-slides-group">
-                            <div class="slide">
-                                <iframe src="https://www.youtube.com/embed/sGbxmsDFVnE?feature=oembed" width="100%" height="480" title="Star Wars: The Force Awakens Trailer (Official)" allowfullscreen></iframe>
-                            </div>
-                            <div class="slide w3-center">
-                                <iframe src="https://www.youtube.com/embed/IFKnq9QM6_A?feature=oembed" width="100%" height="480" title="Elements and atoms" allowfullscreen></iframe>
-                            </div>
-                            <div class="slide w3-center">
-                                <iframe src="https://www.youtube.com/embed/I2apGYUX7Q0?feature=oembed" width="100%" height="480" title="Why Can't We See Evidence of Alien Life?" allowfullscreen></iframe>
-                            </div>
-                            <div class="slide w3-center">
-                                <iframe src="https://quizlet.com/59019558/flashcards/embedv2" width="100%" height="480" title="Animals" allowfullscreen></iframe>
-                            </div>
                         </div>
                         <div class="w3-col s0 m2 l3">&nbsp;</div>
                     </div>

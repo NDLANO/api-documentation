@@ -9,7 +9,7 @@ LMS.setupLocalStorage = function(){
 
 LMS.getLtiProviders = function(callback){
     $.ajax({
-        url: "http://api.test.ndla.no/packages/lti-providers",
+        url: "http://localhost:8080/packages/lti/providers",
         dataType: "json",
         success: function(data) {
             ltiProviders = data;
@@ -91,58 +91,15 @@ LMS.init = function(){
     }, false);
 };
 
-LMS.addSlide = function(root, contentData){
-    var host = contentData.url.match(/^https?:\/\/[\w.]+/);
-    var frontpageContent = undefined;
-    var mainContent = undefined;
-    if(host == null) {
-        console.log("pattern does not match: " + contentData.url);
-        return;
-    } else if(host[0].endsWith("youtube.com")){
-        var videoId = contentData.url.substr(contentData.url.indexOf("/embed/") + "/embed/".length).split("?")[0];
-        frontpageContent = $("<img>")
-            .attr("src", "https://img.youtube.com/vi/" + videoId + "/0.jpg")
-            .attr("width", "200px")
-            .attr("height", "150px");
-        mainContent = $("<iframe>")
-            .attr("src", contentData.url)
-            .attr("width", "100%")
-            .attr("height", "480px")
-            .attr("allowfullscreen", "true");
-    } else {
-        frontpageContent = $("<iframe>")
-            .attr("src", contentData.url)
-            .attr("width", "200px")
-            .attr("height", "150px")
-            .attr("allowfullscreen", "true");
-        mainContent = $("<iframe>")
-            .attr("src", contentData.url)
-            .attr("width", "100%")
-            .attr("height", "480px")
-            .attr("allowfullscreen", "true");
-    }
-
-    var frontpageSlide = $("<div>").attr("class", "frontpage-slide").append(frontpageContent);
-    var mainSlide = $("<div>").attr("class", "slide").append(mainContent);
-    root.find(".frontpage-slides").append(frontpageSlide);
-    root.find(".slideshow-slides-group").append(mainSlide);
-    Slideshow.drawFrontpageProgressBar(root);
-    Slideshow.indexSlides(root);
-    Slideshow.drawSlideshowProgressBar(root);
-};
-
 LMS.updateLtiProvidersSelector = function(selector){
     LMS.getLtiProviders(function(ltiProviders){
         selector.empty();
-        LMS.ltiProviders = {};
+        LMS.ltiProviders = ltiProviders;
         for(var ltiProvider in ltiProviders){
-            LTI.loadLtiApp(ltiProviders[ltiProvider], function(config){
-                LMS.ltiProviders[config.title] = config;
-                $("#lti-provider-selector").append(
-                    $("<option>")
-                        .attr("value", config.title)
-                        .append(config.title));
-            });
+            $("#lti-provider-selector").append(
+                $("<option>")
+                    .attr("value", ltiProvider)
+                    .append(ltiProvider));
         }
         selector.get().pop().selectedIndex = -1;
     });

@@ -21,7 +21,8 @@ Slideshow.updateSlideshowProgressBar = function(slideshowContainer){
         });
     slideshowContainer.find(".slideshow .progressbar-backgroundline")
         .attr("x2", progressBarWidth - backgroundLinePadding);
-}
+};
+
 Slideshow.drawFrontpageProgressBar = function(slideshowContainer){
     var progressBar = slideshowContainer.find(".frontpage-progressbar");
     var progressBarWidth = slideshowContainer.find(".frontpage-progressbar-container").width();
@@ -65,7 +66,7 @@ Slideshow.drawFrontpageProgressBar = function(slideshowContainer){
             .attr("stroke-width", "1");
         progressBarSlidesGroup.append(circle);
     }
-}
+};
 
 Slideshow.drawSlideshowProgressBar = function(slideshowContainer){
     var progressBar = slideshowContainer.find(".slideshow .slideshow-progressbar svg");
@@ -107,7 +108,7 @@ Slideshow.drawSlideshowProgressBar = function(slideshowContainer){
     }
 
     slideshowContainer.find(".slideshow .slideshow-progressbar svg .progressbar-slide").attr("fill", "url(#inactiveSlideGradient)");
-}
+};
 
 Slideshow.updateSlideshowState = function(slideshowContainer){
     var numSlides = slideshowContainer.find(".slideshow .slide").size();
@@ -125,14 +126,54 @@ Slideshow.updateSlideshowState = function(slideshowContainer){
     } else {
         slideshowContainer.find(".slideshow .previous-next-container .prev").show();
     }
-}
+};
+
+Slideshow.addSlide = function(root, contentData){
+    var host = contentData.url.match(/^https?:\/\/[\w.]+/);
+    var frontpageContent = undefined;
+    var mainContent = undefined;
+    if(host == null) {
+        console.log("pattern does not match: " + contentData.url);
+        return;
+    } else if(host[0].endsWith("youtube.com")){
+        var videoId = contentData.url.substr(contentData.url.indexOf("/embed/") + "/embed/".length).split("?")[0];
+        frontpageContent = $("<img>")
+            .attr("src", "https://img.youtube.com/vi/" + videoId + "/0.jpg")
+            .attr("width", "200px")
+            .attr("height", "150px");
+        mainContent = $("<iframe>")
+            .attr("src", contentData.url)
+            .attr("width", "100%")
+            .attr("height", "480px")
+            .attr("allowfullscreen", "true");
+    } else {
+        frontpageContent = $("<iframe>")
+            .attr("src", contentData.url)
+            .attr("width", "200px")
+            .attr("height", "150px")
+            .attr("allowfullscreen", "true");
+        mainContent = $("<iframe>")
+            .attr("src", contentData.url)
+            .attr("width", "100%")
+            .attr("height", "480px")
+            .attr("allowfullscreen", "true");
+    }
+
+    var frontpageSlide = $("<div>").attr("class", "frontpage-slide").append(frontpageContent);
+    var mainSlide = $("<div>").attr("class", "slide").append(mainContent);
+    root.find(".frontpage-slides").append(frontpageSlide);
+    root.find(".slideshow-slides-group").append(mainSlide);
+    Slideshow.drawFrontpageProgressBar(root);
+    Slideshow.indexSlides(root);
+    Slideshow.drawSlideshowProgressBar(root);
+};
 
 Slideshow.indexSlides = function(slideshowContainer){
     $(slideshowContainer.find(".slideshow .slide")
         .each(function(slide){
             $(this).attr("index", slide);
         }));
-}
+};
 
 Slideshow.nextSlide = function(slideshowContainer){
     slideshowContainer.find(".slideshow .slide:first")
@@ -148,7 +189,7 @@ Slideshow.nextSlide = function(slideshowContainer){
         .end()
         .appendTo(slideshowContainer.find(".slideshow-progressbar svg .progressbar-slides-group"));
     Slideshow.updateSlideshowState(slideshowContainer);
-}
+};
 
 Slideshow.prevSlide = function(slideshowContainer){
     slideshowContainer.find(".slideshow .slide")
@@ -164,12 +205,12 @@ Slideshow.prevSlide = function(slideshowContainer){
         .attr("fill", "url(#activeSlideGradient)")
         .prependTo(slideshowContainer.find(".slideshow-progressbar svg .progressbar-slides-group"));
     Slideshow.updateSlideshowState(slideshowContainer);
-}
+};
 
 Slideshow.setStateToFrontpage = function(slideshowContainer){
     slideshowContainer.find(".slideshow").hide();
     slideshowContainer.find(".slideshow-frontpage").show();
-}
+};
 
 Slideshow.setStateToSlideshow = function(slideshowContainer){
     location.hash = "1";
@@ -181,7 +222,7 @@ Slideshow.setStateToSlideshow = function(slideshowContainer){
     slideshowContainer.find(".slideshow-frontpage").hide();
     slideshowContainer.find(".slideshow").show();
     Slideshow.updateSlideshowProgressBar(slideshowContainer);
-}
+};
 
 Slideshow.startSlideshow = function(slideshowContainer){
     // Wind slideshow back to first slide
@@ -200,9 +241,9 @@ Slideshow.startSlideshow = function(slideshowContainer){
         .first()
         .attr("fill", "url(#activeSlideGradient)");
     Slideshow.setStateToSlideshow(slideshowContainer);
-}
+};
 
-Slideshow.prepareSlideshow = function(slideshowContainer){
+Slideshow.prepareSlideshow = function(slideshowContainer, packageId){
     $(window).on("hashchange", function(){
         if(location.hash == "#1"){
             Slideshow.setStateToSlideshow(slideshowContainer);
@@ -211,10 +252,26 @@ Slideshow.prepareSlideshow = function(slideshowContainer){
             Slideshow.setStateToFrontpage(slideshowContainer);
         }
     });
-    $(window).resize(function(){Slideshow.updateSlideshowProgressBar(slideshowContainer);});
-    Slideshow.indexSlides(slideshowContainer);
-    Slideshow.drawFrontpageProgressBar(slideshowContainer);
-    Slideshow.drawSlideshowProgressBar(slideshowContainer);
-    Slideshow.setStateToFrontpage(slideshowContainer);
-}
+    $(window).resize(function(){
+        Slideshow.updateSlideshowProgressBar(slideshowContainer);
+    });
+    if(packageId != undefined) {
+        $.ajax({
+            url: "http://localhost:8080/packages/" + packageId,
+            dataType: "json",
+            success: function(data) {
+                for(var slideIndex in data.content){
+                    var slide = data.content[slideIndex];
+                    thisData = data;
+                    thisSlide = slide;
+                    Slideshow.addSlide(slideshowContainer, slide);
+                }
+                Slideshow.indexSlides(slideshowContainer);
+                Slideshow.drawFrontpageProgressBar(slideshowContainer);
+                Slideshow.drawSlideshowProgressBar(slideshowContainer);
+                Slideshow.setStateToFrontpage(slideshowContainer);
+            }
+        });
+    }
+};
 
