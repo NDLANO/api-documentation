@@ -1,16 +1,9 @@
 LMS = {};
 LMS.content = [];
 
-LMS.setupLocalStorage = function(){
-    if(localStorage.getItem("lti-providers") == null){
-        localStorage.setItem("lti-providers", "add-lti-provider");
-    }
-    localStorage.setItem("add-lti-provider/launchUrl", "add-lti-provider.html");
-};
-
 LMS.getLtiProviders = function(callback){
     $.ajax({
-        url: "packages/lti/providers",
+        url: window.location.origin + "/packages/lti/providers",
         dataType: "json",
         success: function(data) {
             ltiProviders = data;
@@ -56,8 +49,8 @@ LMS.savePackage = function(){
     console.log("posting package with id " + packetId);
 
     $.ajax({
-        url: "packages/" + packetId,
-        method: "post",
+        url: window.location.origin + "/packages/" + packetId,
+        method: "POST",
         processData: false,
         contentType: "application/json",
         dataType: "json",
