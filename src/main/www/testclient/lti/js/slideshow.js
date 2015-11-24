@@ -134,7 +134,6 @@ Slideshow.addSlide = function(root, contentData){
     var mainContent = undefined;
     cont = contentData;
     if(host == null) {
-        console.log("pattern does not match: " + contentData.url);
         return;
     } else if(host[0].endsWith("youtube.com")){
         var videoId = contentData.url.substr(contentData.url.indexOf("/embed/") + "/embed/".length).split("?")[0];

@@ -46,21 +46,23 @@ LMS.savePackage = function(){
         id: packetId,
         content: LMS.content
     };
-    console.log("posting package with id " + packetId);
 
     $.ajax({
         url: window.location.origin + "/packages/" + packetId,
         method: "POST",
         processData: false,
-        contentType: "application/json",
         dataType: "json",
+        contentType: "application/json",
         data: JSON.stringify(packet),
         success: function(data){
             alert("pakke med id " + packetId + " lagret.");
         },
         error: function(err){
-            thisError = err;
-            alert("feil under lagring av pakke med id " + packetId);
+            if(err.status == 200){
+                alert("pakke med id " + packetId + " lagret.");
+            } else {
+                alert("feil under lagring av pakke med id " + packetId);
+            }
         }
     });
 };
@@ -73,7 +75,6 @@ LMS.launchLtiProvider = function(provider){
 
     $("#lti-provider-window").replaceWith(ltiWindow);
     if(LMS.ltiProviders[provider] == null){
-        console.log("LTI provider " + provider + " was not found :(");
         return false;
     }
     var launchUrl = LMS.ltiProviders[provider].launch_url;
@@ -118,7 +119,7 @@ LMS.init = function(){
         if(messageDispatcher[source] != null){
             messageDispatcher[source].call(this, event.data.payload);
         } else {
-            console.log("no event handler for " + source + " found");
+
         }
     }, false);
 };
