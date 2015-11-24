@@ -169,6 +169,20 @@ Slideshow.addSlide = function(root, contentData){
     Slideshow.drawSlideshowProgressBar(root);
 };
 
+Slideshow.addUrl = function(root, content){
+    var frontpageSlide = $("<div>").attr("class", "frontpage-slide").append(
+        $("<a>").attr("href", content.url)
+            .append(content.title));
+    var mainSlide = $("<div>").attr("class", "slide").append(
+        $("<a>").attr("href", content.url)
+            .append(content.title));
+    root.find(".frontpage-slides").append(frontpageSlide);
+    root.find(".slideshow-slides-group").append(mainSlide);
+    Slideshow.drawFrontpageProgressBar(root);
+    Slideshow.indexSlides(root);
+    Slideshow.drawSlideshowProgressBar(root);
+};
+
 Slideshow.indexSlides = function(slideshowContainer){
     $(slideshowContainer.find(".slideshow .slide")
         .each(function(slide){
@@ -258,7 +272,7 @@ Slideshow.prepareSlideshow = function(slideshowContainer, packageId){
     });
     if(packageId != undefined) {
         $.ajax({
-            url: "http://localhost:8080/packages/" + packageId,
+            url: "packages/" + packageId,
             dataType: "json",
             success: function(data) {
                 for(var slideIndex in data.content){

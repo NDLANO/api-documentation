@@ -1,4 +1,5 @@
 LMS = {};
+LMS.content = [];
 
 LMS.setupLocalStorage = function(){
     if(localStorage.getItem("lti-providers") == null){
@@ -9,7 +10,7 @@ LMS.setupLocalStorage = function(){
 
 LMS.getLtiProviders = function(callback){
     $.ajax({
-        url: "http://localhost:8080/packages/lti/providers",
+        url: "packages/lti/providers",
         dataType: "json",
         success: function(data) {
             ltiProviders = data;
@@ -27,11 +28,14 @@ LMS.addLtiProvider = function(config){
 LMS.addContent = function(content){
     $("#lti-content-selector").css("visibility", "hidden");
     content.url = decodeURIComponent(content.url);
+    content.title = decodeURIComponent(content.title).replace(/\+/g, " ");
 
     if(content.return_type == "iframe") {
+        LMS.content.push(content);
         Slideshow.addSlide($("#slideshow-container"), content);
     } else if(content.return_type == "url") {
-        alert("Ingen støtte for embedding av URL-er i denne klienten.");
+        LMS.content.push(content);
+        Slideshow.addUrl($("#slideshow-container"), content);
     } else if(content.return_type == "oembed") {
         alert("Ingen støtte for embedding av oembed i denne klienten.");
     } else if(content.return_type == "lti_launch_url") {
@@ -41,6 +45,31 @@ LMS.addContent = function(content){
     } else if(content.return_type == "file") {
         alert("Ingen støtte for embedding av filer i denne klienten.");
     }
+};
+
+LMS.savePackage = function(){
+    var packetId = $("#packageId").val();
+    var packet = {
+        id: packetId,
+        content: LMS.content
+    };
+    console.log("posting package with id " + packetId);
+
+    $.ajax({
+        url: "packages/" + packetId,
+        method: "post",
+        processData: false,
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(packet),
+        success: function(data){
+            alert("pakke med id " + packetId + " lagret.");
+        },
+        error: function(err){
+            thisError = err;
+            alert("feil under lagring av pakke med id " + packetId);
+        }
+    });
 };
 
 LMS.launchLtiProvider = function(provider){
@@ -88,7 +117,6 @@ LMS.launchLtiProvider = function(provider){
 LMS.init = function(){
     LMS.updateLtiProvidersSelector($("#lti-provider-selector"));
     Slideshow.prepareSlideshow($("#slideshow-container"));
-    $("#lti-provider-selector").get().pop().selectedIndex = -1;
     var messageDispatcher = {};
     messageDispatcher["embedcontent.html"] = LMS.addContent;
     window.addEventListener("message", function(event){
@@ -112,11 +140,11 @@ LMS.updateLtiProvidersSelector = function(selector){
                     .attr("value", ltiProvider)
                     .append(ltiProvider));
         }
-        selector.get().pop().selectedIndex = -1;
     });
 };
 
 LMS.addSlideButtonClicked = function(element){
+    $("#lti-provider-selector").get().pop().selectedIndex = -1;
     $("#lti-content-selector").css("visibility", "visible");
 };
 

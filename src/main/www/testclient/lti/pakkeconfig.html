@@ -57,7 +57,9 @@
                     <div class="w3-col s2 m3 l4">&nbsp;</div>
                     <div class="w3-col s8 m6 l4">
                         <div class="previous-next-container">
-                            <a class="next" onclick="Slideshow.startSlideshow($('#slideshow-container'))">Start</a>
+                            <label class="prev">ID for ny pakke:</label>
+                            <input type="text" class="prev" id="packageId"/>
+                            <a class="next" onclick="LMS.savePackage()">Lagre</a>
                         </div>
                     </div>
                     <div class="w3-col s2 m3 l4">&nbsp;</div>
