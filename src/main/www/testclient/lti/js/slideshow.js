@@ -272,7 +272,7 @@ Slideshow.prepareSlideshow = function(slideshowContainer, packageId){
     });
     if(packageId != undefined) {
         $.ajax({
-            url: "packages/" + packageId,
+            url: window.location.origin + "/packages/" + packageId,
             dataType: "json",
             success: function(data) {
                 for(var slideIndex in data.content){
