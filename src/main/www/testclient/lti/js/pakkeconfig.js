@@ -111,15 +111,13 @@ LMS.launchLtiProvider = function(provider){
 LMS.init = function(){
     LMS.updateLtiProvidersSelector($("#lti-provider-selector"));
     Slideshow.prepareSlideshow($("#slideshow-container"));
-    var messageDispatcher = {};
-    messageDispatcher["embedcontent.html"] = LMS.addContent;
+
+    // Allow content inside iframes to post messages back to main body
     window.addEventListener("message", function(event){
         var source = event.data.source;
         source = source.substr(source.lastIndexOf("/") + 1);
-        if(messageDispatcher[source] != null){
-            messageDispatcher[source].call(this, event.data.payload);
-        } else {
-
+        if(source == "embedcontent.html"){
+            LMS.addContent(event.data.payload);
         }
     }, false);
 };

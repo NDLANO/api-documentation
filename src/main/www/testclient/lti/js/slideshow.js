@@ -13,7 +13,7 @@ Slideshow.updateSlideshowProgressBar = function(slideshowContainer){
         .attr("width", progressBarWidth)
         .attr("height", progressBarHeight);
     var backgroundLinePadding = progressBarHeight / 2;
-    var slideSpacing = (progressBarWidth - 2*backgroundLinePadding) / (numSlides <= 1)? 1 : (numSlides-1);
+    var slideSpacing = (progressBarWidth - 2*backgroundLinePadding) / ((numSlides <= 1)? 1 : (numSlides-1));
     var slideXPositions = range(numSlides).map(function(i){return backgroundLinePadding + (i * slideSpacing);});
     slideshowContainer.find(".slideshow .progressbar-slide")
         .attr("cx", function(index) {
@@ -90,7 +90,7 @@ Slideshow.drawSlideshowProgressBar = function(slideshowContainer){
     progressBar.find(".progressbar-backgroundline-group").append(backgroundLine);
     var progressBarSlidesGroup = progressBar.find(".progressbar-slides-group");
     var numSlides = slideshowContainer.find(".slideshow .slide").size();
-    var slideSpacing = (progressBarWidth - 2*backgroundLinePadding) / (numSlides <= 1)? 1 : (numSlides-1);
+    var slideSpacing = (progressBarWidth - 2*backgroundLinePadding) / ((numSlides <= 1)? 1 : (numSlides-1));
     var slideXPositions = range(numSlides).map(function(i){return backgroundLinePadding + (i * slideSpacing);});
     for(var key in slideXPositions){
         var xPos = slideXPositions[key];
