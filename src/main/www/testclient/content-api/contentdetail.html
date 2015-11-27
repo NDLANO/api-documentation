@@ -21,20 +21,26 @@
     </script>
 </head>
 <body>
-<div class="w3-container w3-center header">NDLA - Søk i innhold</div>
 <div class="w3-row" id="outercontainer">
-    <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
-    <div class="w3-col m10 l8">
+    <div class="w3-col m1 l3 w3-hide-small">&nbsp;</div>
+    <div class="w3-col m10 l6">
         <div class="w3-row" id="errorcontainer">
             <h3>Dette var ikke helt som forventet</h3>
             <p class="w3-text-red" id="errormessage"></p>
         </div>
         <div id="detailview">
+            <div class="w3-row previewsection">
+                <div class="w3-col" id="preview"></div>
+            </div>
             <div class="w3-row" id="detailrow">
-                <h3 id="contenttitle"></h3>
+                <h3>Metadata</h3>
 
                 <div class="w3-col">
                     <div id="metaview">
+                        <div class="metasection">
+                            <span class="metaheading">Title:</span>
+                            <span class="metafield" id="contenttitle"></span>
+                        </div>
                         <div class="metasection">
                             <span class="metaheading">Lisens:</span>
                             <span class="metafield" id="license"></span>
@@ -55,12 +61,9 @@
                     </div>
                 </div>
             </div>
-            <div class="w3-row previewsection">
-                <div class="w3-card-8 w3-col l10" id="preview"></div>
-            </div>
         </div>
     </div>
-    <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
+    <div class="w3-col m1 l3 w3-hide-small">&nbsp;</div>
 </div>
 </body>
 </html>

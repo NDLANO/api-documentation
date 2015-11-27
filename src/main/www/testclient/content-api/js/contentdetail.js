@@ -1,4 +1,5 @@
-var searchUrl = "http://api.test.ndla.no/content/";
+var searchUrl = "/content/";
+
 
 function showContent(jsonData) {
 
