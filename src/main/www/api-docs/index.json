@@ -5,10 +5,6 @@
     {
       "path":"/images",
       "description":"API for accessing images from ndla.no."
-    },
-    {
-      "path":"/content",
-      "description":"API for accessing content from ndla.no."
     }
   ],
   "authorizations":{},
