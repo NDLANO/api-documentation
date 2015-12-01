@@ -1,17 +1,19 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Testklient for NDLA Bilde-api</title>
+    <title>Testklient for NDLA Innholdsapi</title>
     <link href='../css/w3.css' media='screen' rel='stylesheet' type='text/css'/>
     <link href='../css/testclient.css' media='screen' rel='stylesheet' type='text/css'/>
+    <link href='css/content-api.css' media='screen' rel='stylesheet' type='text/css'/>
     <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="../js/superagent.js"></script>
-    <script type="text/javascript" src="js/imagedetail.js"></script>
+    <script type="text/javascript" src="js/contentdetail.js"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
-            var params = window.location.search.substr(1).split("&").map(function(param){return param.split("=");}).reduce(function(obj, cur){obj[cur[0]] = cur[1];return obj;}, {});
-            if('id' in params && params.id !== undefined && params.id != '') {
-                loadImage(params.id);
+        $(document).ready(function () {
+            var params = window.location.search.substr(1).split("&").map(function (param) {return param.split("=");}).reduce(function (obj, cur) {obj[cur[0]] = cur[1];return obj;}, {});
+            if ('id' in params && params.id !== undefined && params.id != '') {
+                loadContent(params.id);
             } else {
                 showError('Parameteret \'id\' må angis. Dette er et tall som angir id-nummeret på bildet du vil se.');
             }
@@ -20,22 +22,24 @@
 </head>
 <body>
 <div class="w3-row" id="outercontainer">
-    <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
-    <div class="w3-col m10 l8">
+    <div class="w3-col m1 l3 w3-hide-small">&nbsp;</div>
+    <div class="w3-col m10 l6">
         <div class="w3-row" id="errorcontainer">
             <h3>Dette var ikke helt som forventet</h3>
             <p class="w3-text-red" id="errormessage"></p>
         </div>
         <div id="detailview">
-            <div class="w3-row">
-                <h3 id="imagetitle">Imagetitle</h3>
+            <div class="w3-row previewsection">
+                <div class="w3-col" id="preview"></div>
             </div>
-            <div class="w3-row">
+            <div class="w3-row" id="detailrow">
+                <h3>Metadata</h3>
+
                 <div class="w3-col">
-                    <div class="w3-row" id="metaview">
+                    <div id="metaview">
                         <div class="metasection">
-                            <span class="metaheading">Størrelse:</span>
-                            <span class="metafield" id="imagesize"></span><span class="metafield"> bytes</span>
+                            <span class="metaheading">Title:</span>
+                            <span class="metafield" id="contenttitle"></span>
                         </div>
                         <div class="metasection">
                             <span class="metaheading">Lisens:</span>
@@ -50,21 +54,16 @@
                             <span class="metafield" id="origin"></span>
                         </div>
                         <div class="metasection">
-                            <span class="metaheading">Alt-tekst:</span>
-                            <span class="metafield" id="alttext"></span>
-                        </div>
-                        <div class="metasection">
                             <span class="metaheading">Tags:</span>
-                            <div class="tagsfield" id="imagetags"></div>
+
+                            <div id="contenttags"></div>
                         </div>
                     </div>
-                </div>
-                <div class="w3-col">
-                    <div class="w3-row w3-image" id="imageview"></div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="w3-col m1 l2 w3-hide-small">&nbsp;</div>
+    <div class="w3-col m1 l3 w3-hide-small">&nbsp;</div>
+</div>
 </body>
 </html>
