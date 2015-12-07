@@ -41,7 +41,7 @@ function showContent(jsonData) {
         }
     });
 
-    $('#preview').empty().append(jsonData["content"]);
+    $('#preview').empty().append(jsonData["content"][0]["content"]);
     $('#preview').show();
 }
 

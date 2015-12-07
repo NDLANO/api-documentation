@@ -30,7 +30,7 @@ function search() {
     var getRequest = request.get(searchUrl)
 
     if(tagString) {
-        getRequest = getRequest.query("tags=" + tagString)
+        getRequest = getRequest.query("query=" + tagString)
     }
     if(license) {
         getRequest = getRequest.query("license=" + license)
