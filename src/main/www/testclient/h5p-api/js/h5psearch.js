@@ -19,8 +19,8 @@ function searchOk(jsonData){
         var previewImg = '<a href="imagedetail.html?id=' + element["id"] + '" target="_blank" class="imgpreview"><img src="' + element["previewUrl"] + '"/></a>';
         $('#resultsection').append(previewImg);
         */
-        var h5pPreview = '<a href="' + element.url + '">' + element.title + '</a>';
-        $('#resultsection').append(h5pPreview);
+        var resultElem = '<div class="w3-row result"><div class="w3-col"><a href="h5pdetail.html?id=' + element["id"]+ '" target="_blank" class="ndla-blue">' + element["title"] + '</a></div>' + '<a href="'+ element["metaUrl"] +'" class="w3-small">' + element["metaUrl"] + '</a></div>'
+        $('#resultsection').append(resultElem);
     });
 }
 
