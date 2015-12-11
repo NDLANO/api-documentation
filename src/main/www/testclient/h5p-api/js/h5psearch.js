@@ -15,24 +15,24 @@ function searchFor(keyword) {
 function searchOk(jsonData){
     $('#resultsection').empty();
     $.each(jsonData, function(index, element) {
+        /*
         var previewImg = '<a href="imagedetail.html?id=' + element["id"] + '" target="_blank" class="imgpreview"><img src="' + element["previewUrl"] + '"/></a>';
         $('#resultsection').append(previewImg);
+        */
+        var h5pPreview = '<a href="' + element.url + '">' + element.title + '</a>';
+        $('#resultsection').append(h5pPreview);
     });
 }
 
 function search() {
     var tagString = $('#tags').val();
-    var license = $('#withLicense').val();
     var language = $('#inLanguage').val();
 
     var request = window.superagent;
-    var getRequest = request.get(searchUrl)
+    var getRequest = request.get(searchUrl);
 
     if(tagString) {
         getRequest = getRequest.query("query=" + tagString)
-    }
-    if(license) {
-        getRequest = getRequest.query("license=" + license)
     }
     if(language) {
         getRequest = getRequest.query("language=" + language)
