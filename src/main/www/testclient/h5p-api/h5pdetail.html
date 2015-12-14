@@ -11,7 +11,7 @@
         $(document).ready(function(){
             var params = window.location.search.substr(1).split("&").map(function(param){return param.split("=");}).reduce(function(obj, cur){obj[cur[0]] = cur[1];return obj;}, {});
             if('id' in params && params.id !== undefined && params.id != '') {
-                loadImage(params.id);
+                loadH5P(params.id);
             } else {
                 showError('Parameteret \'id\' må angis. Dette er et tall som angir id-nummeret på bildet du vil se.');
             }

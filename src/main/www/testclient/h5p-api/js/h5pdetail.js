@@ -1,35 +1,25 @@
 var searchUrl = "/images/";
 
-function loadImage(id){
+function loadH5P(id){
     var request = window.superagent;
     request.get(searchUrl + id).end(
         function(err, res) {
             if(res.ok){
-                showImage(res.body);
+                showH5P(res.body);
             } else {
-                showError('Klarte ikke å laste bilde med id ' + id + '.');
+                showError('Klarte ikke å laste H5P med id ' + id + '.');
             }
         }
     )
 }
 
-function showImage(jsonData) {
+function showH5P(jsonData) {
     $('#detailrow').show();
 
-    $('#imagetitle').empty();
+    $('#h5ptitle').empty();
     $.each(jsonData["titles"], function(index, element) {
-        $('#imagetitle').append(element["title"] + ' (' + element["language"] + ')', "<br/>");
+        $('#h5ptitle').append(element["title"] + ' (' + element["language"] + ')', "<br/>");
     });
-
-    $('#alttext').empty();
-    $.each(jsonData["alttexts"], function(index, element) {
-        $('#alttext').append(element["alttext"], "<br/>");
-    });
-
-    $('#imagesize').empty().append(jsonData["images"]["full"]["size"]);
-
-    var license = '<a href="' + jsonData["copyright"]["license"]["url"] + '" target="_blank">' + jsonData["copyright"]["license"]["description"] + '</a>';
-    $('#license').empty().append(license);
 
     var origin = '<a href="' + jsonData["copyright"]["origin"] + '" target="_blank">' + jsonData["copyright"]["origin"] + '</a>';
     $('#origin').empty().append(origin);
@@ -44,14 +34,14 @@ function showImage(jsonData) {
         }
     });
 
-    $('#imagetags').empty();
+    $('#h5ptags').empty();
     $.each(jsonData["tags"], function(index, element){
-        $('#imagetags').append('<a href="#" class="tag" onclick=\'searchFor("' + element["tag"] + '");\'>' + element["tag"] + '</a>');
+        $('#h5ptags').append('<a href="#" class="tag" onclick=\'searchFor("' + element["tag"] + '");\'>' + element["tag"] + '</a>');
     });
 
-    var fullsizeUrl = jsonData["images"]["full"]["url"];
+    var embedUrl = jsonData["url"];
 
-    $('#imageview').empty().append('<a href="' + fullsizeUrl + '" target="_blank"><img src="' + fullsizeUrl + '"/></a>');
+    $('#h5pview').empty().append('<iframe src="' + embedUrl + '"></iframe>');
 }
 
 function showError(message) {
