@@ -15,10 +15,6 @@ function searchFor(keyword) {
 function searchOk(jsonData){
     $('#resultsection').empty();
     $.each(jsonData, function(index, element) {
-        /*
-        var previewImg = '<a href="imagedetail.html?id=' + element["id"] + '" target="_blank" class="imgpreview"><img src="' + element["previewUrl"] + '"/></a>';
-        $('#resultsection').append(previewImg);
-        */
         var resultElem = '<div class="w3-row result"><div class="w3-col"><a href="h5pdetail.html?id=' + element["id"]+ '" target="_blank" class="ndla-blue">' + element["title"] + '</a></div>' + '<a href="'+ element["metaUrl"] +'" class="w3-small">' + element["metaUrl"] + '</a></div>'
         $('#resultsection').append(resultElem);
     });
