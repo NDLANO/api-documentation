@@ -1,13 +1,14 @@
 #!/bin/bash
 
+VERSION="$1"
 source ./build.properties
+PROJECT="$NDLAOrganization/$NDLAComponentName"
 
-PROJECT=ndla/api-documentation
-VER=v0.1
-GIT_HASH=`git log --pretty=format:%h -n 1`
+if [ -z $VERSION ]
+then
+    VERSION="SNAPSHOT"
+fi
 
-VERSION=${VER}_${GIT_HASH}
-
-echo "installing dependencies..."
 npm install
 docker build -t $PROJECT:$VERSION .
+echo "BUILT $PROJECT:$VERSION"
