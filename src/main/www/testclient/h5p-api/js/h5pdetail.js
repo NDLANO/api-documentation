@@ -1,4 +1,4 @@
-var searchUrl = "/images/";
+var searchUrl = "/h5p/";
 
 function loadH5P(id){
     var request = window.superagent;
