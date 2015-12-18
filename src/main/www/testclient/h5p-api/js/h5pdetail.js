@@ -39,9 +39,11 @@ function showH5P(jsonData) {
         $('#h5ptags').append('<a href="#" class="tag" onclick=\'searchFor("' + element["tag"] + '");\'>' + element["tag"] + '</a>');
     });
 
-    var embedUrl = jsonData["url"];
-
-    $('#h5pview').empty().append('<iframe src="' + embedUrl + '"></iframe>');
+    var h5pview = $('#h5pview');
+    h5pview.empty();
+    jsonData["url"].forEach(function(url){
+        h5pview.append('<div class="w3-row w3-image"><iframe src="' + url.url + '"></iframe></div>');
+    });
 }
 
 function showError(message) {
