@@ -40,10 +40,24 @@ function showH5P(jsonData) {
     });
 
     var h5pview = $('#h5pview');
+    var h5pframe = $('<iframe>');
     h5pview.empty();
-    jsonData["url"].forEach(function(url){
-        h5pview.append('<div class="w3-row w3-image"><iframe src="' + url.url + '"></iframe></div>');
-    });
+    if(jsonData.length > 1){
+        var languageSelector = h5pview.append($("<select>"));
+        jsonData["url"].forEach(function(url){
+            languageSelector.append($('<option>')
+                .attr(value, url.url)
+                .append(url.language));
+        });
+        languageSelector.on("change", function(){
+            h5pframe.src = languageSelector.options[languageSelector.selectedIndex].value;
+        });
+    } else {
+        h5pframe = url.url;
+    }
+    h5pview.append($("<div>")
+        .attr("class", "w3-row w3-image")
+        .append(h5pframe));
 }
 
 function showError(message) {
