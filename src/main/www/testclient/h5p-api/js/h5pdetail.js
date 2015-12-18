@@ -42,19 +42,20 @@ function showH5P(jsonData) {
     var h5pview = $('#h5pview');
     var h5pframe = $('<iframe>');
     h5pview.empty();
-    if(jsonData.length > 1){
-        var languageSelector = h5pview.append($("<select>"));
+    if(jsonData["url"].length > 1){
+        var languageSelector = $("<select>");
+        h5pview.append($("<label>").append("Språk: "));
+        h5pview.append(languageSelector);
         jsonData["url"].forEach(function(url){
             languageSelector.append($('<option>')
-                .attr(value, url.url)
+                .attr("value", url.url)
                 .append(url.language));
         });
         languageSelector.on("change", function(){
-            h5pframe.src = languageSelector.options[languageSelector.selectedIndex].value;
+            h5pframe.attr("src", languageSelector.val());
         });
-    } else {
-        h5pframe = url.url;
     }
+    h5pframe.attr("src", jsonData["url"][0].url);
     h5pview.append($("<div>")
         .attr("class", "w3-row w3-image")
         .append(h5pframe));
