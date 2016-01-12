@@ -5,10 +5,6 @@
     {
       "path":"/images",
       "description":"API for accessing images from ndla.no."
-    },
-    {
-      "path":"/udir",
-      "description":"Mirror for the API at http://data.udir.no/"
     }
   ],
   "authorizations":{},
