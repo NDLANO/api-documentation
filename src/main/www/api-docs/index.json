@@ -5,6 +5,14 @@
     {
       "path":"/images",
       "description":"API for accessing images from ndla.no."
+    },
+    {
+      "path":"/learningpaths",
+      "description":"API for accessing learningpaths from NDLA"
+    },
+    {
+      "path":"/oembed",
+      "description":"API for gathering oEmbed information"
     }
   ],
   "authorizations":{},
