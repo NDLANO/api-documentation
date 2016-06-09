@@ -41,7 +41,15 @@ function showContent(jsonData) {
         }
     });
 
-    $('#preview').empty().append(jsonData["content"][0]["content"]);
+    // put title in header
+    $("#header").append("<h1>" + jsonData["titles"][0].title + "</h1>");
+
+    // put authors in header
+    $.each(jsonData["copyright"]["authors"], function(index, element){
+        $('#header').append("<a rel=\"author\">" + element["name"] + "</a><br>");
+    });
+
+    $('#preview').append(jsonData["content"][0]["content"]);
     $('#preview').show();
 }
 
