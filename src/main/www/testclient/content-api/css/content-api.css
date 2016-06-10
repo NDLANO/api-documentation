@@ -44,6 +44,10 @@
     width: 100%;
 }
 
+#preview section aside img{
+    width: 100%;
+}
+
 #preview section figure.left img{
     width: 100%;
 }
