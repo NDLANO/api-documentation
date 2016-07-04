@@ -13,6 +13,10 @@
     {
       "path":"/oembed",
       "description":"API for gathering oEmbed information"
+    },
+    {
+      "path":"/content",
+      "description":"API for accessing content from NDLA"
     }
   ],
   "authorizations":{},
