@@ -1,6 +1,5 @@
 # API Documentation 
-Shows documentation for apis from NDLA.
-Also contains testclients for the apis.
+Documentation for APIs from NDLA.
 
 # Prerequisites - Installing NPM and Bower 
 ## Install NPM
@@ -20,7 +19,3 @@ Also contains testclients for the apis.
     ./build.sh
 
 You need to have a docker daemon running locally. Ex: [boot2docker](http://boot2docker.io/)
-
-## Deploy Docker Image to Amazon (via DockerHub)
-    ndla deploy <env> api-documentation
-
