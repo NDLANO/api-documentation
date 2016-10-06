@@ -17,6 +17,10 @@
     {
       "path":"/articles",
       "description":"API for accessing articles from NDLA"
+    },
+    {
+      "path":"/audio",
+      "description":"API for accessing audio from NDLA"
     }
   ],
   "authorizations":{},
