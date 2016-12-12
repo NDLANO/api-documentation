@@ -1,11 +1,11 @@
-# API Documentation 
+# API Documentation
 Documentation for APIs from NDLA.
 
-# Prerequisites - Installing NPM and Bower 
+# Prerequisites - Installing NPM and Bower
 ## Install NPM
-    # osx 
+    # osx
     brew install npm
-     
+
     # Windows - find out for yourself
     # Linux
         ## Debian/Ubuntu:
