@@ -12,33 +12,29 @@ import compression from 'compression';
 import cors from 'cors';
 import config from './config';
 import { fetchApis } from './api/kongApi';
-import { apiList, htmlErrorTemplate } from './utils/htmlTemplates';
+import { apiListTemplate, htmlErrorTemplate } from './utils/htmlTemplates';
+import { getAppropriateErrorResponse } from './utils/errorHelpers';
 
 const app = express();
 const path = require('path');
+
 app.use(compression());
 app.use(cors({
   origin: true,
   credentials: true,
 }));
-app.use('/swagger', express.static(path.join(__dirname, 'public')))
-app.use('/swagger-ui', express.static(path.join(__dirname, '../node_modules/swagger-ui/dist')))
-
-async function fetchAndTransformApis() {
-  const article = await fetchApis();
-  return { ...article };
-}
+app.use('/swagger', express.static(path.join(__dirname, 'public')));
+app.use('/swagger-ui', express.static(path.join(__dirname, '../node_modules/swagger-ui/dist')));
 
 app.get('/', (req, res) => {
-  const lang = 'nb';
-  fetchAndTransformApis()
-    .then((article) => {
-      res.send(apiList(lang, article));
+  fetchApis()
+    .then((apis) => {
+      res.send(apiListTemplate(apis));
       res.end();
     }).catch((error) => {
-    const response = getAppropriateErrorResponse(error, config.isProduction);
-    res.status(response.status).send(htmlErrorTemplate(lang, response));
-  });
+      const response = getAppropriateErrorResponse(error, config.isProduction);
+      res.status(response.status).send(htmlErrorTemplate(response));
+    });
 });
 
 

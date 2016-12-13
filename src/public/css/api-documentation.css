@@ -9,14 +9,12 @@ body {
     background-color: transparent;
     padding: 20px 0px;
 
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
     min-width: 760px;
     max-width: 960px;
 }
 
 #content {
-    display: block;
     clear: both;
 }
 
@@ -41,10 +39,8 @@ a:hover {
 
 #slogan p {
     width: 220px;
-    margin-left: 10px;
     float: left;
-    margin-top: 1em;
-    margin-bottom: 1em;
+    margin: 1em 0 1em 10px;
 }
 
 #slogan img {
@@ -76,9 +72,7 @@ a:hover {
 
 #content li {
     margin-bottom: 10px;
-    padding-left: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding: 5px 0 5px 10px;
     font-size: large;
     border: 1px solid #c3d9ec;
     background: #e7f0f7;

@@ -1,14 +1,7 @@
-/*
- * Part of NDLA api-documentation.
- * Copyright (C) 2016 NDLA
- *
- * See LICENSE
- */
-
  import httpStaus from 'http-status';
 
- export const htmlTemplate = (lang, body) =>
-  `<!doctype html>\n<html lang=${lang} >
+ export const htmlTemplate = body =>
+  `<!doctype html>\n<html lang='nb' >
     <head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -33,17 +26,17 @@
     </body>
   </html>`;
 
- export const apiList = (lang, json) => {
-   let listItems = json.data.map(function(obj){
-     return `<li><a href="/swagger?url=${obj.upstream_url}/api-docs${obj.request_path}">${obj.name}</a></li>`;
-   });
+ export const apiListTemplate = (json) => {
+   const listItems = json.data.map(obj =>
+     `<li><a href="/swagger?url=${obj.upstream_url}/api-docs${obj.request_path}">${obj.name}</a></li>`
+   );
 
-   return htmlTemplate(lang, listItems.join(''));
+   return htmlTemplate(listItems.join(''));
  };
 
- export const htmlErrorTemplate = (lang, { status, message, description, stacktrace }) => {
+ export const htmlErrorTemplate = ({ status, message, description, stacktrace }) => {
    const statusMsg = httpStaus[status];
-   return htmlTemplate(lang, `
+   return htmlTemplate('nb', `
     <h1>${status} ${statusMsg}</h1>
     <div><b>Message: </b>${message}</div>
     <div><b>Description: </b>${description}</div>

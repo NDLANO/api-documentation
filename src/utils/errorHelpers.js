@@ -21,10 +21,7 @@ export const getAppropriateErrorResponse = (error, isProduction = true) => {
   const { description } = defined(error.json, { description: '' });
   const message = error.message;
 
-  if (isProduction) {
-    return { status, message, description, stacktrace: '' };
-  }
-  return { status, message, description, stacktrace: error.stack };
+  return { status, message, description, stacktrace: isProduction ? '' : error.stack };
 };
 
 /**

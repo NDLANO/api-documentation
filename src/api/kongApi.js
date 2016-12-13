@@ -10,6 +10,6 @@ import fetch from 'isomorphic-fetch';
 import { apiResourceUrl, resolveJsonOrRejectWithError } from '../utils/apiHelpers';
 
 export function fetchApis(method = 'GET') {
-  const url = apiResourceUrl(`/apis`);
+  const url = apiResourceUrl('/apis');
   return fetch(url, { method }).then(resolveJsonOrRejectWithError);
 }
