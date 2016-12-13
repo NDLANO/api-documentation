@@ -1,0 +1,79 @@
+body {
+    margin: 0;
+    padding: 0;
+    border:0;
+    font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+}
+
+#ndla_header, #content{
+    background-color: transparent;
+    padding: 20px 0px;
+
+    margin: 0 auto;
+    min-width: 760px;
+    max-width: 960px;
+}
+
+#content {
+    clear: both;
+}
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.home {
+    font-size: xx-large;
+    vertical-align: middle;
+    line-height: 60px;
+}
+
+#slogan {
+    float:right;
+}
+
+#slogan p {
+    width: 220px;
+    float: left;
+    margin: 1em 0 1em 10px;
+}
+
+#slogan img {
+    float: left;
+}
+
+#blue_bar {
+    background-color: #20588F;
+    color: #FFFFFF;
+    padding: 0 0 0 0;
+    height: 50px;
+    line-height: 50px;
+    width: 100%;
+    clear: both;
+}
+
+#beta_block {
+    margin-top: 10px;
+    text-align: center;
+    color: red;
+    font-size: large;
+}
+
+#content ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#content li {
+    margin-bottom: 10px;
+    padding: 5px 0 5px 10px;
+    font-size: large;
+    border: 1px solid #c3d9ec;
+    background: #e7f0f7;
+}
