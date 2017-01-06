@@ -29,7 +29,7 @@ app.use('/swagger-ui', express.static(path.join(__dirname, '../node_modules/swag
 app.get('/', (req, res) => {
   fetchApis()
     .then((apis) => {
-      res.send(apiListTemplate(apis));
+      res.send(apiListTemplate(apis.data.filter(el => {return !el.name.endsWith(config.noDocEnding)})));
       res.end();
     }).catch((error) => {
       const response = getAppropriateErrorResponse(error, config.isProduction);
