@@ -29,7 +29,7 @@ app.use('/swagger-ui', express.static(path.join(__dirname, '../node_modules/swag
 app.get('/', (req, res) => {
   fetchApis()
     .then((apis) => {
-      res.send(apiListTemplate(apis));
+      res.send(apiListTemplate(apis.data.filter(el => !el.name.endsWith(config.noDocEnding))));
       res.end();
     }).catch((error) => {
       const response = getAppropriateErrorResponse(error, config.isProduction);
@@ -37,6 +37,9 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 200, text: 'Health check ok' });
+});
 
 app.get('*', (req, res) => {
   res.status(404).json({ status: 404, text: 'Not found' });

@@ -26,9 +26,9 @@
     </body>
   </html>`;
 
- export const apiListTemplate = (json) => {
-   const listItems = json.data.map(obj =>
-     `<li><a href="/swagger?url=${obj.upstream_url}/api-docs${obj.request_path}">${obj.name}</a></li>`
+ export const apiListTemplate = (items) => {
+   const listItems = items.map(obj =>
+     `<li><a href="/swagger?url=${obj.request_path}/api-docs">${obj.name}</a></li>`
    );
 
    return htmlTemplate(listItems.join(''));
