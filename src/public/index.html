@@ -39,6 +39,16 @@
               dom_id: "swagger-ui-container",
               supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
               onComplete: function(swaggerApi, swaggerUi){
+                  if(typeof initOAuth == "function") {
+                      initOAuth({
+                          clientId: "ndla-swagger-client-id",
+                          clientSecret: "ndla-swagger-public-client-secret",
+                          realm: "ndla-realm",
+                          appName: "ndla-swagger",
+                          scopeSeparator: " ",
+                          additionalQueryStringParams: {}
+                      });
+                  }
                 $('pre code').each(function(i, e) {
                   hljs.highlightBlock(e)
                 });
@@ -77,7 +87,10 @@
 </div>
 <div id='blue_bar'>
 </div>
-<div id='beta_block'>*** BETA ***</div>
+<div id='beta_block'>
+    <p>*** BETA ***</p>
+    <div id='auth_container'></div>
+</div>
 
 <div id="message-bar" class="swagger-ui-wrap">&nbsp;</div>
 <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
