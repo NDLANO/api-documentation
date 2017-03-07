@@ -77,3 +77,11 @@ a:hover {
     border: 1px solid #c3d9ec;
     background: #e7f0f7;
 }
+
+#auth_block {
+    background-color: transparent;
+
+    margin: 0 auto;
+    min-width: 760px;
+    max-width: 960px;
+}
