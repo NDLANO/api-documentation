@@ -18,8 +18,8 @@
         </div>
       </div>
       <div id='blue_bar'>
+         <div id='beta'>*** BETA ***</div>
       </div>
-      <div id='beta_block'>*** BETA ***</div>
       <div id='content'>
         <ul>${body}</ul>
       </div>
