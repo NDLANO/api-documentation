@@ -57,10 +57,10 @@ a:hover {
     clear: both;
 }
 
-#beta_block {
-    margin-top: 10px;
-    text-align: center;
-    color: red;
+#credentials_block {
+    margin: 10px auto 50px;
+    max-width: 960px;
+    min-width: 760px;
     font-size: large;
 }
 
@@ -84,4 +84,17 @@ a:hover {
     margin: 0 auto;
     min-width: 760px;
     max-width: 960px;
+}
+
+#beta_marker {
+    float: left;
+    color: red;
+}
+
+#credentials {
+    float: right;
+}
+
+.label {
+    font-weight: bold;
 }
