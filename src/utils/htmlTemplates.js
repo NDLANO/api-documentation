@@ -1,4 +1,5 @@
  import httpStaus from 'http-status';
+ import config from '../config';
 
  export const htmlTemplate = body =>
   `<!doctype html>\n<html lang='nb' >
@@ -28,7 +29,7 @@
 
  export const apiListTemplate = (items) => {
    const listItems = items.map(obj =>
-     `<li><a href="/swagger?url=${obj.request_path}/api-docs/">${obj.name}</a></li>`
+     `<li><a href="/swagger?url=${apiDocsUri(obj)}">${obj.name.replace(config.openApiSuffix, "")}</a></li>`
    );
 
    return htmlTemplate(listItems.join(''));
@@ -43,3 +44,12 @@
     <div>${stacktrace}</div>
   `);
  };
+
+ export const apiDocsUri = (apiObj) => {
+     for(let uri of apiObj.uris) {
+         if(config.apiDocPath.test(uri)){
+             return uri;
+         }
+     }
+     return undefined;
+ }
