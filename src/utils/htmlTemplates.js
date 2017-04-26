@@ -27,9 +27,18 @@
     </body>
   </html>`;
 
+ export const apiDocsUri = (apiObj) => {
+   for (const uri of apiObj.uris) {
+     if (config.apiDocPath.test(uri)) {
+       return uri;
+     }
+   }
+   return undefined;
+ };
+
  export const apiListTemplate = (items) => {
    const listItems = items.map(obj =>
-     `<li><a href="/swagger?url=${apiDocsUri(obj)}">${obj.name.replace(config.openApiSuffix, "")}</a></li>`
+     `<li><a href="/swagger?url=${apiDocsUri(obj)}">${obj.name.replace(config.openApiSuffix, '')}</a></li>`
    );
 
    return htmlTemplate(listItems.join(''));
@@ -45,11 +54,3 @@
   `);
  };
 
- export const apiDocsUri = (apiObj) => {
-     for(let uri of apiObj.uris) {
-         if(config.apiDocPath.test(uri)){
-             return uri;
-         }
-     }
-     return undefined;
- }
