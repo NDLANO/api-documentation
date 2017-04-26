@@ -38,7 +38,7 @@
 
  export const apiListTemplate = (items) => {
    const listItems = items.map(obj =>
-     `<li><a href="/swagger?url=${apiDocsUri(obj)}">${obj.name.replace(config.openApiSuffix, '')}</a></li>`
+     `<li><a href="/swagger?url=${apiDocsUri(obj)}">${obj.name.replace('-open', '')}</a></li>`
    );
 
    return htmlTemplate(listItems.join(''));

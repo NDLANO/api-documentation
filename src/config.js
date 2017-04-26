@@ -20,7 +20,6 @@ module.exports = Object.assign({
   port: process.env.API_DOCUMENTATION_PORT || '3000',
   ndlaApiGatewayUrl: process.env.NDLA_API_URL || 'http://api-gateway.ndla-local:8001',
   apiDocPath: new RegExp('api-docs'),
-  openApiSuffix: '-open',
 
   app: {
     title: 'NDLA API Documentation',
