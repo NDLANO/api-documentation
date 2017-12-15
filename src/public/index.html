@@ -32,6 +32,7 @@
     <script type="text/javascript">
         $(function () {
           var url = window.location.search.match(/url=([^&]+)/);
+          var auth0NdlaPersonalClient = 'WU0Kr4CDkrM0uL9xYeFV4cl9Ga1vB3JY';
           if (url && url.length > 1) {
             url = decodeURIComponent(url[1]);
             window.swaggerUi = new SwaggerUi({
@@ -41,12 +42,13 @@
               onComplete: function(swaggerApi, swaggerUi){
                   if(typeof initOAuth == "function") {
                       initOAuth({
-                          clientId: "ndla-swagger-client-id",
-                          clientSecret: "ndla-swagger-public-client-secret",
+                          clientId: auth0NdlaPersonalClient,
                           realm: "ndla-realm",
                           appName: "ndla-swagger",
                           scopeSeparator: " ",
-                          additionalQueryStringParams: {}
+                          additionalQueryStringParams: {
+                            audience: "ndla_system"
+                          }
                       });
                   }
                 $('pre code').each(function(i, e) {
@@ -57,7 +59,7 @@
                 console.log("Unable to Load SwaggerUI");
               },
               docExpansion: "list",
-              sorter : "alpha"
+              apisSorter : "alpha"
             });
 
             $('#input_apiKey').change(function() {
@@ -87,12 +89,6 @@
 </div>
 <div id='blue_bar'>
     <div id='beta'>*** BETA ***</div>
-</div>
-<div id='credentials_block'>
-    <p id="credentials">
-        <span class="label">ClientId: </span>swagger-client
-        <span class="label">Secret: </span>swagger-public-client-secret
-    </p>
 </div>
 <div id='auth_block'>
     <div id='auth_container'></div>
