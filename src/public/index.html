@@ -31,8 +31,8 @@
 
     <script type="text/javascript">
         $(function () {
-          var url = window.location.search.match(/url=([^&]+)/);
-          var auth0NdlaPersonalClient = 'WU0Kr4CDkrM0uL9xYeFV4cl9Ga1vB3JY';
+          let url = window.location.search.match(/url=([^&]+)/);
+          const auth0NdlaPersonalClient = 'WU0Kr4CDkrM0uL9xYeFV4cl9Ga1vB3JY';
           if (url && url.length > 1) {
             url = decodeURIComponent(url[1]);
             window.swaggerUi = new SwaggerUi({
@@ -63,16 +63,32 @@
             });
 
             $('#input_apiKey').change(function() {
-              var key = $('#input_apiKey')[0].value;
+              const key = $('#input_apiKey')[0].value;
               log("key: " + key);
               if(key && key.trim() != "") {
                 log("added key " + key);
                 window.authorizations.add("key", new ApiKeyAuthorization("api_key", key, "query"));
               }
-            })
+            });
             window.swaggerUi.load();
+
+            window.SwaggerUi.Views.ResourceView = class extends window.SwaggerUi.Views.ResourceView {
+              addOperation(operation) {
+                let advanced = new URL(window.location.href).searchParams.get("advanced") == "true";
+                if (advanced || operation.method === 'get')
+                  super.addOperation(operation);
+              }
+            }
+
           }
         });
+
+        function toggleAdvanced() {
+          let url = new URL(window.location.href);
+          let advanced = url.searchParams.get("advanced") == "true";
+          url.searchParams.set('advanced', !advanced);
+          window.location = url.href;
+        }
     </script>
 </head>
 
@@ -91,6 +107,7 @@
     <div id='beta'>*** BETA ***</div>
 </div>
 <div id='auth_block'>
+    <button id="advanced" onclick="toggleAdvanced()">Toggle advanced</button>
     <div id='auth_container'></div>
 </div>
 
