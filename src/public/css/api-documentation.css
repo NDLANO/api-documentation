@@ -69,11 +69,6 @@ a:hover {
     font-size: x-large;
 }
 
-#advanced {
-    background-color: transparent;
-    display: block;
-}
-
 #credentials_block {
     margin: 10px auto 50px;
     max-width: 960px;
