@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<!--
+  ~ Part of NDLA api-documentation.
+  ~ Copyright (C) 2018 NDLA
+  ~
+  ~ See LICENSE
+  -->
+
 <html>
     <head>
         <title>Swagger UI</title>
@@ -71,21 +78,13 @@
                   }
                 });
                 window.swaggerUi.load();
-
-                window.SwaggerUi.Views.ResourceView = class extends window.SwaggerUi.Views.ResourceView {
-                  addOperation(operation) {
-                    if (operation.method === 'get')
-                      super.addOperation(operation);
-                  }
-                }
-
               }
             });
         </script>
     </head>
     <body class="swagger-section">
         <div id='ndla_header'>
-            <a href="/" class='home'>APIs from NDLA</a>
+            <a href="/advanced" class='home'>APIs from NDLA</a>
             <div id='slogan'>
                 <a href="http://www.ndla.no">
                     <img src="pictures/ndla.png"/>

@@ -24,17 +24,26 @@ app.use(cors({
   credentials: true,
 }));
 app.use('/swagger', express.static(path.join(__dirname, 'public')));
+app.use('/advanced/swagger', express.static(path.join(__dirname, 'advanced')));
 app.use('/swagger-ui', express.static(path.join(__dirname, '../node_modules/swagger-ui/dist')));
 
-app.get('/', (req, res) => {
+const withTemplate = (swaggerPath, req, res) => {
   fetchApis()
     .then((apis) => {
-      res.send(apiListTemplate(apis.data.filter(el => el.uris.find(uri => config.apiDocPath.test(uri)))));
+      res.send(apiListTemplate(swaggerPath, apis.data.filter(el => el.uris.find(uri => config.apiDocPath.test(uri)))));
       res.end();
     }).catch((error) => {
       const response = getAppropriateErrorResponse(error, config.isProduction);
       res.status(response.status).send(htmlErrorTemplate(response));
     });
+};
+
+app.get('/', (req, res) => {
+  withTemplate('/', req, res);
+});
+
+app.get('/advanced', (req, res) => {
+  withTemplate('/advanced/', req, res);
 });
 
 app.get('/health', (req, res) => {
