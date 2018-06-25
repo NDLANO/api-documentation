@@ -31,13 +31,13 @@
     "babel-register": "6.16.0",
     "bunyan": "1.8.1",
     "classnames": "2.2.5",
-    "compression": "1.6.2",
+    "compression": "^1.7.2",
     "cors": "2.8.1",
     "defined": "1.0.0",
-    "express": "4.14.0",
+    "express": "4.16.3",
     "http-status": "0.2.3",
     "isomorphic-fetch": "2.2.1",
-    "lodash": "4.16.2",
+    "lodash": "^4.17.10",
     "swagger-ui": "2.2.10"
   },
   "jest": {
