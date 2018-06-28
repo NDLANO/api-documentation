@@ -58,6 +58,12 @@
     window.onload = function () {
         let url = window.location.search.match(/url=([^&]+)/);
         const auth0NdlaPersonalClient = 'WU0Kr4CDkrM0uL9xYeFV4cl9Ga1vB3JY';
+        const locationOrigin = [
+            window.location.protocol,
+            '//',
+            window.location.host,
+        ].join('');
+
         if (url && url.length > 1) {
             url = decodeURIComponent(url[1]);
             const ui = SwaggerUIBundle({
@@ -65,6 +71,7 @@
                 dom_id: "#swagger-ui-container",
                 supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
                 defaultModelsExpandDepth: 0,
+                oauth2RedirectUrl: locationOrigin.concat("/swagger/oauth2-redirect.html"),
             })
 
             window.swaggerUi = ui
