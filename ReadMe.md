@@ -1,4 +1,5 @@
 # NDLA api-documentation
+
 [![Build Status](https://travis-ci.org/NDLANO/api-documentation.svg?branch=master)](https://travis-ci.org/NDLANO/api-documentation)
 
 ## Requirements
@@ -16,12 +17,12 @@ What's in the box?
 
 ### Dependencies
 
-All dependencies are defined in `package.json` and are managed with npm.  To
+All dependencies are defined in `package.json` and are managed with yarn. To
 initially install all dependencies and when the list dependency has changed,
-run `npm install`.
+run `yarn`.
 
 ```
-$ npm install
+$ yarn
 ```
 
 ### Start development server
@@ -29,7 +30,7 @@ $ npm install
 Start node server with hot reloading middleware listening on port 3001.
 
 ```
-$ npm start
+$ yarn start
 ```
 
 To use a different api set the `NDLA_API_URL` environment variable.
@@ -39,17 +40,18 @@ To use a different api set the `NDLA_API_URL` environment variable.
 Test framework: ava with enzyme.
 
 ```
-$ npm test
+$ yarn test
 ```
 
 Do you tdd?
 
 ```
-$ npm run tdd
+$ yarn run tdd
 ```
+
 ### Code style
 
-*tl;dr*: Use eslint! Rules: [Airbnb Styleguide]https://github.com/airbnb/javascript.
+_tl;dr_: Use eslint! Rules: [Airbnb Styleguide]https://github.com/airbnb/javascript.
 
 Lint code with [eslint](http://eslint.org/), including [eslint react plugin](https://github.com/yannickcr/eslint-plugin-react), [eslint-plugin-import](https://github.com/benmosher/eslint-plugin-import), [eslint-plugin-jsx-a11y](https://github.com/evcohen/eslint-plugin-jsx-a11y#readme).
 Beside linting with globally installed eslint, eslint can be invoked with `npm`:
@@ -59,7 +61,6 @@ $ npm run lint
 ```
 
 Rules are configured in `./.eslintrc.js` and extends [eslint-config-airbnb](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb). If feeling brave, try `eslint --fix`.
-
 
 ## Other scripts
 
@@ -96,7 +97,6 @@ https://github.com/expressjs/compression#readme
 Middleware for dynamically or statically enabling CORS in express/connect applications
 https://github.com/expressjs/cors/
 
-
 ### Util
 
 **defined:**
@@ -126,7 +126,7 @@ Babel preset for all ES2015 plugins.
 https://babeljs.io/
 
 **babel-polyfill:**
-Polyfill for  a full ES2015 environment
+Polyfill for a full ES2015 environment
 https://babeljs.io/
 
 **babel-preset-react:**
@@ -180,4 +180,3 @@ https://github.com/evcohen/eslint-plugin-jsx-a11y#readme
 **eslint-plugin-react:**
 React specific linting rules for ESLint.
 https://github.com/yannickcr/eslint-plugin-react
-

@@ -1,14 +1,14 @@
-FROM node:6.2.2
+FROM node:8-alpine
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/api-documentation
 
 # Copy necessary files for installing dependencies
-COPY package.json $APP_PATH/
+COPY yarn.lock package.json $APP_PATH/
 
 # Run npm install before src copy to enable better layer caching
 WORKDIR $APP_PATH
-RUN npm install
+RUN yarn
 
 # Copy necessary source files for server and client build
 COPY .babelrc $APP_PATH/
