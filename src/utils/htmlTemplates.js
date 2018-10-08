@@ -28,7 +28,7 @@
   </html>`;
 
  export const apiDocsUri = (apiObj) => {
-   for (const uri of apiObj.uris) {
+   for (const uri of apiObj.paths) {
      if (config.apiDocPath.test(uri)) {
        return uri;
      }
@@ -36,9 +36,9 @@
    return undefined;
  };
 
- export const apiListTemplate = (path, items) => {
-   const listItems = items.map(obj =>
-     `<li><a href="${path}swagger?url=${apiDocsUri(obj)}">${obj.name.replace('-open', '')}</a></li>`
+ export const apiListTemplate = (path, routes) => {
+   const listItems = routes.map(route =>
+     `<li><a href="${path}swagger?url=${apiDocsUri(route)}">${route.name}</a></li>`
    );
 
    return htmlTemplate(path, listItems.join(''));
