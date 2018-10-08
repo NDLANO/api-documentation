@@ -20,18 +20,11 @@ function fetchServices(method = 'GET') {
 }
 
 export async function fetchApis(method = 'GET') {
-  const [routes, services] = await Promise.all([fetchRoutes(), fetchServices()]);
-  routes.data.forEach((route) => {
-    services.data.forEach((service) => {
-    if(service.id == route.service.id) {
-    try {
-      route.service.name = service.name;
-    } catch (e) {
-      console.log(e)
-    }
-  }
-});
-});
-  return routes;
+  const routes = await fetchRoutes();
+
+  return routes.data.map((route) => {
+    const name = route.paths[0].split('/')[1];
+    return {...route, name}
+  });
 }
 
