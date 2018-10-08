@@ -14,17 +14,12 @@ function fetchRoutes(method = 'GET') {
   return fetch(url, { method }).then(resolveJsonOrRejectWithError);
 }
 
-function fetchServices(method = 'GET') {
-  const url = apiResourceUrl('/services')
-  return fetch(url, { method }).then(resolveJsonOrRejectWithError);
-}
-
-export async function fetchApis(method = 'GET') {
+export async function fetchApis() {
   const routes = await fetchRoutes();
 
   return routes.data.map((route) => {
     const name = route.paths[0].split('/')[1];
-    return {...route, name}
+    return { ...route, name };
   });
 }
 
