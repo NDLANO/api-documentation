@@ -28,7 +28,7 @@
   </html>`;
 
  export const apiDocsUri = (apiObj) => {
-   for (const uri of apiObj.uris) {
+   for (const uri of apiObj.paths) {
      if (config.apiDocPath.test(uri)) {
        return uri;
      }
@@ -38,7 +38,7 @@
 
  export const apiListTemplate = (path, items) => {
    const listItems = items.map(obj =>
-     `<li><a href="${path}swagger?url=${apiDocsUri(obj)}">${obj.name.replace('-open', '')}</a></li>`
+     `<li><a href="${path}swagger?url=${apiDocsUri(obj)}">${obj.service.name}</a></li>`
    );
 
    return htmlTemplate(path, listItems.join(''));

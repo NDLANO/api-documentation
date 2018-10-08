@@ -29,8 +29,8 @@ app.use('/swagger-ui', express.static(path.join(__dirname, '../node_modules/swag
 
 const withTemplate = (swaggerPath, req, res) => {
   fetchApis()
-    .then((apis) => {
-      res.send(apiListTemplate(swaggerPath, apis.data.filter(el => el.uris.find(uri => config.apiDocPath.test(uri)))));
+    .then((routes) => {
+      res.send(apiListTemplate(swaggerPath, routes.data.filter(el => el.paths.find(path => config.apiDocPath.test(path)))));
       res.end();
     }).catch((error) => {
       const response = getAppropriateErrorResponse(error, config.isProduction);
