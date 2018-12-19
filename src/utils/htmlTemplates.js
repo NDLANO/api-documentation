@@ -69,24 +69,6 @@
         <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32"/>
         <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16"/>
         <link href='/static/css/api-documentation.css' media='screen' rel='stylesheet' type='text/css'/>
-        <style>
-            html {
-                box-sizing: border-box;
-                overflow: -moz-scrollbars-vertical;
-                overflow-y: scroll;
-            }
-
-            *,
-            *:before,
-            *:after {
-                box-sizing: inherit;
-            }
-
-            body {
-                margin: 0;
-                background: #fafafa;
-            }
-        </style>
     </head>
     <body>
     <div id='ndla_header'>
@@ -106,7 +88,7 @@
     <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
     <script>
         window.onload = function () {
-            let url = window.location.search.match(/url=([^&]+)/);
+            const url = window.location.search.match(/url=([^&]+)/);
             const auth0NdlaPersonalClient = '${personalClientId}';
             const locationOrigin = [
                 window.location.protocol,
@@ -115,9 +97,8 @@
             ].join('');
 
             if (url && url.length > 1) {
-                url = decodeURIComponent(url[1]);
                 const ui = SwaggerUIBundle({
-                    url: url,
+                    url: decodeURIComponent(url[1]),
                     dom_id: "#swagger-ui-container",
                     supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
                     defaultModelsExpandDepth: 0,
@@ -157,22 +138,6 @@
         <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16"/>
         <link href='/static/css/api-documentation.css' media='screen' rel='stylesheet' type='text/css'/>
         <style>
-            html {
-                box-sizing: border-box;
-                overflow: -moz-scrollbars-vertical;
-                overflow-y: scroll;
-            }
-
-            *,
-            *:before,
-            *:after {
-                box-sizing: inherit;
-            }
-
-            body {
-                margin: 0;
-                background: #fafafa;
-            }
             /* Hide all non-get operations in public layout */
             .opblock-post {display: none;}
             .opblock-put {display: none;}
@@ -199,7 +164,7 @@
         <script>
 
             window.onload = function() {
-                let url = window.location.search.match(/url=([^&]+)/);
+                const url = window.location.search.match(/url=([^&]+)/);
                 const auth0NdlaPersonalClientId = '${personalClientId}';
                 const locationOrigin = [
                     window.location.protocol,
@@ -208,9 +173,8 @@
                 ].join('');
 
                 if (url && url.length > 1) {
-                    url = decodeURIComponent(url[1]);
                     const ui = SwaggerUIBundle({
-                        url: url,
+                        url: decodeURIComponent(url[1]),
                         dom_id: "#swagger-ui-container",
                         supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
                         defaultModelsExpandDepth: 0,
