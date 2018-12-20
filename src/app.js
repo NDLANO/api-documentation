@@ -12,7 +12,7 @@ import compression from 'compression';
 import cors from 'cors';
 import config from './config';
 import { fetchApis } from './api/kongApi';
-import { apiListTemplate, htmlErrorTemplate } from './utils/htmlTemplates';
+import { apiListTemplate, htmlErrorTemplate, advancedIndex, index } from './utils/htmlTemplates';
 import { getAppropriateErrorResponse } from './utils/errorHelpers';
 
 const app = express();
@@ -23,8 +23,16 @@ app.use(cors({
   origin: true,
   credentials: true,
 }));
-app.use('/swagger', express.static(path.join(__dirname, 'public')));
-app.use('/advanced/swagger', express.static(path.join(__dirname, 'advanced')));
+
+app.get('/swagger', (req, res) => {
+  res.send(index(config.auth0PersonalClient));
+  res.end();
+});
+app.get('/advanced/swagger', (req, res) => {
+  res.send(advancedIndex(config.auth0PersonalClient));
+  res.end();
+});
+app.use('/static', express.static(path.join(__dirname, 'static')));
 app.use('/swagger-ui', express.static(path.join(__dirname, '../node_modules/swagger-ui/dist')));
 
 const withTemplate = (swaggerPath, req, res) => {
