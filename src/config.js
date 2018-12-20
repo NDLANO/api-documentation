@@ -33,7 +33,7 @@ module.exports = Object.assign({
   port: process.env.API_DOCUMENTATION_PORT || '3000',
   ndlaApiGatewayUrl: process.env.NDLA_API_URL || 'http://api-gateway.ndla-local:8001',
   apiDocPath: new RegExp('api-docs'),
-  whitelist: whitelist,
+  whitelist,
   auth0PersonalClient: getAuth0PersonalClient(),
   app: {
     title: 'NDLA API Documentation',
