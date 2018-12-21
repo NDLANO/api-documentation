@@ -37,7 +37,7 @@
  };
 
  export const apiListTemplate = (path, routes) => {
-   let filtered = routes;
+   let filtered = routes.sort((a, b) => a.name.localeCompare(b.name));
    if (path === '/') {
      filtered = routes.filter(route => config.whitelist.includes(route.name));
    }
