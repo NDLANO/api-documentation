@@ -6,6 +6,8 @@
  *
  */
 
+const whitelist = ['article-api', 'audio-api', 'concepts', 'image-api', 'oembed-proxy', 'search-api'];
+
 const environment = {
   development: {
     isProduction: false,
@@ -31,6 +33,7 @@ module.exports = Object.assign({
   port: process.env.API_DOCUMENTATION_PORT || '3000',
   ndlaApiGatewayUrl: process.env.NDLA_API_URL || 'http://api-gateway.ndla-local:8001',
   apiDocPath: new RegExp('api-docs'),
+  whitelist,
   auth0PersonalClient: getAuth0PersonalClient(),
   app: {
     title: 'NDLA API Documentation',

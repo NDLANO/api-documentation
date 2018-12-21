@@ -37,7 +37,12 @@
  };
 
  export const apiListTemplate = (path, routes) => {
-   const listItems = routes.map(route =>
+   let filtered = routes;
+   if (path === '/') {
+     filtered = routes.filter(route => config.whitelist.includes(route.name));
+   }
+
+   const listItems = filtered.map(route =>
      `<li><a href="${path}swagger?url=${apiDocsUri(route)}">${route.name}</a></li>`
    );
 
