@@ -6,7 +6,7 @@
  *
  */
 
-const whitelist = ['article-api', 'audio-api', 'concepts', 'image-api', 'oembed-proxy', 'search-api', 'learningpath-api'];
+const whitelist = ['article-api', 'audio-api', 'concepts', 'image-api', 'oembed-proxy', 'search-api'];
 
 const environment = {
   development: {
