@@ -88,11 +88,13 @@ a:hover {
     font-size: x-large;
 }
 
-#credentials_block {
+#ingress_block {
+    background-color: transparent;
     margin: 10px auto 50px;
     max-width: 960px;
     min-width: 760px;
-    font-size: large;
+    color: black;
+    clear: both;
 }
 
 #content ul {
