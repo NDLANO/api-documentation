@@ -18,8 +18,20 @@
           <p>Open Educational Resources For Secondary Schools</p>
         </div>
       </div>
-      <div id='blue_bar'>
+      <div id='beta_bar'>
          <div id='beta'>*** BETA ***</div>
+      </div>
+      <div id='ingress_block'>
+        <p>
+            NDLA provides a rich set of read-only endpoints to extract articles and specific components of our content. \
+            All content is made available based on content licenses and the specific licence is included in metadata and can be used to filter the result. 
+        </p>
+        <p>
+            In addition, we provide a search-api for all our content based on Elasticsearch simple search language. 
+        </p>
+        <p>
+            This is a beta level service, with no liability for the quality of the content and what the content is used for.
+        </p>
       </div>
       <div id='content'>
         <ul>${body}</ul>
@@ -87,6 +99,18 @@
     </div>
     <div id='beta_bar'>
         <div id='beta'>*** BETA ***</div>
+    </div>
+    <div id='ingress_block'>
+      <p>
+          NDLA provides a rich set of read-only endpoints to extract articles and specific components of our content. \
+          All content is made available based on content licenses and the specific licence is included in metadata and can be used to filter the result. 
+      </p>
+      <p>
+          In addition, we provide a search-api for all our content based on Elasticsearch simple search language. 
+      </p>
+      <p>
+          This is a beta level service, with no liability for the quality of the content and what the content is used for.
+      </p>
     </div>
     <div id="swagger-ui-container"></div>
     <script src="/swagger-ui/swagger-ui-standalone-preset.js"></script>
@@ -162,6 +186,18 @@
         </div>
         <div id='beta_bar'>
             <div id='beta'>*** BETA ***</div>
+        </div>
+        <div id='ingress_block'>
+          <p>
+              NDLA provides a rich set of read-only endpoints to extract articles and specific components of our content. \
+              All content is made available based on content licenses and the specific licence is included in metadata and can be used to filter the result. 
+          </p>
+          <p>
+              In addition, we provide a search-api for all our content based on Elasticsearch simple search language. 
+          </p>
+          <p>
+              This is a beta level service, with no liability for the quality of the content and what the content is used for.
+          </p>
         </div>
         <div id="swagger-ui-container"></div>
         <script src="/swagger-ui/swagger-ui-standalone-preset.js"></script>
