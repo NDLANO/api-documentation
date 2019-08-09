@@ -1,12 +1,54 @@
-language: node_js
-node_js:
-- '6'
-script:
-- npm run lint
-- npm test
 notifications:
   slack:
     on_success: change
     on_failure: always
     rooms:
       secure: aEE3FILmPONrxBuo67BMy/TJaBaHCvdf52RrK3UiNI9hpTZhPZBAXen2WX/4zMST8yoaVmI2n394Mb/hP2aQ+biFLHF+6135Pf6AvVObYWkSzp0y4XDWDL4TJgvAggNFxPp6n80d1IAzbw5xsM+n/DKn2JnDRaxCPhT5mz39qh1X/ZGn4FKmiObRZSQFYqP84HWYuKBxzrOVAIm6ZLi9OFpvXlMPo8ezLQGDle0S5DMO8P6pDlPEXelG1Wil5xy5cQzW3Vf4OBxpZSEatgOdASXR0GtBveGVUpFcqc7KS3BncsQGr+SqtlIRPYgBHdlwBTfYtXhK0Q8s1GIms3eGd+iy4JzTO/MqXh9E6ONjp/gYSiFP/2/ixZJwykfgSWBH3xyZGjpMZE9O/SxGEYj0aCmBxeKgXM0iqA/QUq73LE4MlOQS/UUtteSJ0nTP1kzyHHXrxU5CBab9ZPM4ZJuTYev7CH1s2l1fuCt1OUQ2OmuPZ1QbFuYMYmAaCP0njH/uZiC3mjKIMzrept89B1eyFRthWgmjPbtdvdMpEbXigqjAGlQnyGx1lV8jxQre0+4jfSy10+KZNqpv2+oNT1bogHuZv+cODEvTh1ClbVk2r8oKZQIcabDfrn+Islq8rTJTdEacbxNgsBhJiKryhonXSIEFpIDuX/4VmrABBoSJ2NQ=
+matrix:
+  fast_finish: true
+  include:
+    - name: 'Tests'
+      language: node_js
+      node_js: '6'
+      script:
+        - npm run lint
+        - npm test
+
+    - name: "Release"
+      language: python
+      if: branch = master AND type = push
+      python: 3.7
+      dist: bionic
+      services:
+        - docker
+      cache: pip
+      before_install:
+        # Authenticate docker client to deploy aws registry
+        - pip install awscli
+        - $(aws ecr get-login --no-include-email --region eu-west-1)
+
+        # Fetch deploy repo
+        - git clone --depth 1 https://knowit-at-ndla:$TRAVIS_RELEASE_GITHUB_TOKEN@github.com/ndlano/deploy.git ../deploy
+
+        # Setup env
+        - export NDLA_HOME=$(realpath $(pwd)/../)
+        - export NDLA_DEPLOY=$NDLA_HOME/deploy
+        - export DEPLOY_VERSION=$(git -C $NDLA_DEPLOY rev-parse --short=7 HEAD)
+        - export DEPLOY_DOCKER_REPO=784120951859.dkr.ecr.eu-west-1.amazonaws.com/ndla/deploy
+
+        # Get cache, and don't fail if missing
+        - docker pull $DEPLOY_DOCKER_REPO:$DEPLOY_VERSION || true
+      install:
+        - eval "$($NDLA_DEPLOY/scripts/bin/ndla init -)"
+      env:
+        - SSH_AUTH_SOCK=/tmp/mock_sock
+      script:
+        - ndla release test api-documentation --update-chart
+        - ndla release staging api-documentation
+
+      before_cache: # Save docker image as cache
+        - docker push $DEPLOY_DOCKER_REPO:$DEPLOY_VERSION
+
+  allow_failures:
+      - name: "Release"
+    
