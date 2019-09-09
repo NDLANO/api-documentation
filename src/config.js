@@ -9,7 +9,7 @@
 const whitelist = [
   'article-api',
   'audio-api',
-  'concept',
+  'concept-api',
   'image-api',
   'oembed-proxy',
   'search-api',
