@@ -6,7 +6,14 @@
  *
  */
 
-const whitelist = ['article-api', 'audio-api', 'concepts', 'image-api', 'oembed-proxy', 'search-api'];
+const whitelist = [
+  'article-api',
+  'audio-api',
+  'concept-api',
+  'image-api',
+  'oembed-proxy',
+  'search-api',
+];
 
 const environment = {
   development: {
@@ -28,15 +35,18 @@ const getAuth0PersonalClient = () => {
   }
 };
 
-module.exports = Object.assign({
-  host: process.env.API_DOCUMENTATION_HOST || 'localhost',
-  port: process.env.API_DOCUMENTATION_PORT || '3000',
-  ndlaApiGatewayUrl: process.env.NDLA_API_URL || 'http://api-gateway.ndla-local:8001',
-  apiDocPath: new RegExp('api-docs'),
-  whitelist,
-  auth0PersonalClient: getAuth0PersonalClient(),
-  app: {
-    title: 'NDLA API Documentation',
+module.exports = Object.assign(
+  {
+    host: process.env.API_DOCUMENTATION_HOST || 'localhost',
+    port: process.env.API_DOCUMENTATION_PORT || '3000',
+    ndlaApiGatewayUrl:
+      process.env.NDLA_API_URL || 'http://api-gateway.ndla-local:8001',
+    apiDocPath: new RegExp('api-docs'),
+    whitelist,
+    auth0PersonalClient: getAuth0PersonalClient(),
+    app: {
+      title: 'NDLA API Documentation',
+    },
   },
-
-}, environment);
+  environment,
+);

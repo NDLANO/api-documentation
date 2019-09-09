@@ -1,9 +1,8 @@
 module.exports = {
-  extends: "ndla",
+  extends: 'ndla',
   env: {
     node: true,
-    jest: true
+    jest: true,
   },
-  rules: {
-  }
+  rules: {},
 };
