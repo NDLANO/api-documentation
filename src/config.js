@@ -28,6 +28,8 @@ const getAuth0PersonalClient = () => {
   switch (process.env.NDLA_ENVIRONMENT) {
     case 'prod':
       return 'WU0Kr4CDkrM0uL9xYeFV4cl9Ga1vB3JY';
+    case 'ff':
+      return 'WU0Kr4CDkrM0uL9xYeFV4cl9Ga1vB3JY';
     case 'staging':
       return 'fvJHyVEVaVTJ9UpoCBZf2O3xKbA7fDeT';
     default:
