@@ -12,7 +12,7 @@ import compression from 'compression';
 import cors from 'cors';
 import config from './config';
 import { fetchApis } from './api/kongApi';
-import { apiListTemplate, htmlErrorTemplate, advancedIndex, index } from './utils/htmlTemplates';
+import { apiListTemplate, htmlErrorTemplate, index } from './utils/htmlTemplates';
 import { getAppropriateErrorResponse } from './utils/errorHelpers';
 
 const app = express();
@@ -28,11 +28,11 @@ app.use('/static', express.static(path.join(__dirname, 'static')));
 app.use('/swagger-ui-dist', express.static(pathToSwaggerUi));
 
 app.get('/swagger', (req, res) => {
-  res.send(index(config.auth0PersonalClient));
+  res.send(index(config.auth0PersonalClient, false));
   res.end();
 });
 app.get('/advanced/swagger', (req, res) => {
-  res.send(advancedIndex(config.auth0PersonalClient));
+  res.send(index(config.auth0PersonalClient, true));
   res.end();
 });
 
