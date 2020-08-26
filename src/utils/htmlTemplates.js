@@ -82,7 +82,7 @@
         <title>Swagger UI</title>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:300,600|Titillium+Web:400,600,700"
               rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="/swagger-ui/swagger-ui.css">
+        <link rel="stylesheet" type="text/css" href="/swagger-ui-dist/swagger-ui.css">
         <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32"/>
         <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16"/>
         <link href='/static/css/api-documentation.css' media='screen' rel='stylesheet' type='text/css'/>
@@ -113,8 +113,7 @@
       </p>
     </div>
     <div id="swagger-ui-container"></div>
-    <script src="/swagger-ui/swagger-ui-standalone-preset.js"></script>
-    <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
+    <script src="/swagger-ui-dist/swagger-ui-bundle.js"></script>
     <script>
         window.onload = function () {
             const url = window.location.search.match(/url=([^&]+)/);
@@ -162,7 +161,7 @@
         <title>Swagger UI</title>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:300,600|Titillium+Web:400,600,700"
               rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="/swagger-ui/swagger-ui.css">
+        <link rel="stylesheet" type="text/css" href="/swagger-ui-dist/swagger-ui.css">
         <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32"/>
         <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16"/>
         <link href='/static/css/api-documentation.css' media='screen' rel='stylesheet' type='text/css'/>
@@ -200,8 +199,7 @@
           </p>
         </div>
         <div id="swagger-ui-container"></div>
-        <script src="/swagger-ui/swagger-ui-standalone-preset.js"></script>
-        <script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
+        <script src="/swagger-ui-dist/swagger-ui-bundle.js"></script>
         <script>
 
             window.onload = function() {
