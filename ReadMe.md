@@ -1,6 +1,5 @@
 # NDLA api-documentation
-
-[![Build Status](https://travis-ci.org/NDLANO/api-documentation.svg?branch=master)](https://travis-ci.org/NDLANO/api-documentation)
+![CI](https://github.com/NDLANO/api-documentation/workflows/CI/badge.svg)
 
 ## Requirements
 
