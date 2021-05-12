@@ -12,28 +12,29 @@ import compression from 'compression';
 import cors from 'cors';
 import config from './config';
 import { fetchApis } from './api/kongApi';
-import { apiListTemplate, htmlErrorTemplate, advancedIndex, index } from './utils/htmlTemplates';
+import { apiListTemplate, htmlErrorTemplate, index } from './utils/htmlTemplates';
 import { getAppropriateErrorResponse } from './utils/errorHelpers';
 
 const app = express();
 const path = require('path');
+const pathToSwaggerUi = require('swagger-ui-dist').absolutePath();
 
 app.use(compression());
 app.use(cors({
   origin: true,
   credentials: true,
 }));
+app.use('/static', express.static(path.join(__dirname, 'static')));
+app.use('/swagger-ui-dist', express.static(pathToSwaggerUi));
 
 app.get('/swagger', (req, res) => {
-  res.send(index(config.auth0PersonalClient));
+  res.send(index(config.auth0PersonalClient, false));
   res.end();
 });
 app.get('/advanced/swagger', (req, res) => {
-  res.send(advancedIndex(config.auth0PersonalClient));
+  res.send(index(config.auth0PersonalClient, true));
   res.end();
 });
-app.use('/static', express.static(path.join(__dirname, 'static')));
-app.use('/swagger-ui', express.static(path.join(__dirname, '../node_modules/swagger-ui/dist')));
 
 const withTemplate = (swaggerPath, req, res) => {
   fetchApis()
