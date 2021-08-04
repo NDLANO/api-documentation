@@ -28,11 +28,11 @@ app.use('/static', express.static(path.join(__dirname, 'static')));
 app.use('/swagger-ui-dist', express.static(pathToSwaggerUi));
 
 app.get('/swagger', (req, res) => {
-  res.send(index(config.auth0PersonalClient, false));
+  res.send(index(config.auth0PersonalClientId, false));
   res.end();
 });
 app.get('/advanced/swagger', (req, res) => {
-  res.send(index(config.auth0PersonalClient, true));
+  res.send(index(config.auth0PersonalClientId, true));
   res.end();
 });
 
