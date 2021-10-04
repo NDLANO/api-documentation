@@ -114,7 +114,7 @@
          const ui = SwaggerUIBundle({
            url: decodeURIComponent(url[1]),
            dom_id: "#swagger-ui-container",
-           supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
+           supportedSubmitMethods: ['get', 'post', 'put', 'patch', 'delete'],
            defaultModelsExpandDepth: 0,
            oauth2RedirectUrl: locationOrigin.concat("/static/oauth2-redirect.html"),
          });
