@@ -5,7 +5,7 @@
    <div id='ndla_header'>
      <a href="${isAdvanced ? '/advanced' : '/'}" class='home'>APIs from NDLA</a>
      <div id='slogan'>
-       <a href="http://www.ndla.no">
+       <a href="https://ndla.no">
          <img src="/static/pictures/ndla.png"/>
        </a>
        <p>Open Educational Resources For Secondary Schools</p>
@@ -16,7 +16,7 @@
    </div>
    <div id='ingress_block'>
      <p>
-       NDLA provides a rich set of read-only endpoints to extract articles and specific components of our content. \\\\
+       NDLA provides a rich set of endpoints to extract articles and specific components of our content. \\
        All content is made available based on content licenses and the specific licence is included in metadata and can be used to filter the result. 
      </p>
      <p>
