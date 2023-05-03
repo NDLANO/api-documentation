@@ -8,10 +8,10 @@
 
 const whitelist = [
   'article-api',
-  'article-converter',
   'audio-api',
   'concept-api',
   'image-api',
+  'learningpath-api',
   'oembed-proxy',
   'search-api',
 ];
