@@ -1,10 +1,11 @@
 # NDLA api-documentation
+
 ![CI](https://github.com/NDLANO/api-documentation/workflows/CI/badge.svg)
 
 ## Requirements
 
-- Node.JS ~6.2
-- npm ~3.9
+- Node.JS 20.9
+- npm 9
 - Docker (optional)
 
 ## Getting started
