@@ -1,4 +1,4 @@
-FROM node:20.11-alpine3.18
+FROM node:20.12-alpine3.18
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/api-documentation
