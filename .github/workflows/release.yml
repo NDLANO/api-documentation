@@ -79,6 +79,7 @@ jobs:
           # Move binaries to path
           sudo mv blackbox/bin/* /home/runner/bin/
           echo -n "$GPG_KEY" | base64 --decode | gpg --import
+          gpg --keyring $NDLA_DEPLOY/.blackbox/pubring.kbx --export | gpg --import
       - name: Install kubectl
         run: |
           curl -L https://storage.googleapis.com/kubernetes-release/release/v1.21.11/bin/linux/amd64/kubectl > kubectl
