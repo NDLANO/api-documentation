@@ -1,6 +1,9 @@
 import httpStaus from 'http-status';
 import config from '../config';
 
+/* eslint arrow-body-style: 0 */
+/* eslint arrow-parens: 0 */
+
 const bodyInfo = (isAdvanced) => `
    <div id='ndla_header'>
      <a href="${isAdvanced ? '/advanced' : '/'}" class='home'>APIs from NDLA</a>
