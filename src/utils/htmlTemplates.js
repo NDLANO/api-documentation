@@ -1,12 +1,15 @@
- import httpStaus from 'http-status';
- import config from '../config';
+import httpStaus from 'http-status';
+import config from '../config';
 
- const bodyInfo = isAdvanced => `
+/* eslint arrow-body-style: 0 */
+/* eslint arrow-parens: 0 */
+
+const bodyInfo = (isAdvanced) => `
    <div id='ndla_header'>
      <a href="${isAdvanced ? '/advanced' : '/'}" class='home'>APIs from NDLA</a>
      <div id='slogan'>
        <a href="https://ndla.no">
-         <img src="/static/pictures/ndla.png"/>
+         <img src="/static/pictures/ndla-logo.svg"/>
        </a>
        <p>Open Educational Resources For Secondary Schools</p>
      </div>
@@ -17,10 +20,10 @@
    <div id='ingress_block'>
      <p>
        NDLA provides a rich set of endpoints to extract articles and specific components of our content. \\
-       All content is made available based on content licenses and the specific licence is included in metadata and can be used to filter the result. 
+       All content is made available based on content licenses and the specific licence is included in metadata and can be used to filter the result.
      </p>
      <p>
-       In addition, we provide a search-api for all our content based on Elasticsearch simple search language. 
+       In addition, we provide a search-api for all our content based on Elasticsearch simple search language.
      </p>
      <p>
        This is a beta level service, with no liability for the quality of the content and what the content is used for.
@@ -28,7 +31,7 @@
    </div>
  `;
 
- export const htmlTemplate = (isAdvanced, body) =>
+export const htmlTemplate = (isAdvanced, body) =>
   `<!doctype html>\n<html lang='nb' >
     <head>
       <meta charset="utf-8">
@@ -43,39 +46,48 @@
     </body>
   </html>`;
 
- export const apiDocsUri = (apiObj) => {
-   for (const uri of apiObj.paths) {
-     if (config.apiDocPath.test(uri)) {
-       return uri;
-     }
-   }
-   return undefined;
- };
+export const apiDocsUri = (apiObj) => {
+  for (const uri of apiObj.paths) {
+    if (config.apiDocPath.test(uri)) {
+      return uri;
+    }
+  }
+  return undefined;
+};
 
- export const apiListTemplate = (path, routes) => {
-   let filtered = routes.sort((a, b) => a.name.localeCompare(b.name));
-   if (path === '/') {
-     filtered = routes.filter(route => config.whitelist.includes(route.name));
-   }
+export const apiListTemplate = (path, routes) => {
+  let filtered = routes.sort((a, b) => a.name.localeCompare(b.name));
+  if (path === '/') {
+    filtered = routes.filter((route) => config.whitelist.includes(route.name));
+  }
 
-   const listItems = filtered.map(route =>
-     `<li><a href="${path}swagger?url=${apiDocsUri(route)}">${route.name}</a></li>`
-   );
-   const isAdvanced = path !== '/';
-   return htmlTemplate(isAdvanced, listItems.join(''));
- };
+  const listItems = filtered.map(
+    (route) =>
+      `<li><a href="${path}swagger?url=${apiDocsUri(route)}">${route.name}</a></li>`,
+  );
+  const isAdvanced = path !== '/';
+  return htmlTemplate(isAdvanced, listItems.join(''));
+};
 
- export const htmlErrorTemplate = ({ status, message, description, stacktrace }) => {
-   const statusMsg = httpStaus[status];
-   return htmlTemplate('/', `
+export const htmlErrorTemplate = ({
+  status,
+  message,
+  description,
+  stacktrace,
+}) => {
+  const statusMsg = httpStaus[status];
+  return htmlTemplate(
+    '/',
+    `
     <h1>${status} ${statusMsg}</h1>
     <div><b>Message: </b>${message}</div>
     <div><b>Description: </b>${description}</div>
     <div>${stacktrace}</div>
-  `);
- };
+  `,
+  );
+};
 
- const documentHead = isAdvanced => `
+const documentHead = (isAdvanced) => `
    <head>
      <title>Swagger UI</title>
      <meta charset="UTF-8">
@@ -86,19 +98,23 @@
      <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32"/>
      <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16"/>
      <link href='/static/css/api-documentation.css' media='screen' rel='stylesheet' type='text/css'/>
-     
-     ${!isAdvanced ? `
+
+     ${
+       !isAdvanced
+         ? `
        <style>
          /* Hide all non-get operations in public layout */
          .opblock-post {display: none;}
          .opblock-put {display: none;}
          .opblock-patch {display: none;}
          .opblock-delete {display: none;}
-       </style>` : ''}
+       </style>`
+         : ''
+     }
    </head>
  `;
 
- const bodyLogic = personalClientId => `
+const bodyLogic = (personalClientId) => `
    <script src="/swagger-ui-dist/swagger-ui-bundle.js"></script>
    <script>
      window.onload = function () {
@@ -134,7 +150,7 @@
    </script>
 `;
 
- const documentBody = (personalClientId, isAdvanced) => `
+const documentBody = (personalClientId, isAdvanced) => `
  <body>
    ${bodyInfo(isAdvanced)}
    <div id="swagger-ui-container"></div>
@@ -142,7 +158,7 @@
  </body>
  `;
 
- export const index = (personalClientId, isAdvanced) => `
+export const index = (personalClientId, isAdvanced) => `
    <!DOCTYPE html>
    <html>
      ${documentHead(isAdvanced)}
