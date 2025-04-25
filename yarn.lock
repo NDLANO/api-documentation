@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@scarf/scarf@=1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@scarf/scarf/-/scarf-1.4.0.tgz#3bbb984085dbd6d982494538b523be1ce6562972"
+  integrity sha512-xxeapPiUXdZAE3che6f3xogoJPeZgig6omHEy1rIY5WVsB3H2BHNnZH+gHG6x91SCWyQCzWGsuL2Hh3ClO5/qQ==
+
 "@types/bunyan@^1.8.11":
   version "1.8.11"
   resolved "https://registry.yarnpkg.com/@types/bunyan/-/bunyan-1.8.11.tgz#0b9e7578a5aa2390faf12a460827154902299638"
@@ -3929,10 +3934,12 @@ supports-color@^3.1.0, supports-color@^3.1.2:
   dependencies:
     has-flag "^1.0.0"
 
-swagger-ui-dist@5.4.2:
-  version "5.4.2"
-  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-5.4.2.tgz#ff7b936bdfc84673a1823a0f05f3a933ba7ccd4c"
-  integrity sha512-vT5QxP/NOr9m4gLZl+SpavWI3M9Fdh30+Sdw9rEtZbkqNmNNEPhjXas2xTD9rsJYYdLzAiMfwXvtooWH3xbLJA==
+swagger-ui-dist@5.21.0:
+  version "5.21.0"
+  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-5.21.0.tgz#aed230fe6e294c9470217e67697d601e3bb8eb9d"
+  integrity sha512-E0K3AB6HvQd8yQNSMR7eE5bk+323AUxjtCz/4ZNKiahOlPhPJxqn3UPIGs00cyY/dhrTDJ61L7C/a8u6zhGrZg==
+  dependencies:
+    "@scarf/scarf" "=1.4.0"
 
 symbol-tree@^3.2.1:
   version "3.2.2"
