@@ -4,8 +4,8 @@
 
 ## Requirements
 
-- Node.JS 20.9
-- npm 9
+- Node.JS 22.15
+- yarn 1.22
 - Docker (optional)
 
 ## Getting started
