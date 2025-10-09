@@ -7,7 +7,6 @@
  */
 
 import express, { type Request, type Response } from 'express';
-//import compression from 'compression';
 import cors from 'cors';
 import path from 'path';
 import { absolutePath as swaggerUiAbsolutePath } from 'swagger-ui-dist';
@@ -26,7 +25,6 @@ const app = express();
 const pathToSwaggerUi = swaggerUiAbsolutePath();
 
 // Middleware
-//app.use(compression());
 app.use(
   cors({
     origin: true, // Consider restricting in future hardening
