@@ -9,10 +9,6 @@ env:
   CI_GITHUB_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
   DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
   DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-  NDLA_RELEASES: ${{ secrets.NDLA_RELEASES }}
-  PACT_BROKER_PASSWORD: ${{ secrets.PACT_BROKER_PASSWORD }}
-  PACT_BROKER_URL: ${{ secrets.PACT_BROKER_URL }}
-  PACT_BROKER_USERNAME: ${{ secrets.PACT_BROKER_USERNAME }}
 jobs:
   unit_tests:
     name: Unit tests
@@ -22,6 +18,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '22.17.1'
+          cache: 'yarn'
+          cache-dependency-path: 'yarn.lock'
       - name: 'Login to ECR repo'
         run:
           RES=$(aws sts assume-role --role-arn $CI_RELEASE_ROLE --role-session-name github-actions-ecr-login)
@@ -32,8 +30,8 @@ jobs:
       - name: Login to dockerhub
         run: echo $DOCKER_HUB_PASSWORD | docker login --username $DOCKER_HUB_USERNAME --password-stdin
       - name: Install
-        run: npm install
+        run: yarn --frozen-lockfile
       - name: Linting
-        run: npm run lint
+        run: yarn lint
       - name: Unit tests
-        run: npm test
+        run: yarn test
