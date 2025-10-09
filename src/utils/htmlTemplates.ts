@@ -71,10 +71,11 @@ export const apiDocsUri = (apiObj: { paths: string[] }): string | undefined => {
 };
 
 export const apiListTemplate = (path: string, routes: ApiRoute[]): string => {
-  let filtered = [...routes].sort((a, b) => a.name.localeCompare(b.name));
+  let filtered = routes;
   if (path === '/') {
     filtered = routes.filter((route) => config.whitelist.includes(route.name));
   }
+  filtered = [...filtered].sort((a, b) => a.name.localeCompare(b.name));
 
   const listItems = filtered.map(
     (route) =>
