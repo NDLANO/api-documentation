@@ -1,10 +1,25 @@
-import httpStaus from 'http-status';
+/**
+ * Copyright (c) 2025-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import httpStatus from 'http-status';
 import config from '../config';
 
 /* eslint arrow-body-style: 0 */
 /* eslint arrow-parens: 0 */
 
-const bodyInfo = (isAdvanced) => `
+// Type alias for API route objects used in template generation
+export type ApiRoute = {
+  name: string;
+  paths: string[];
+  [key: string]: unknown;
+};
+
+const bodyInfo = (isAdvanced: boolean): string => `
    <div id='ndla_header'>
      <a href="${isAdvanced ? '/advanced' : '/'}" class='home'>APIs from NDLA</a>
      <div id='slogan'>
@@ -31,7 +46,7 @@ const bodyInfo = (isAdvanced) => `
    </div>
  `;
 
-export const htmlTemplate = (isAdvanced, body) =>
+export const htmlTemplate = (isAdvanced: boolean, body: string): string =>
   `<!doctype html>\n<html lang='nb' >
     <head>
       <meta charset="utf-8">
@@ -46,7 +61,7 @@ export const htmlTemplate = (isAdvanced, body) =>
     </body>
   </html>`;
 
-export const apiDocsUri = (apiObj) => {
+export const apiDocsUri = (apiObj: { paths: string[] }): string | undefined => {
   for (const uri of apiObj.paths) {
     if (config.apiDocPath.test(uri)) {
       return uri;
@@ -55,8 +70,8 @@ export const apiDocsUri = (apiObj) => {
   return undefined;
 };
 
-export const apiListTemplate = (path, routes) => {
-  let filtered = routes.sort((a, b) => a.name.localeCompare(b.name));
+export const apiListTemplate = (path: string, routes: ApiRoute[]): string => {
+  let filtered = [...routes].sort((a, b) => a.name.localeCompare(b.name));
   if (path === '/') {
     filtered = routes.filter((route) => config.whitelist.includes(route.name));
   }
@@ -74,10 +89,15 @@ export const htmlErrorTemplate = ({
   message,
   description,
   stacktrace,
-}) => {
-  const statusMsg = httpStaus[status];
+}: {
+  status: number;
+  message: string;
+  description: string;
+  stacktrace: string;
+}): string => {
+  const statusMsg = (httpStatus as any)[status] || '';
   return htmlTemplate(
-    '/',
+    false,
     `
     <h1>${status} ${statusMsg}</h1>
     <div><b>Message: </b>${message}</div>
@@ -87,7 +107,7 @@ export const htmlErrorTemplate = ({
   );
 };
 
-const documentHead = (isAdvanced) => `
+const documentHead = (isAdvanced: boolean): string => `
    <head>
      <title>Swagger UI</title>
      <meta charset="UTF-8">
@@ -114,7 +134,7 @@ const documentHead = (isAdvanced) => `
    </head>
  `;
 
-const bodyLogic = (personalClientId) => `
+const bodyLogic = (personalClientId: string): string => `
    <script src="/swagger-ui-dist/swagger-ui-bundle.js"></script>
    <script>
      window.onload = function () {
@@ -135,6 +155,7 @@ const bodyLogic = (personalClientId) => `
            oauth2RedirectUrl: locationOrigin.concat("/static/oauth2-redirect.html"),
          });
 
+         // @ts-expect-error: swaggerUi attached for console use
          window.swaggerUi = ui;
          ui.initOAuth({
            clientId: auth0NdlaPersonalClient,
@@ -150,7 +171,10 @@ const bodyLogic = (personalClientId) => `
    </script>
 `;
 
-const documentBody = (personalClientId, isAdvanced) => `
+const documentBody = (
+  personalClientId: string,
+  isAdvanced: boolean,
+): string => `
  <body>
    ${bodyInfo(isAdvanced)}
    <div id="swagger-ui-container"></div>
@@ -158,7 +182,10 @@ const documentBody = (personalClientId, isAdvanced) => `
  </body>
  `;
 
-export const index = (personalClientId, isAdvanced) => `
+export const index = (
+  personalClientId: string,
+  isAdvanced: boolean,
+): string => `
    <!DOCTYPE html>
    <html>
      ${documentHead(isAdvanced)}
