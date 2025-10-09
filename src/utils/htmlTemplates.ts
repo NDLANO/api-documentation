@@ -95,7 +95,8 @@ export const htmlErrorTemplate = ({
   description: string;
   stacktrace: string;
 }): string => {
-  const statusMsg = (httpStatus as any)[status] || '';
+  const statusMsg =
+    (httpStatus as Record<number, string | undefined>)[status] ?? '';
   return htmlTemplate(
     false,
     `

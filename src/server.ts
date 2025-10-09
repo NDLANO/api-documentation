@@ -18,7 +18,6 @@ const port: number =
 const server = http.createServer(app);
 
 server.listen(port, () => {
-  // eslint-disable-next-line no-console
   console.log(`Listening on ${port}`);
 });
 
@@ -26,11 +25,9 @@ server.listen(port, () => {
  * Graceful shutdown on SIGINT / SIGTERM
  */
 function shutdown(signal: string) {
-  // eslint-disable-next-line no-console
   console.log(`${signal} received. Closing server...`);
   server.close((err: Error | undefined) => {
     if (err) {
-      // eslint-disable-next-line no-console
       console.error('Error during server close', err);
       process.exitCode = 1;
     }

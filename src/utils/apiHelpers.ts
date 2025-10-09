@@ -27,21 +27,33 @@ export function apiResourceUrl(path: string): string {
 }
 
 /**
+ * Shape of an error JSON response (best-effort; unknown keys allowed).
+ */
+type ErrorJson = {
+  message?: string;
+  [key: string]: unknown;
+};
+
+/**
  * Resolve a fetch Response as JSON (or undefined for 204) or throw
  * a structured error produced by createErrorPayload.
+ *
+ * Returns the parsed JSON typed as T (default unknown) or undefined for 204.
  *
  * @param res Fetch API Response
  * @throws Error (augmented with status & json) when response not ok
  */
-export async function resolveJsonOrRejectWithError(res: Response) {
+export async function resolveJsonOrRejectWithError<T = unknown>(
+  res: Response,
+): Promise<T | undefined> {
   if (res.ok) {
     if (res.status === 204) return undefined;
-    return await res.json();
+    return (await res.json()) as T;
   }
 
-  let json: any = {};
+  let json: ErrorJson = {};
   try {
-    json = await res.json();
+    json = (await res.json()) as ErrorJson;
   } catch {
     // Ignore JSON parse errors for non-OK responses
   }
@@ -56,6 +68,6 @@ export async function resolveJsonOrRejectWithError(res: Response) {
     'Api call failed',
   );
 
-  const message = (json && json.message) ?? res.statusText;
+  const message = json.message ?? res.statusText;
   throw createErrorPayload(res.status, message, json);
 }
