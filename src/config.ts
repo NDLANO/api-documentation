@@ -23,7 +23,7 @@ const environment = (() => {
   }
 })();
 
-const apiDocPath = new RegExp(process.env.API_DOC_PATH_REGEX || 'api-docs');
+const apiDocPath = new RegExp(process.env.API_DOC_PATH_REGEX || 'api-docs\\/');
 
 const config = {
   host: process.env.API_DOCUMENTATION_HOST || '0.0.0.0',
