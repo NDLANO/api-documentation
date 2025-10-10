@@ -1,5 +1,3 @@
-# Multi-stage Dockerfile for TypeScript build (no Babel runtime)
-
 FROM node:22.17.1-alpine3.21 AS deps
 WORKDIR /app
 COPY package.json yarn.lock ./
@@ -22,6 +20,5 @@ COPY --from=build /app/dist ./dist
 # Static assets (served directly)
 COPY /src/static ./dist/static
 EXPOSE 3000
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s CMD wget -qO- http://127.0.0.1:3000/health || exit 1
 USER node
 CMD ["node", "dist/server.js"]

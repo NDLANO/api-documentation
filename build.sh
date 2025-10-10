@@ -23,14 +23,8 @@ yarn build
 
 echo "==> Building Docker image $PROJECT:$VERSION"
 docker build \
-  --build-arg APP_VERSION="$VERSION" \
   -t "$PROJECT:$VERSION" \
   "$@" \
   .
-
-# Optionally tag latest for non-snapshot builds
-if [ "$VERSION" != "SNAPSHOT" ]; then
-  docker tag "$PROJECT:$VERSION" "$PROJECT:latest"
-fi
 
 echo "BUILT $PROJECT:$VERSION"
