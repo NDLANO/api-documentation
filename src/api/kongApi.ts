@@ -10,6 +10,7 @@ import {
   apiResourceUrl,
   resolveJsonOrRejectWithError,
 } from '../utils/apiHelpers';
+import { Agent } from 'undici';
 
 type KongRoute = {
   id?: string;
@@ -23,8 +24,13 @@ type KongRoutesPage = {
   [key: string]: unknown;
 };
 
+const insecureAgent = new Agent({
+  // Always disable TLS verification for Kong API (cluster uses self-signed cert)
+  connect: { rejectUnauthorized: false },
+});
+
 async function fetchRoutesPage(url: string): Promise<KongRoutesPage> {
-  const res = await fetch(url);
+  const res = await fetch(url, { dispatcher: insecureAgent } as any);
   return resolveJsonOrRejectWithError(res) as Promise<KongRoutesPage>;
 }
 
