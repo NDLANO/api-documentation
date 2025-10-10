@@ -34,7 +34,7 @@ const bodyInfo = (isAdvanced: boolean): string => `
    </div>
    <div id='ingress_block'>
      <p>
-       NDLA provides a rich set of endpoints to extract articles and specific components of our content. \\
+       NDLA provides a rich set of endpoints to extract articles and specific components of our content.
        All content is made available based on content licenses and the specific licence is included in metadata and can be used to filter the result.
      </p>
      <p>
