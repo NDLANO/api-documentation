@@ -58,15 +58,12 @@ export async function resolveJsonOrRejectWithError<T = unknown>(
     // Ignore JSON parse errors for non-OK responses
   }
 
-  log.warn(
-    {
-      url: res.url,
-      status: res.status,
-      statusText: res.statusText,
-      body: json,
-    },
-    'Api call failed',
-  );
+  log.warn('Api call failed', {
+    url: res.url,
+    status: res.status,
+    statusText: res.statusText,
+    body: json,
+  });
 
   const message = json.message ?? res.statusText;
   throw createErrorPayload(res.status, message, json);
