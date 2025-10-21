@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "npm run clean && tsc -p tsconfig.json",
-    "dev": "cross-env API_DOCUMENTATION_PORT=3001 NDLA_API_URL=http://localhost:8001 nodemon --watch src/ --ext ts,js --exec ts-node src/server.ts",
+    "dev": "cross-env API_DOCUMENTATION_PORT=3001 nodemon --watch src/ --ext ts,js --exec ts-node src/server.ts",
     "test": "jest",
     "tdd": "npm test -- --watch",
     "lint": "eslint src",

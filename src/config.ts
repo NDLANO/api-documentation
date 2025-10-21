@@ -23,20 +23,29 @@ const environment = (() => {
   }
 })();
 
-const apiDocPath = new RegExp(process.env.API_DOC_PATH_REGEX || 'api-docs\\/');
+const apiDomain = (() => {
+  const ndlaEnv = process.env.NDLA_ENVIRONMENT || 'dev';
+  switch (ndlaEnv) {
+    case 'prod':
+      return 'https://api.ndla.no';
+    case 'dev':
+      return 'https://api.test.ndla.no';
+    default:
+      return `https://api.${ndlaEnv}.ndla.no`;
+  }
+})();
 
 const config = {
   host: process.env.API_DOCUMENTATION_HOST || '0.0.0.0',
   port: process.env.API_DOCUMENTATION_PORT || '3000',
-  ndlaApiGatewayUrl:
-    process.env.NDLA_API_URL || 'http://api-gateway.ndla-local:8001',
-  apiDocPath,
+  endpoints_json: process.env.OPENAPI_ENDPOINTS || '[]',
   whitelist,
   auth0PersonalClientId: process.env.AUTH0_PERSONAL_CLIENT_ID || '',
   app: {
     title: 'NDLA API Documentation',
   },
   ...environment,
+  apiDomain,
 };
 
 export default config;

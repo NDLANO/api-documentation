@@ -16,7 +16,6 @@ import config from '../config';
 export type ApiRoute = {
   name: string;
   paths: string[];
-  [key: string]: unknown;
 };
 
 const bodyInfo = (isAdvanced: boolean): string => `
@@ -28,9 +27,6 @@ const bodyInfo = (isAdvanced: boolean): string => `
        </a>
        <p>Open Educational Resources For Secondary Schools</p>
      </div>
-   </div>
-   <div id='beta_bar'>
-     <div id='beta'>*** BETA ***</div>
    </div>
    <div id='ingress_block'>
      <p>
@@ -63,8 +59,12 @@ export const htmlTemplate = (isAdvanced: boolean, body: string): string =>
 
 export const apiDocsUri = (apiObj: { paths: string[] }): string | undefined => {
   for (const uri of apiObj.paths) {
-    if (config.apiDocPath.test(uri)) {
+    if (uri.startsWith('http')) {
       return uri;
+    }
+
+    if (uri.startsWith('/')) {
+      return `${config.apiDomain}${uri}`;
     }
   }
   return undefined;

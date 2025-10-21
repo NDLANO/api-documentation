@@ -9,12 +9,13 @@
 import express, { type Request, type Response } from 'express';
 import cors from 'cors';
 import path from 'path';
+import { promisify } from 'util';
 import { absolutePath as swaggerUiAbsolutePath } from 'swagger-ui-dist';
 
 import config from './config';
-import { fetchApis } from './api/kongApi';
 import {
   apiListTemplate,
+  ApiRoute,
   htmlErrorTemplate,
   index,
 } from './utils/htmlTemplates';
@@ -42,17 +43,75 @@ app.get('/advanced/swagger', (_req: Request, res: Response) => {
   res.send(index(config.auth0PersonalClientId, true));
 });
 
+const jsonIsApiRoute = (obj: unknown): obj is ApiRoute => {
+  if (
+    obj &&
+    typeof obj === 'object' &&
+    'name' in obj &&
+    'paths' in obj &&
+    typeof obj.name === 'string' &&
+    Array.isArray(obj.paths)
+  ) {
+    return true;
+  }
+  return false;
+};
+
+const parseTestApiRoutesForDevelopment = async (): Promise<ApiRoute[]> => {
+  // NOTE: For local development, with no routes configured, we can call kubectl to get some test routes
+  //       This requires that kubectl is installed and configured with access to the test cluster
+  const { exec: execCallback } = await import('node:child_process');
+  const exec = promisify(execCallback);
+  const kubectlCommand =
+    'kubectl --context test get configmap api-docs-openapi-endpoints -o json';
+  console.log(
+    `Running kubectl command to get test API routes: '${kubectlCommand}'`,
+  );
+  const configMapJson = await exec(kubectlCommand);
+
+  const configMap = JSON.parse(configMapJson.stdout);
+  const endpointsData = configMap?.data?.OPENAPI_ENDPOINTS;
+  const endpointsDataParsed = JSON.parse(endpointsData);
+
+  if (
+    Array.isArray(endpointsDataParsed) &&
+    endpointsDataParsed.every(jsonIsApiRoute) &&
+    endpointsDataParsed.length > 0
+  ) {
+    console.log(
+      `Found ${endpointsDataParsed.length} test API routes from kubectl`,
+    );
+    return endpointsDataParsed;
+  }
+
+  throw new Error('No valid test API routes found from kubectl');
+};
+
+let generatedRoutes: ApiRoute[] | null = null;
+
+const generateApiDocsRoutes = async (): Promise<ApiRoute[]> => {
+  const parsed = JSON.parse(config.endpoints_json);
+  if (Array.isArray(parsed) && parsed.every(jsonIsApiRoute)) {
+    if (parsed.length > 0) return parsed;
+
+    if (parsed.length === 0 && !config.isProduction) {
+      return parseTestApiRoutesForDevelopment();
+    }
+  }
+
+  throw new Error('No valid API routes found');
+};
+
 const withTemplate = async (
   swaggerPath: string,
   _req: Request,
   res: Response,
 ): Promise<void> => {
   try {
-    const routes = await fetchApis();
-    const filtered = routes.filter((el) =>
-      el.paths.find((apiPath: string) => config.apiDocPath.test(apiPath)),
-    );
-    res.send(apiListTemplate(swaggerPath, filtered));
+    if (!generatedRoutes) {
+      generatedRoutes = await generateApiDocsRoutes();
+    }
+    res.send(apiListTemplate(swaggerPath, generatedRoutes));
   } catch (error: unknown) {
     const response = getAppropriateErrorResponse(
       error as Error & { status?: number; json?: object },
