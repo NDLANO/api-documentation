@@ -1,20 +1,24 @@
-FROM node:22.17.1-alpine3.21
+FROM node:22.17.1-alpine3.21 AS deps
+WORKDIR /app
+COPY package.json yarn.lock ./
+RUN corepack enable && yarn install --frozen-lockfile
 
-ENV HOME=/home/app
-ENV APP_PATH=$HOME/api-documentation
+FROM node:22.17.1-alpine3.21 AS build
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY package.json yarn.lock ./
+COPY tsconfig.json ./
+COPY src ./src
+RUN yarn build
 
-# Copy necessary files for installing dependencies
-COPY yarn.lock package.json $APP_PATH/
-
-# Run npm install before src copy to enable better layer caching
-WORKDIR $APP_PATH
-RUN yarn
-
-# Copy necessary source files for server and client build
-COPY .babelrc $APP_PATH/
-COPY src $APP_PATH/src
-
-# Build client code
-WORKDIR $APP_PATH
-
-CMD ["npm", "run", "start-prod"]
+FROM node:22.17.1-alpine3.21 AS runtime
+ENV NODE_ENV=production
+WORKDIR /app
+# Copy production dependencies & built artifacts
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/dist ./dist
+# Static assets (served directly)
+COPY /src/static ./dist/static
+EXPOSE 3000
+USER node
+CMD ["node", "dist/server.js"]

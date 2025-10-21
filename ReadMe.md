@@ -4,7 +4,7 @@
 
 ## Requirements
 
-- Node.JS 22.15
+- Node.js 22.17.1 (LTS)
 - yarn 1.22
 - Docker (optional)
 
@@ -13,7 +13,8 @@
 What's in the box?
 
 - Express
-- Babel (ES6)
+- TypeScript
+- Jest (unit tests via ts-jest)
 
 ### Dependencies
 
@@ -27,17 +28,17 @@ $ yarn
 
 ### Start development server
 
-Start node server with hot reloading middleware listening on port 3001.
+Start the server with hot reloading (ts-node + nodemon) listening on port 3001.
 
 ```
-$ yarn start
+$ yarn dev
 ```
 
 To use a different api set the `NDLA_API_URL` environment variable.
 
 ### Unit tests
 
-Test framework: ava with enzyme.
+Test framework: Jest (ts-jest). Snapshot/unit tests in TypeScript.
 
 ```
 $ yarn test
@@ -46,21 +47,8 @@ $ yarn test
 Do you tdd?
 
 ```
-$ yarn run tdd
+$ yarn tdd
 ```
-
-### Code style
-
-_tl;dr_: Use eslint! Rules: [Airbnb Styleguide]https://github.com/airbnb/javascript.
-
-Lint code with [eslint](http://eslint.org/), including [eslint react plugin](https://github.com/yannickcr/eslint-plugin-react), [eslint-plugin-import](https://github.com/benmosher/eslint-plugin-import), [eslint-plugin-jsx-a11y](https://github.com/evcohen/eslint-plugin-jsx-a11y#readme).
-Beside linting with globally installed eslint, eslint can be invoked with `npm`:
-
-```
-$ npm run lint
-```
-
-Rules are configured in `./.eslintrc.js` and extends [eslint-config-airbnb](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb). If feeling brave, try `eslint --fix`.
 
 ## Other scripts
 
@@ -74,109 +62,76 @@ $ npm run start-prod
 $ ./build.sh
 ```
 
-## Dependencies
+## Build & Scripts
 
-Please update this section if you add or remove dependencies.
-Hint: Running `npm ls --long --depth 0` prints a list of dependencies including a brief description.
+Development now uses TypeScript. Source lives in `src/` and is compiled to `dist/` for production.
 
-### Server
+Install:
+```
+yarn
+```
 
-**express:**
-Fast, unopinionated, minimalist web framework
-http://expressjs.com/
+Development (watch + ts-node):
+```
+yarn dev
+```
 
-**nodemon:**
-Simple monitor script for use during development of a node.js app.
-http://nodemon.io
+Build (emit JS to dist):
+```
+yarn build
+```
 
-**compression**
-Node.js compression middleware
-https://github.com/expressjs/compression#readme
+Production run (after build):
+```
+yarn start-prod
+```
 
-**cors**
-Middleware for dynamically or statically enabling CORS in express/connect applications
-https://github.com/expressjs/cors/
+Run tests:
+```
+yarn test
+```
 
-### Util
+Watch tests (TDD):
+```
+yarn tdd
+```
 
-**defined:**
-return the first argument that is `!== undefined`.
-https://github.com/substack/defined
+Lint:
+```
+yarn lint
+```
 
-**lodash:**
-Lodash modular utilities.
-https://lodash.com/
+## Environment Variables
 
-**cross-env**
-Run commands that set environment variables across platforms
-https://github.com/kentcdodds/cross-env
+Key (default):
+- `API_DOCUMENTATION_PORT` (3000) Port to listen on in production build.
+- `NDLA_API_URL` (http://api-gateway.ndla-local:8001) Base URL for Kong gateway.
+- `WHITELIST` (comma separated list) Override the default public API whitelist.
+- `API_DOC_PATH_REGEX` (api-docs) Regex used to detect swagger/openapi doc routes.
+- `AUTH0_PERSONAL_CLIENT_ID` (empty) Optional OAuth client id for Swagger UI auth.
 
-**parse5**
-WHATWG HTML5 specification-compliant, fast and ready for production HTML parsing/serialization toolset for Node.js
-https://github.com/inikulin/parse5
+## Minimal Dependency Notes
 
-### ES2015/6
+Core runtime deps:
+- express, compression, cors, swagger-ui-dist, lodash
 
-**babel-register:**
-babel require hook
-https://babeljs.io/
+Dev/tooling:
+- typescript, ts-node, ts-jest, @types/* packages, nodemon, eslint + config.
 
-**babel-preset-es2015:**
-Babel preset for all ES2015 plugins.
-https://babeljs.io/
+(Use `npm ls --depth 0` or `yarn list --depth=0` for a current authoritative list.)
 
-**babel-polyfill:**
-Polyfill for a full ES2015 environment
-https://babeljs.io/
+## Docker
 
-**babel-preset-react:**
-Babel preset for all React plugins.
-https://babeljs.io/
+- Performs a TypeScript build in a build stage.
+- Copies compiled `dist/` plus static assets into a slim runtime stage.
+- Runs as non-root `node` user.
+- Exposes port 3000 and defines a HEALTHCHECK on `/health`.
 
-**babel-plugin-transform-object-rest-spread:**
-Compile object rest and spread to ES5
-https://babeljs.io/
+Build locally:
+```
+./build.sh
+```
 
-**babel-plugin-transform-async-to-generator**
-Turn async functions into ES2015 generators
-https://github.com/babel/babel/tree/master/packages/babel-plugin-transform-async-to-generator
+## Code Style (Updated)
 
-**isomorphic-fetch:**
-Isomorphic WHATWG Fetch API, for Node & Browserify.
-https://github.com/matthew-andrews/isomorphic-fetch/issues
-
-### Testing
-
-**ava**
-Futuristic test runner 🚀
-git+https://github.com/avajs/ava.git
-
-### Code style
-
-**eslint:**
-An AST-based pattern checker for JavaScript.
-http://eslint.org
-
-**babel-eslint**
-Custom parser for ESLint
-https://github.com/babel/babel-eslint
-
-**eslint-plugin-babel**
-An eslint rule plugin companion to babel-eslint
-https://github.com/babel/eslint-plugin-babel#readme
-
-**eslint-config-airbnb:**
-Airbnb's ESLint config, following their styleguide
-https://github.com/airbnb/javascript
-
-**eslint-plugin-import:**
-Import with sanity.
-https://github.com/benmosher/eslint-plugin-import
-
-**eslint-plugin-jsx-a11y:**
-A static analysis linter of jsx and their accessibility with screen readers.
-https://github.com/evcohen/eslint-plugin-jsx-a11y#readme
-
-**eslint-plugin-react:**
-React specific linting rules for ESLint.
-https://github.com/yannickcr/eslint-plugin-react
+ESLint (with TypeScript rules) enforces code style. Configuration lives in `.eslintrc.js`. Use `yarn lint` (and optionally `--fix`).
