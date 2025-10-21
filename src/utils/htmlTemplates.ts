@@ -18,9 +18,9 @@ export type ApiRoute = {
   paths: string[];
 };
 
-const bodyInfo = (isAdvanced: boolean): string => `
+const bodyInfo = `
    <div id='ndla_header'>
-     <a href="${isAdvanced ? '/advanced' : '/'}" class='home'>APIs from NDLA</a>
+     <a href="/" class='home'>APIs from NDLA</a>
      <div id='slogan'>
        <a href="https://ndla.no">
          <img src="/static/pictures/ndla-logo.svg"/>
@@ -42,7 +42,7 @@ const bodyInfo = (isAdvanced: boolean): string => `
    </div>
  `;
 
-export const htmlTemplate = (isAdvanced: boolean, body: string): string =>
+export const htmlTemplate = (body: string): string =>
   `<!doctype html>\n<html lang='nb' >
     <head>
       <meta charset="utf-8">
@@ -50,7 +50,7 @@ export const htmlTemplate = (isAdvanced: boolean, body: string): string =>
       <link href='/static/css/api-documentation.css' media='screen' rel='stylesheet' type='text/css'/>
     </head>
     <body>
-      ${bodyInfo(isAdvanced)}
+      ${bodyInfo}
       <div id='content'>
         <ul>${body}</ul>
       </div>
@@ -71,18 +71,13 @@ export const apiDocsUri = (apiObj: { paths: string[] }): string | undefined => {
 };
 
 export const apiListTemplate = (path: string, routes: ApiRoute[]): string => {
-  let filtered = routes;
-  if (path === '/') {
-    filtered = routes.filter((route) => config.whitelist.includes(route.name));
-  }
-  filtered = [...filtered].sort((a, b) => a.name.localeCompare(b.name));
+  const filtered = [...routes].sort((a, b) => a.name.localeCompare(b.name));
 
   const listItems = filtered.map(
     (route) =>
       `<li><a href="${path}swagger?url=${apiDocsUri(route)}">${route.name}</a></li>`,
   );
-  const isAdvanced = path !== '/';
-  return htmlTemplate(isAdvanced, listItems.join(''));
+  return htmlTemplate(listItems.join(''));
 };
 
 export const htmlErrorTemplate = ({
@@ -99,7 +94,6 @@ export const htmlErrorTemplate = ({
   const statusMsg =
     (httpStatus as Record<number, string | undefined>)[status] ?? '';
   return htmlTemplate(
-    false,
     `
     <h1>${status} ${statusMsg}</h1>
     <div><b>Message: </b>${message}</div>
@@ -109,7 +103,7 @@ export const htmlErrorTemplate = ({
   );
 };
 
-const documentHead = (isAdvanced: boolean): string => `
+const documentHead = `
    <head>
      <title>Swagger UI</title>
      <meta charset="UTF-8">
@@ -120,19 +114,6 @@ const documentHead = (isAdvanced: boolean): string => `
      <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32"/>
      <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16"/>
      <link href='/static/css/api-documentation.css' media='screen' rel='stylesheet' type='text/css'/>
-
-     ${
-       !isAdvanced
-         ? `
-       <style>
-         /* Hide all non-get operations in public layout */
-         .opblock-post {display: none;}
-         .opblock-put {display: none;}
-         .opblock-patch {display: none;}
-         .opblock-delete {display: none;}
-       </style>`
-         : ''
-     }
    </head>
  `;
 
@@ -173,24 +154,18 @@ const bodyLogic = (personalClientId: string): string => `
    </script>
 `;
 
-const documentBody = (
-  personalClientId: string,
-  isAdvanced: boolean,
-): string => `
+const documentBody = (personalClientId: string): string => `
  <body>
-   ${bodyInfo(isAdvanced)}
+   ${bodyInfo}
    <div id="swagger-ui-container"></div>
    ${bodyLogic(personalClientId)}
  </body>
  `;
 
-export const index = (
-  personalClientId: string,
-  isAdvanced: boolean,
-): string => `
+export const index = (personalClientId: string): string => `
    <!DOCTYPE html>
    <html>
-     ${documentHead(isAdvanced)}
-     ${documentBody(personalClientId, isAdvanced)}
+     ${documentHead}
+     ${documentBody(personalClientId)}
    </html>
  `;

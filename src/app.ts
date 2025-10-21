@@ -9,7 +9,6 @@
 import express, { type Request, type Response } from 'express';
 import cors from 'cors';
 import path from 'path';
-import { promisify } from 'util';
 import { absolutePath as swaggerUiAbsolutePath } from 'swagger-ui-dist';
 
 import config from './config';
@@ -37,10 +36,14 @@ app.use('/swagger-ui-dist', express.static(pathToSwaggerUi));
 
 // Routes
 app.get('/swagger', (_req: Request, res: Response) => {
-  res.send(index(config.auth0PersonalClientId, false));
+  res.send(index(config.auth0PersonalClientId));
 });
-app.get('/advanced/swagger', (_req: Request, res: Response) => {
-  res.send(index(config.auth0PersonalClientId, true));
+app.get('/advanced/swagger', (req: Request, res: Response) => {
+  const query = new URLSearchParams(
+    req.query as Record<string, string>,
+  ).toString();
+  const redirectUrl = query ? `/swagger?${query}` : '/swagger';
+  res.redirect(redirectUrl);
 });
 
 const jsonIsApiRoute = (obj: unknown): obj is ApiRoute => {
@@ -91,8 +94,8 @@ app.get('/', (req: Request, res: Response) => {
   void withTemplate('/', req, res);
 });
 
-app.get('/advanced', (req: Request, res: Response) => {
-  void withTemplate('/advanced/', req, res);
+app.get('/advanced', (_req: Request, res: Response) => {
+  void res.redirect('/');
 });
 
 app.get('/health', (_req: Request, res: Response) => {
