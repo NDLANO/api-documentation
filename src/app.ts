@@ -57,46 +57,12 @@ const jsonIsApiRoute = (obj: unknown): obj is ApiRoute => {
   return false;
 };
 
-const parseTestApiRoutesForDevelopment = async (): Promise<ApiRoute[]> => {
-  // NOTE: For local development, with no routes configured, we can call kubectl to get some test routes
-  //       This requires that kubectl is installed and configured with access to the test cluster
-  const { exec: execCallback } = await import('node:child_process');
-  const exec = promisify(execCallback);
-  const kubectlCommand =
-    'kubectl --context test get configmap api-docs-openapi-endpoints -o json';
-  console.log(
-    `Running kubectl command to get test API routes: '${kubectlCommand}'`,
-  );
-  const configMapJson = await exec(kubectlCommand);
-
-  const configMap = JSON.parse(configMapJson.stdout);
-  const endpointsData = configMap?.data?.OPENAPI_ENDPOINTS;
-  const endpointsDataParsed = JSON.parse(endpointsData);
-
-  if (
-    Array.isArray(endpointsDataParsed) &&
-    endpointsDataParsed.every(jsonIsApiRoute) &&
-    endpointsDataParsed.length > 0
-  ) {
-    console.log(
-      `Found ${endpointsDataParsed.length} test API routes from kubectl`,
-    );
-    return endpointsDataParsed;
-  }
-
-  throw new Error('No valid test API routes found from kubectl');
-};
-
 let generatedRoutes: ApiRoute[] | null = null;
 
 const generateApiDocsRoutes = async (): Promise<ApiRoute[]> => {
   const parsed = JSON.parse(config.endpoints_json);
   if (Array.isArray(parsed) && parsed.every(jsonIsApiRoute)) {
     if (parsed.length > 0) return parsed;
-
-    if (parsed.length === 0 && !config.isProduction) {
-      return parseTestApiRoutesForDevelopment();
-    }
   }
 
   throw new Error('No valid API routes found');
