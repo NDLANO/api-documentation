@@ -12,9 +12,9 @@ import path from 'path';
 import { absolutePath as swaggerUiAbsolutePath } from 'swagger-ui-dist';
 
 import config from './config';
-import { fetchApis } from './api/kongApi';
 import {
   apiListTemplate,
+  ApiRoute,
   htmlErrorTemplate,
   index,
 } from './utils/htmlTemplates';
@@ -36,11 +36,40 @@ app.use('/swagger-ui-dist', express.static(pathToSwaggerUi));
 
 // Routes
 app.get('/swagger', (_req: Request, res: Response) => {
-  res.send(index(config.auth0PersonalClientId, false));
+  res.send(index(config.auth0PersonalClientId));
 });
-app.get('/advanced/swagger', (_req: Request, res: Response) => {
-  res.send(index(config.auth0PersonalClientId, true));
+app.get('/advanced/swagger', (req: Request, res: Response) => {
+  const query = new URLSearchParams(
+    req.query as Record<string, string>,
+  ).toString();
+  const redirectUrl = query ? `/swagger?${query}` : '/swagger';
+  res.redirect(redirectUrl);
 });
+
+const jsonIsApiRoute = (obj: unknown): obj is ApiRoute => {
+  if (
+    obj &&
+    typeof obj === 'object' &&
+    'name' in obj &&
+    'paths' in obj &&
+    typeof obj.name === 'string' &&
+    Array.isArray(obj.paths)
+  ) {
+    return true;
+  }
+  return false;
+};
+
+let generatedRoutes: ApiRoute[] | null = null;
+
+const generateApiDocsRoutes = async (): Promise<ApiRoute[]> => {
+  const parsed = JSON.parse(config.endpoints_json);
+  if (Array.isArray(parsed) && parsed.every(jsonIsApiRoute)) {
+    if (parsed.length > 0) return parsed;
+  }
+
+  throw new Error('No valid API routes found');
+};
 
 const withTemplate = async (
   swaggerPath: string,
@@ -48,11 +77,10 @@ const withTemplate = async (
   res: Response,
 ): Promise<void> => {
   try {
-    const routes = await fetchApis();
-    const filtered = routes.filter((el) =>
-      el.paths.find((apiPath: string) => config.apiDocPath.test(apiPath)),
-    );
-    res.send(apiListTemplate(swaggerPath, filtered));
+    if (!generatedRoutes) {
+      generatedRoutes = await generateApiDocsRoutes();
+    }
+    res.send(apiListTemplate(swaggerPath, generatedRoutes));
   } catch (error: unknown) {
     const response = getAppropriateErrorResponse(
       error as Error & { status?: number; json?: object },
@@ -66,8 +94,8 @@ app.get('/', (req: Request, res: Response) => {
   void withTemplate('/', req, res);
 });
 
-app.get('/advanced', (req: Request, res: Response) => {
-  void withTemplate('/advanced/', req, res);
+app.get('/advanced', (_req: Request, res: Response) => {
+  void res.redirect('/');
 });
 
 app.get('/health', (_req: Request, res: Response) => {

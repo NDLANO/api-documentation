@@ -6,10 +6,11 @@
   "main": "dist/server.js",
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "npm run clean && tsc -p tsconfig.json",
-    "dev": "cross-env API_DOCUMENTATION_PORT=3001 NDLA_API_URL=http://localhost:8001 nodemon --watch src/ --ext ts,js --exec ts-node src/server.ts",
+    "build": "yarn clean && tsc -p tsconfig.json",
+    "dev": "cross-env API_DOCUMENTATION_PORT=3001 nodemon --watch src/ --ext ts,js --exec ts-node src/server.ts",
+    "start": "OPENAPI_ENDPOINTS=$(kubectl --context test get configmap api-docs-openapi-endpoints -o json | jq -r .data.OPENAPI_ENDPOINTS) yarn dev",
     "test": "jest",
-    "tdd": "npm test -- --watch",
+    "tdd": "yarn test -- --watch",
     "lint": "eslint src",
     "start-prod": "cross-env NODE_ENV=production node dist/server.js"
   },
