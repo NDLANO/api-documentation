@@ -17,10 +17,6 @@ fi
 source ./build.properties
 PROJECT="$NDLAOrganization/$NDLAComponentName"
 
-echo "==> Building TypeScript sources"
-yarn install --frozen-lockfile
-yarn build
-
 echo "==> Building Docker image $PROJECT:$VERSION"
 docker build \
   -t "$PROJECT:$VERSION" \
