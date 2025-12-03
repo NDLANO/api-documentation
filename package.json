@@ -19,7 +19,7 @@
     "url": "https://github.com/NDLANO/api-documentation.git"
   },
   "engines": {
-    "node": ">=22.17.1"
+    "node": ">=22.21.1"
   },
   "devDependencies": {
     "@types/compression": "^1.7.5",
