@@ -1,26 +1,21 @@
 #!/bin/bash
-set -euo pipefail
+set -e
 
-# Usage:
-#   ./build.sh [VERSION] [additional docker build args...]
-# Example:
-#   ./build.sh 1.2.3 --no-cache
-#
-# VERSION defaults to SNAPSHOT if omitted.
-
-VERSION="${1:-SNAPSHOT}"
-# Shift off version if provided so "$@" contains only extra docker build args
-if [ $# -gt 0 ]; then
-  shift
-fi
-
+VERSION="$1"
 source ./build.properties
 PROJECT="$NDLAOrganization/$NDLAComponentName"
 
-echo "==> Building Docker image $PROJECT:$VERSION"
-docker build \
-  -t "$PROJECT:$VERSION" \
-  "$@" \
-  .
+if [ -z $VERSION ]
+then
+    VERSION="SNAPSHOT"
+fi
 
+BUILD_CMD=${DOCKER_BUILD_CMD:-docker build}
+BUILD_ARGS=${DOCKER_BUILD_ARGS:-}
+BUILD_TAG_ARGS=${DOCKER_BUILD_TAG_ARGS:---tag $PROJECT:$VERSION}
+
+$BUILD_CMD \
+  $BUILD_ARGS \
+  $BUILD_TAG_ARGS \
+  .
 echo "BUILT $PROJECT:$VERSION"
