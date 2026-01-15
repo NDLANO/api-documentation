@@ -44,7 +44,7 @@
     "express": "^5.2.1",
     "http-status": "^1.6.1",
     "swagger-ui-dist": "5.29.3",
-    "undici": "^7.16.0",
+    "undici": "^7.18.2",
     "winston": "^3.14.2"
   },
   "jest": {
