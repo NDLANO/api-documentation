@@ -1537,7 +1537,7 @@ __metadata:
     http-status: "npm:^1.6.1"
     jest: "npm:^29.7.0"
     nodemon: "npm:^3"
-    swagger-ui-dist: "npm:5.29.3"
+    swagger-ui-dist: "npm:5.31.1"
     ts-jest: "npm:^29.1.1"
     ts-node: "npm:^10.9.2"
     typescript: "npm:^5.4.0"
@@ -4947,12 +4947,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swagger-ui-dist@npm:5.29.3":
-  version: 5.29.3
-  resolution: "swagger-ui-dist@npm:5.29.3"
+"swagger-ui-dist@npm:5.31.1":
+  version: 5.31.1
+  resolution: "swagger-ui-dist@npm:5.31.1"
   dependencies:
     "@scarf/scarf": "npm:=1.4.0"
-  checksum: 10c0/18649da5ffdd79471dba64d19d0c9064fcd45ff5e1b1b7c9cc9afc000f10d35692c6e8155256789b6d40834804891a9db7b1ac388f0a0de8840a7aa46632806c
+  checksum: 10c0/e2f700d933ca59deb9d471dd566e0e1d466a9763fba4826f6160a3f6dee873b5a96a054f65203b8f33698121e8643dee82240917738207710d4313253ff4224c
   languageName: node
   linkType: hard
 

@@ -5,6 +5,7 @@ COPY tsconfig.json ./
 COPY .yarnrc.yml ./
 COPY src ./src
 
+RUN npm install -g corepack --force
 RUN corepack enable && yarn install --immutable
 RUN yarn build
 
