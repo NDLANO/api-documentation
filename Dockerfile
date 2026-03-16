@@ -1,4 +1,4 @@
-FROM node:22.21.1-alpine3.21 AS build
+FROM node:24.14.0-alpine3.23 AS build
 WORKDIR /app
 COPY package.json yarn.lock ./
 COPY tsconfig.json ./
@@ -8,7 +8,7 @@ COPY src ./src
 RUN corepack enable && yarn install --immutable
 RUN yarn build
 
-FROM node:22.21.1-alpine3.21
+FROM node:24.14.0-alpine3.23
 ENV NODE_ENV=production
 WORKDIR /app
 # Copy production dependencies & built artifacts
